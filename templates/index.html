@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}HawkHire{% endblock %}
+{% block content %}
+{% load staticfiles %}
+
+<div class="section no-pad-bot top" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center tagline">Apply Once, Get Interviews</h1>
+      <div class="row center">
+        <h5 class="header col s12 light white-text">Top Jobs for Top Talent</h5>
+      </div>
+      <div class="row center" id="buttons">
+        <div class="col s12 m6 link">
+          <a href="{% url 'candidates' 'us' %}" id="candidates" class="button btn-large waves-effect waves-light light-blue lighten-2">Candidates</a>
+        </div>
+        <div class="col s12 m6 link">
+          <a href="{% url 'companies' 'us' %}" id="companies" class="button btn-large waves-effect waves-light light-blue lighten-2">Companies</a>
+        </div>
+      </div>
+      <br>
+      <div class="row center">
+        <br>
+        <a style="color:white;" href="{% url 'europe_home' %}">Interested in European Startups?</a>
+      </div>
+      <br><br><br>
+
+    </div>
+  </div>
+  <div class="container">
+    <div class="section">
+      <br><br><br><br>
+      <!--   Icon Section   -->
+    <div class="section process">
+      <h4>The Cities</h4>
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center top-icons"><img src="{% static "img/New_York_Liberty_statue_64.png" %}"></h2>
+            <h5 class="center">New York</h5>
+
+            <p class="light">Silicon Alley. Tech is the new finance, and the Big Apple does it big.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center top-icons"><img src="{% static "img/Golden_Gate_Bridge_64.png" %}"></h2>
+            <h5 class="center">San Francisco</h5>
+
+            <p class="light">Silicon Valley. Needs no introduction, tech is life in the Bay Area.</p>
+          </div>
+        </div>
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center top-icons"><img src="{% static "img/The_White_House_64.png" %}"></h2>
+            <h5 class="center">Washington, D.C.</h5>
+
+            <p class="light">Silicon Beltway. The Capital is no longer just for politicians and lobbyists.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center top-icons"><img src="{% static "img/Leonard_P._Zakim_Bunker_Hill_Memorial_Bridge_64.png" %}"></h2>
+            <h5 class="center">Boston</h5>
+
+            <p class="light">Silicon Harbor. The original home of tech, and still a pillar of the scene.</p>
+          </div>
+        </div>
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center top-icons"><img src="{% static "img/Capitol_building_64.png" %}"></h2>
+            <h5 class="center">Austin</h5>
+
+            <p class="light">Silicon Hills. A wierd, wonderful city that has it's sites set on tech dominance.</p>
+          </div>
+        </div>
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center top-icons"><img src="{% static "img/Urban_buildings_64.png" %}"></h2>
+            <h5 class="center">Chicago</h5>
+
+            <p class="light">Silicon Prairie. The Windy City does more than just deep dish pizza.</p>
+          </div>
+        </div>
+
+      </div>  
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center top-icons"><img src="{% static "img/Space_Needle_64.png" %}"></h2>
+            <h5 class="center">Seattle</h5>
+
+            <p class="light">Silicon Canal. Home to world-class coffee, beer, and tech companies.</p>
+          </div>
+        </div>
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center top-icons"><img src="{% static "img/Peach_silhouette_64.png" %}"></h2>
+            <h5 class="center">Atlanta</h5>
+
+            <p class="light">Silicon Peach. A Southern town with a more laid back approach to "software eating the world".</p>
+          </div>
+        </div>
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center top-icons"><img src="{% static "img/Hollywood_sign_64.png" %}"></h2>
+            <h5 class="center">Los Angeles</h5>
+
+            <p class="light">Silicon Beach. Even Hollywood knows that tech is where the action is.</p>
+          </div>
+        </div>
+
+      </div> 
+      </div>
+
+    </div>
+    <br><br><br>
+    <div class="section faq">
+      <h4 id="faq-header">What To Know</h4><br>
+      <div class="row">
+        <div class="col s12 m12">
+          <h5>How does this work?</h5>
+            <p class="light answers">You fill out the application, we handle the rest. If you meet our qualifications, we'll introduce you to our hiring partners. We receive a lot of applications, so it might be 7-10 days before we get back to you.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m12">
+          <h5>What type of candidates are you looking for?</h5>
+            <p class="light answers">We work with a variety of talented candidates, spanning the typical roles associated with tech companies. This includes engineering (software developers, data scientists, etc), product management (including analysts), sales and marketing, and design. If you do not fit into one of these disciplines, but still consider yourself a strong potential employee, contact us at <a href="mailto:kendall@hawkhire.com" target="_top">kendall@hawkhire.com</a></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m12">
+          <h5>What kind of companies do you work with?</h5>
+            <p class="light answers">We work mainly with tech companies, though a few of our partner companies span multiple industries. We look for high-growth companies with unique, challenging hiring needs, and strive to make the process as efficient and painless as possible.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m12">
+          <h5>Will you contact my current company?</h5>
+            <p class="light answers">No. We understand it is not always in your best interest to let your company know you are looking for a new job. Rest assured, we will not contact any companies listed on your resume without your express consent.</p>
+        </div>
+      </div>
+    </div>
+    <br><br>
+
+    <div class="section sup">
+      <h6>Proudly Participating In:</h6><br>
+      <img src="{% static "img/logo_nav.png" %}">
+    </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    mixpanel.track("Viewed Landing");
+    $('#companies').click(function(){
+      mixpanel.track("Clicked Company Button");
+    });
+    $('#candidates').click(function(){
+      mixpanel.track("Clicked Candidate Button");
+    })
+  });
+</script>
+{% endblock %}

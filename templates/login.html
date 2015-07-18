@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Panel | Login</title>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin" role="form" action="{% url 'login' %}" method="POST">
+          <input type="hidden" name="next" value="{{ next }}" />
+          {% csrf_token %}
+
+        <h2 class="form-signin-heading">Login</h2>
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <h5>Please check your username and password</h5>
+        </div>
+        {% endif %}
+        <input class="form-control" id="id_username" type="text" name="username" maxlength="30" placeholder="Username" required autofocus><br>
+        <input class="form-control" type="password" name="password" id="id_password" placeholder="Password" required><br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+
+    </div>
+  </body>
+</html>
