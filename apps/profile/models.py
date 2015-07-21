@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class University(models.Model):
-	name = models.CharField(required=True)
+	name = models.CharField(max_length=100)
 	address = models.CharField(max_length=500)
 	logo = models.FileField(upload_to="university/logos")
 	color_main = models.CharField(max_length=10)
@@ -22,18 +22,19 @@ class Student(models.Model):
 	first_name = models.CharField(max_length=500)
 	last_name = models.CharField(max_length=500)
 	email = models.CharField(max_length=500)
-	major = models.ManyToMany(Major)
-	industries = models.ManyToMany(Industry)
+	major = models.ForeignKey(Major)
+	industries = models.ManyToManyField(Industry)
 	university = models.ForeignKey(University)
-	resume_s3 = models.FileField(upload_to="resumes")
+	resume_s3 = models.CharField(max_length=1000)
 
 class Company(models.Model):
 	name = models.CharField(max_length=500)
-	logo = models.FileField(upload_to="company/logos")
+	logo = models.CharField(max_length=500)
+	tagline = models.CharField(max_length=200)
 	url = models.CharField(max_length=500)
 	address = models.CharField(max_length=500)
 	industry = models.ForeignKey(Industry)
-	universities = models.ManyToMany(University)
+	universities = models.ManyToManyField(University)
 	phone = models.CharField(max_length=16)
 
 class Recruiter(models.Model):
@@ -45,10 +46,14 @@ class Recruiter(models.Model):
 
 class Posting(models.Model):
 	date_created = models.DateField(auto_now_add=True)
-	expiration_date = models.DateField(required=True)
+	expiration_date = models.DateField()
+	position = models.CharField(max_length=100)
+	job_type = models.CharField(max_length=100)
 	company = models.ForeignKey(Company)
+	location = models.CharField(max_length=100)
 	university = models.ForeignKey(University)
 	active = models.BooleanField(default=True)
+	description = models.CharField(max_length=400)
 
 class Application(models.Model):
 	posting = models.ForeignKey(Posting)

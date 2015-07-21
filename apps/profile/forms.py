@@ -1,20 +1,18 @@
 from django import forms
 
 
-class CandidateForm(forms.Form):
+class StudentForm(forms.Form):
     first_name = forms.CharField(label="First Name")
     last_name = forms.CharField(label="Last Name")
+    password = forms.CharField(label="Password")
     email = forms.CharField(label="Email")
-    website = forms.CharField(required=False, initial="None")
-    github = forms.CharField(required=False, initial="None")
-    desired_role = forms.CharField(label="Specialty")
-    location = forms.CharField(label="Location")
-    second_location = forms.CharField(required=False, initial="None")
-    college = forms.CharField(label="University")
+    university = forms.CharField(label="University")
+    major = forms.CharField(label="Major")
+    industries = forms.CharField(label="Industries")
     resume = forms.FileField()
 
     def clean(self):
-        cleaned_data = super(CandidateForm, self).clean()
+        cleaned_data = super(StudentForm, self).clean()
         for name in self.fields:
             if not self[name].html_name in self.data and self.fields[name].initial is not None:
                 cleaned_data[name] = self.fields[name].initial

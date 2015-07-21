@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Top Jobs for Top Candidates">
+    <meta name="author" content="HawkHire, Inc.">
+    {% load static from staticfiles %}
+    <link rel="icon" type="image/png" href="{% static "img/favicon-32x32.png" %}" sizes="32x32" />
+    <link rel="icon" type="image/png" href="{% static "img/favicon-16x16.png" %}" sizes="16x16" />
+    <title>Student Signup</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/materialize.css" %}" >
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/materialize.js" %}"></script>
+    <script src="{% static "js/init.js" %}"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Student Signup</h3>
+      <div class="row">
+        {% if errors != None %}
+        {{ errors }}
+        {% endif %}
+          <form class="col s12" role="form" method="POST" action="{% url 'student_signup' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+              <div class="input-field col s12">
+                <label for="first_name">First Name</label>
+                <input type="text" name="first_name" required/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <label for="last_name">Last Name</label>
+                <input type="text" name="last_name" required/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <label for="email">Email</label>
+                <input type="email" name="email" required/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <label for="password">Password</label>
+                <input type="password" name="password" required/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <label for="re-password">Re-enter Password</label>
+                <input type="password" name="re-password" required/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <select name="university" id="id_university" required>
+                  <option value="" disabled selected>University</option>
+                  {% for university in universities %}
+                  <option value="{{ university.name }}">{{ university.name }}</option>
+                  {% endfor %}
+                </select>
+                <label>University</label>
+              </div>
+           </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <select name="major" id="id_major" required>
+                  <option value="" disabled selected>Major</option>
+                  {% for major in majors %}
+                  <option value="{{ major.name }}">{{ major.name }}</option>
+                  {% endfor %}
+                </select>
+                <label>Major</label>
+              </div>
+           </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <select name="industries" id="id_industries" required>
+                  <option value="" disabled selected>Industry</option>
+                  {% for industry in industries %}
+                  <option value="{{ industry.name }}">{{ industry.name }}</option>
+                  {% endfor %}
+                </select>
+                <label>Industry</label>
+              </div>
+           </div>
+          <div class="file-field input-field">
+            <input class="file-path validate" type="text" value="Resume (PDF only)" />
+              <div class="btn blue-grey">
+                <span>File</span>
+                <input type="file" name="resume" id="id_resume" accept="application/pdf" required/>
+              </div>
+        </div>
+        <button class="btn waves-light red darken-4" type="submit" name="action">Submit
+            <i class="mdi-content-send right"></i>
+        </button>
+          </form>
+      </div>
+  </div>
+    <script>
+    $(document).ready(function() {
+        $('select').material_select();
+      });
+    </script>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 Django==1.8.2
 PyYAML==3.11
 WebOb==1.4.1
+algoliasearch==1.5.8
 awsebcli==3.4.5
 backports.ssl-match-hostname==3.4.0.2
 boto==2.38.0
