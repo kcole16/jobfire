@@ -89,9 +89,9 @@ def student_signup(request):
         except MultiValueDictKeyError:
             resume = "Ask"
         uuid = uuid4()
-        # s3 = default_storage.open('resumes/%s' % uuid, 'w')
-        # s3.write(resume)
-        # s3.close()
+        s3 = default_storage.open('jobfire/resumes/%s' % uuid, 'w')
+        s3.write(resume)
+        s3.close()
         email = form.cleaned_data['email']
         user = User.objects.create_user(email, email, 'password')
         user.set_password(form.cleaned_data['password'])
@@ -105,9 +105,12 @@ def student_signup(request):
                             email=form.cleaned_data['email'],
                             major=major,
                             university=university,
-                            resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/resumes/%s" % uuid
+                            resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
                             )
         student.save()
+        current_user = authenticate(username=email,
+                                    password=form.cleaned_data['password'])
+        login(request, current_user)
         return redirect('home')
     else:
         form = StudentForm()
