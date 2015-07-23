@@ -8,7 +8,6 @@ class StudentForm(forms.Form):
     email = forms.CharField(label="Email")
     university = forms.CharField(label="University")
     major = forms.CharField(label="Major")
-    industries = forms.CharField(label="Industries")
     resume = forms.FileField()
 
     def clean(self):

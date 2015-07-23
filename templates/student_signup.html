@@ -78,17 +78,6 @@
                 <label>Major</label>
               </div>
            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <select name="industries" id="id_industries" required>
-                  <option value="" disabled selected>Industry</option>
-                  {% for industry in industries %}
-                  <option value="{{ industry.name }}">{{ industry.name }}</option>
-                  {% endfor %}
-                </select>
-                <label>Industry</label>
-              </div>
-           </div>
           <div class="file-field input-field">
             <input class="file-path validate" type="text" value="Resume (PDF only)" />
               <div class="btn blue-grey">

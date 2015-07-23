@@ -98,7 +98,7 @@ def student_signup(request):
         user.save()
         major = Major.objects.get(name=form.cleaned_data['major'])
         university = University.objects.get(name=form.cleaned_data['university'])
-        industry = Industry.objects.get(name=form.cleaned_data['industries'])
+        industry = Industry.objects.get(name="Finance")
         student = Student(user=user,
                             first_name=form.cleaned_data['first_name'],
                             last_name=form.cleaned_data['last_name'],
