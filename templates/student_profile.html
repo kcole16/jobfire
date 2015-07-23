@@ -5,15 +5,15 @@
 
 <div class="container">
   <br><br>
-  <div class="row center">
-    <h4>{{ student.first_name }} {{ student.last_name}}</h4>
+  <div class="row">
+    <h3>{{ student.first_name }} {{ student.last_name}}</h3><br>
   </div>
-    <ul class="collection">
-      <li class="collection-item"><strong>Email:</strong> {{ student.email }}</li>
-      <li class="collection-item"><strong>University:</strong> {{ student.university.name }}</li>
-      <li class="collection-item"><strong>Major:</strong> {{ student.major.name }}</li>
-      <li class="collection-item"><strong>Resume:</strong> {{ student.resume_s3 }}</li>
-    </ul>
+  <div class="row">
+      <p class="flow-text"><strong>Email:</strong> {{ student.email }}</li>
+      <p class="flow-text"><strong>University:</strong> {{ student.university.name }}</li>
+      <p class="flow-text"><strong>Major:</strong> {{ student.major.name }}</li>
+      <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></li>
+  </div>
 </div>
 <script>
   $(document).ready(function(){
