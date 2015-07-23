@@ -20,8 +20,8 @@ SECRET_KEY = 'reztln=pcv%oxzs46l(js9tv+mg-a(ac9#09i8v%-eqrbht)5_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['PRODUCTION'] == "True":
-    DEBUG = False
-    TEMPLATE_DEBUG = False
+    DEBUG = True
+    TEMPLATE_DEBUG = True
 else:
     DEBUG = True
 
