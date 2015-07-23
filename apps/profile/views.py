@@ -10,7 +10,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.core.files.storage import default_storage
 from apps.profile.forms import StudentForm, PostingForm
 from apps.profile.models import *
@@ -19,9 +19,7 @@ from apps.profile.utils import add_to_algolia
 import bugsnag
 from algoliasearch import algoliasearch
 
-@login_required
 def home(request):
-    student = Student.objects.get(user=request.user)
     client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
     index = client.init_index('Postings')
     context_list = []
@@ -36,8 +34,12 @@ def home(request):
     else:
         postings = Posting.objects.all()
         count = postings.count()
-    apps = Application.objects.filter(student=student)
-    applications = [app.posting.id for app in apps]
+    if request.user.username != "":
+        student = Student.objects.get(user=request.user)
+        apps = Application.objects.filter(student=student)
+        applications = [app.posting.id for app in apps]
+    else:
+        applications = []
     return render_to_response('index.html', {'postings':postings, 'count':count, 
         'applications':applications,'context_list':context_list}, context_instance=RequestContext(request))
 
@@ -55,6 +57,7 @@ def posting_detail(request, posting_id):
     return render_to_response('posting_detail.html', 
         {'posting':posting}, context_instance=RequestContext(request))
 
+@login_required
 def apply(request, posting_id):
     student = Student.objects.get(user=request.user)
     posting = Posting.objects.get(id=posting_id)
@@ -63,17 +66,20 @@ def apply(request, posting_id):
     application.save()
     return redirect('applications')
 
+@login_required
 def student_profile(request):
     student = Student.objects.get(user=request.user)
     return render_to_response('student_profile.html', 
         {'student':student}, context_instance=RequestContext(request))
 
+@login_required
 def applications(request):
     student = Student.objects.get(user=request.user)
     applications = Application.objects.filter(student=student)
     return render_to_response('applications.html', 
         {'applications':applications}, context_instance=RequestContext(request))
 
+@login_required
 def interviews(request):
     student = Student.objects.get(user=request.user)
     interviews = Interview.objects.filter(student=student)
@@ -122,6 +128,7 @@ def student_signup(request):
                               'industries':industries, 'majors':majors},
                               context_instance=RequestContext(request))
 
+@login_required
 def create_posting(request):
     if request.POST:
         form = PostingForm(request.POST)
