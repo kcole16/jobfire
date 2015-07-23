@@ -20,8 +20,8 @@ SECRET_KEY = 'reztln=pcv%oxzs46l(js9tv+mg-a(ac9#09i8v%-eqrbht)5_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['PRODUCTION'] == "True":
-    DEBUG = True
-    TEMPLATE_DEBUG = True
+    DEBUG = False
+    TEMPLATE_DEBUG = False
 else:
     DEBUG = True
 
@@ -124,10 +124,10 @@ LOGIN_REDIRECT_URL = '/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-# AWS_ACCESS_KEY_ID = os.environ['KEY1']
-# AWS_SECRET_ACCESS_KEY = os.environ['KEY2']
-# AWS_STORAGE_BUCKET_NAME = 'elasticbeanstalk-us-east-1-745309683664'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = os.environ['KEY1']
+AWS_SECRET_ACCESS_KEY = os.environ['KEY2']
+AWS_STORAGE_BUCKET_NAME = 'elasticbeanstalk-us-east-1-745309683664'
 
 STATIC_URL = '/static/'
 
