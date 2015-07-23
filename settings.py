@@ -25,7 +25,7 @@ if os.environ['PRODUCTION'] == "True":
 else:
     DEBUG = True
 
-# ALLOWED_HOSTS = ['.jobfire-dev.elasticbeanstalk.com','.jobfire-dev.elasticbeanstalk.com.', '.jobfire.com.', '.jobfire.com', 'localhost']
+ALLOWED_HOSTS = ['.jobfire-dev.elasticbeanstalk.com','.jobfire-dev.elasticbeanstalk.com.', '.jobfire.com.', '.jobfire.com', 'localhost']
 
 # Application definition
 
