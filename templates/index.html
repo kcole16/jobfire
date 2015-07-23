@@ -15,7 +15,7 @@
     <div class="search-params">
       <div class="row">
         <form action="{% url 'home' %}">
-          <div class="col m2 s4 param">
+          <div class="col m3 s4 param">
             <select name="job_type" id="id_job_type" required>
               <option name="job_type" value="" disabled selected>Job Type</option>
               <option value="Internship">Internship</option>
@@ -23,7 +23,7 @@
               <option value="Part-Time">Part-Time</option>
             </select>
           </div>
-          <div class="col m2 s4 param">
+          <div class="col m3 s4 param">
             <select name="location" id="id_location" required>
               <option name="location" value="" disabled selected>Location</option>
               <option value="NewYork">New York</option>
@@ -31,7 +31,7 @@
               <option value="WashingtonDC">Washington, DC</option>
             </select>
           </div>
-          <div class="col m2 s4 param">
+          <div class="col m3 s4 param">
             <select name="industries" id="id_industries" required>
               <option name="industries" value="" disabled selected>Industry</option>
               <option value="Finance">Finance</option>
@@ -44,27 +44,34 @@
     </div>
   </div>
 </div>
+<div class="center">
+  <h6>{{ count }} jobs available</h6>
+</div>
 <div class="section">
   <div class="results z-depth-1">
     {% for posting in postings %}
+    {% if posting.id not in applications %}
     <div class="row result">
       <div class="col m2 s12 company-logo">
         <img class="square-logo" src="{% static posting.company.logo %}">
       </div>
-      <div class="col m4 s12">
-        <p>{{ posting.company.name }}</p>
-        <p>{{ posting.company.tagline }}</p>
-        <p>{{ posting.location }}</p>
+      <div class="col m3 s12">
+        <ul class="posting-details">
+          <li><strong>{{ posting.company.name }}</strong></li>
+          <li>{{ posting.position }}</li>
+          <li>{{ posting.location }}</li>
+        </ul>
       </div>
-      <div class="col m4 s12">
-        <p>{{ posting.description }}</p>
+      <div class="col m5 s12">
+        <p>{{ posting.description|truncatewords:12 }}</p>
       </div>
       <div class="col m2 s12">
-        <a href="{% url 'apply' posting.id%}" class="waves-effect waves-light btn-large blue">Apply</a>
+        <a href="{% url 'posting_detail' posting.id%}" class="waves-effect waves-light btn-large btn-posting blue">Apply</a>
       </div>
     </div>
     <div class="row block">
     </div>
+    {% endif %}
     {% endfor %}
   </div>
 </div>
@@ -82,7 +89,7 @@
     console.log(selected);
     for (var key in selected) {
       $('option[name='+key+']').removeAttr('selected');
-      $('option[name='+selected[key]+']').attr('selected', true);
+      $('option[value='+selected[key]+']').attr('selected', true);
     };
     $('select').material_select();
     $('select').change(function() {

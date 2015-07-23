@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Applications{% endblock %}
+{% block content %}
+{% load staticfiles %}
+      <!--   Icon Section   -->
+<div class="container">
+  <br><br>
+  <div class="row center">
+    <h4>Your Applications</h4>
+  </div>
+  {% if applications %}
+  <table class="centered">
+    <thead>
+      <tr>
+          <th>Company</th>
+          <th>Position</th>
+          <th>Interview Status</th>
+          <th>View Position</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for application in applications %}
+      <tr>
+        <td>{{ application.company.name }}</td>
+        <td>{{ application.posting.position }}</td>
+        <td>Pending</td>
+        <td><a href="{% url 'posting_detail' application.posting.id%}">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="row center">
+    <p class="flow-text">You haven't applied to any jobs!</p>
+  </div>
+  {% endif %}
+</div>
+
+
+<script>
+  $(document).ready(function(){
+  });
+</script>
+{% endblock %}

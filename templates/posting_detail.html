@@ -4,7 +4,7 @@
 {% load staticfiles %}
       <!--   Icon Section   -->
 <div class="container">
-  <br><br>
+  <br>
   <div class="row center">
     <img class="company-logo" src="{% static posting.company.logo %}">
   </div>
@@ -12,11 +12,14 @@
     <h4>{{ posting.position }}</h4>
     <h5>{{ posting.company.name }}</h5>
   </div>
-  <div class="row center">
-    <p class="flow-text">{{ posting.description }}</p>
+  <div class="row">
+    <h6>About {{ posting.company.name }}:</h6>
+    <p class="flow-text about">{{ posting.company.about }}</p>
+    <h6>Job Description:</h6>
+    <p class="flow-text about">{{ posting.description }}</p>
   </div>
   <div class="row center">
-    <a class="waves-effect waves-light btn-large blue">Apply</a>
+    <a href="{% url 'apply' posting.id%}" class="waves-effect waves-light btn-large blue">Apply</a>
   </div>
 </div>
 

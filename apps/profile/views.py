@@ -12,14 +12,16 @@ from django.contrib.auth import logout, authenticate, login
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
-from apps.profile.forms import StudentForm
+from apps.profile.forms import StudentForm, PostingForm
 from apps.profile.models import *
+from apps.profile.utils import add_to_algolia
 
 import bugsnag
 from algoliasearch import algoliasearch
 
 @login_required
 def home(request):
+    student = Student.objects.get(user=request.user)
     client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
     index = client.init_index('Postings')
     context_list = []
@@ -30,9 +32,14 @@ def home(request):
             query += " %s" % str(args[k].decode('utf-8'))
             context_list.append(args[k])
         postings = index.search(query)['hits']
+        count = len(postings)
     else:
-        postings = index.search(query)['hits']
-    return render_to_response('index.html', {'postings':postings, 'context_list':context_list}, context_instance=RequestContext(request))
+        postings = Posting.objects.all()
+        count = postings.count()
+    apps = Application.objects.filter(student=student)
+    applications = [app.posting.id for app in apps]
+    return render_to_response('index.html', {'postings':postings, 'count':count, 
+        'applications':applications,'context_list':context_list}, context_instance=RequestContext(request))
 
 def privacy(request):
     return render_to_response('privacy.html')
@@ -43,10 +50,35 @@ def terms(request):
 def about(request):
     return render_to_response('about.html')
 
-def apply(request, posting_id):
+def posting_detail(request, posting_id):
     posting = Posting.objects.get(pk=posting_id)
-    return render_to_response('apply.html', 
+    return render_to_response('posting_detail.html', 
         {'posting':posting}, context_instance=RequestContext(request))
+
+def apply(request, posting_id):
+    student = Student.objects.get(user=request.user)
+    posting = Posting.objects.get(id=posting_id)
+    application = Application(posting=posting, student=student, 
+        company=posting.company)
+    application.save()
+    return redirect('applications')
+
+def student_profile(request):
+    student = Student.objects.get(user=request.user)
+    return render_to_response('student_profile.html', 
+        {'student':student}, context_instance=RequestContext(request))
+
+def applications(request):
+    student = Student.objects.get(user=request.user)
+    applications = Application.objects.filter(student=student)
+    return render_to_response('applications.html', 
+        {'applications':applications}, context_instance=RequestContext(request))
+
+def interviews(request):
+    student = Student.objects.get(user=request.user)
+    interviews = Interview.objects.filter(student=student)
+    return render_to_response('interviews.html', 
+        {'interviews':interviews}, context_instance=RequestContext(request))
 
 def student_signup(request):
     if request.POST:
@@ -89,42 +121,30 @@ def student_signup(request):
 
 def create_posting(request):
     if request.POST:
-        form = StudentForm(request.POST, request.FILES)
+        form = PostingForm(request.POST)
         form.is_valid()
-        try:
-            resume = request.FILES['resume'].read()
-        except MultiValueDictKeyError:
-            resume = "Ask"
-        uuid = uuid4()
-        # s3 = default_storage.open('resumes/%s' % uuid, 'w')
-        # s3.write(resume)
-        # s3.close()
-        email = form.cleaned_data['email']
-        user = User.objects.create_user(email, email, 'password')
-        user.set_password(form.cleaned_data['password'])
-        user.save()
-        major = Major.objects.get(name=form.cleaned_data['major'])
-        university = University.objects.get(name=form.cleaned_data['university'])
-        industry = Industry.objects.get(name=form.cleaned_data['industries'])
-        student = Student(user=user,
-                            first_name=form.cleaned_data['first_name'],
-                            last_name=form.cleaned_data['last_name'],
-                            email=form.cleaned_data['email'],
-                            major=major,
+        company = Company.objects.get(name=form.cleaned_data['company'])
+        university = University.objects.get(name='University of Virginia')
+        posting = Posting(expiration_date='2015-12-31',
+                            position=form.cleaned_data['position'],
+                            job_type=form.cleaned_data['job_type'],
+                            company=company,
+                            location=form.cleaned_data['location'],
                             university=university,
-                            resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/resumes/%s" % uuid
+                            description=form.cleaned_data['description']
                             )
-        student.save()
+        posting.save()
+        add_to_algolia(posting)
         return redirect('home')
     else:
-        form = StudentForm()
+        form = PostingForm()
         universities = University.objects.all()
-        industries = Industry.objects.all()
-        majors = Major.objects.all()
-    return render_to_response('student_signup.html',
+        companies = Company.objects.all()
+    return render_to_response('create_posting.html',
                               {'form': form, 'universities':universities,
-                              'industries':industries, 'majors':majors},
+                              'companies':companies},
                               context_instance=RequestContext(request))
+
 @login_required
 def logout_view(request):
     logout(request)

@@ -1,6 +1,6 @@
 
 header, div#content, footer {
-    padding-left: 280px;
+    padding-left: 270px;
     padding-right: 20px;
   }
 
@@ -18,6 +18,9 @@ header, div#content, footer {
 .side-nav {
 	background-color: #4A4A4A;
 }
+.side-nav.fixed a#school-logo {
+	padding: 0px;
+}
 a#sidenav {
 	color: white;
 }
@@ -26,11 +29,11 @@ a#sidenav {
 }
 input#search {
 	height: 60px;
-	width: 95%;
-	margin-left: 15px;
+	margin-left: 42px;
+	width: 92%;
 }
 .search-params {
-	margin-left: 15px;
+	margin-left: 32px;
 }
 .results {
 	background-color: #f9f9fa;
@@ -41,14 +44,17 @@ input#search {
 	border-top: 1px solid white;
 	margin-bottom: 0px; 
 }
+ul.posting-details li{
+	padding-bottom: 10px;
+}
 .row.result:hover {
 	background-color: #F5F5F5;
 }
-div.col.m2.s2.company-logo {
+div.col.m2.s12.company-logo {
 	height: 100%;
 	text-align: center;
 }
-.btn-large {
+.btn-posting {
 	height: 100%;
 	margin-top: 35px;
 }
@@ -71,9 +77,22 @@ div.col.m2.s2.company-logo {
 .select-wrapper input.select-dropdown {
 	border-bottom: none;
 }
-@media only screen and (max-width : 500px) {
+.about {
+	font-size: 20px;
+}
+@media only screen and (max-width : 800px) {
     .row.result {
-      height: 400px;
+      height: 420px;
       text-align: center;
     }
+    div.col.m2.s12.company-logo {
+		height: 30%;
+	}
+	input#search{
+		width: 85%;
+	}
+	.btn-posting {
+		height: 100%;
+		margin-top: 10px;
+	}
   }

@@ -13,7 +13,7 @@
     {% block meta %}{% endblock meta %}
 
     {% block styles %}
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static "css/materialize.css" %}" >
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -39,14 +39,15 @@
 <body>
   <div class="side-nav fixed">
     <div class="side-nav-header">
-      <img src="{% static "img/uva-logo-white.png" %}">
+      <a href="{% url 'home' %}" id="school-logo"><img src="{% static "img/uva-logo-white.png" %}"></a>
     </div>
     <ul id="slide-out">
-    <li><a href="#!" id="sidenav">My Profile</a></li>
-    <li><a href="#!" id="sidenav">Interviews</a></li>
-    <li><a href="#!" id="sidenav">Applications</a></li>
-    <li><a href="#!" id="sidenav">Settings</a></li>
-  </ul>
+    <li><a href="{% url 'student_profile' %}" id="sidenav">My Profile</a></li>
+    <li><a href="{% url 'home' %}" id="sidenav">Available Jobs</a></li>
+    <li><a href="{% url 'applications' %}" id="sidenav">Applications</a></li>
+    <li><a href="{% url 'interviews' %}" id="sidenav">Interviews</a></li>
+<!--     <li><a href="#!" id="sidenav">Settings</a></li>
+ -->  </ul>
   </div>
     <div id="content">{% block content %}{% endblock %}</div>
 <!--     <div id="footer">

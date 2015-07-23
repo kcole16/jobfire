@@ -11,7 +11,16 @@ urlpatterns = patterns('',
     # url(r'^recruiter_signup', 'apps.profile.views.recruiter_signup', name='recruiter_signup'),
 
     #Apply
+    url(r'^posting_detail/(.+)/', 'apps.profile.views.posting_detail', name='posting_detail'),
     url(r'^apply/(.+)/', 'apps.profile.views.apply', name='apply'),
+    url(r'^applications/', 'apps.profile.views.applications', name='applications'),
+    url(r'^interviews/', 'apps.profile.views.interviews', name='interviews'),
+
+    #Profile
+    url(r'^student_profile/', 'apps.profile.views.student_profile', name='student_profile'),
+
+    #Create Posting
+    url(r'^create_posting/', 'apps.profile.views.create_posting', name='create_posting'),
 
     #Privacy and Terms
     url(r'^privacy/', 'apps.profile.views.privacy', name='privacy'),

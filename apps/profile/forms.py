@@ -18,11 +18,10 @@ class StudentForm(forms.Form):
                 cleaned_data[name] = self.fields[name].initial
         return cleaned_data
 
-class CompanyForm(forms.Form):
-    name = forms.CharField(label="Company Name")
-    website = forms.CharField(label="Site URL")
-    contact_email = forms.CharField(label="Contact Email")
-    contact_first_name = forms.CharField(label="First Name")
-    contact_last_name = forms.CharField(label="Last Name")
+class PostingForm(forms.Form):
+    company = forms.CharField(label="Company")
+    university = forms.CharField(label="University")
+    position = forms.CharField(label="Position")
+    job_type = forms.CharField(label="Job Type")
     location = forms.CharField(label="Location")
-    phone = forms.CharField(label="Phone Number")
+    description = forms.CharField(label="Description")
