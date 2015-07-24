@@ -46,7 +46,9 @@
     <li><a href="{% url 'home' %}" id="sidenav">Available Jobs</a></li>
     <li><a href="{% url 'applications' %}" id="sidenav">Applications</a></li>
     <li><a href="{% url 'interviews' %}" id="sidenav">Interviews</a></li>
+    {% if user %}
     <li><a href="{% url 'logout' %}" id="sidenav">Logout</a></li>
+    {% endif %}
 <!--     <li><a href="#!" id="sidenav">Settings</a></li>
  -->  </ul>
   </div>

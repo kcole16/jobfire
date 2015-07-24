@@ -39,11 +39,13 @@ def home(request):
         student = Student.objects.get(user=request.user)
     except (ObjectDoesNotExist, TypeError):
         applications = []
+        user = False
     else:
         apps = Application.objects.filter(student=student)
         applications = [app.posting.id for app in apps]
+        user = True
     return render_to_response('index.html', {'postings':postings, 'count':count, 
-        'applications':applications,'context_list':context_list}, context_instance=RequestContext(request))
+        'applications':applications,'context_list':context_list, 'user':user}, context_instance=RequestContext(request))
 
 def privacy(request):
     return render_to_response('privacy.html')
