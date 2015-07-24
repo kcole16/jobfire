@@ -54,7 +54,7 @@ class Posting(models.Model):
 	location = models.CharField(max_length=100)
 	university = models.ForeignKey(University)
 	active = models.BooleanField(default=True)
-	description = models.CharField(max_length=400)
+	description = models.CharField(max_length=5000)
 
 class Application(models.Model):
 	posting = models.ForeignKey(Posting)
