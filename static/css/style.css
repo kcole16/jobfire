@@ -85,6 +85,12 @@ div.col.m3.s4.clear {
 	padding-left: 45px;
 }
 @media only screen and (max-width : 800px) {
+	.search-params {
+		margin-left: 2px;
+	}
+	div#content {
+		padding-left: 20px;
+	}
     .row.result {
       height: 420px;
       text-align: center;
@@ -93,7 +99,8 @@ div.col.m3.s4.clear {
 		height: 30%;
 	}
 	input#search{
-		width: 85%;
+		width: 95%;
+		margin-left: 10px;
 	}
 	.btn-posting {
 		height: 100%;
