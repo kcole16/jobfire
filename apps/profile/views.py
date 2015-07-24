@@ -12,6 +12,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, AnonymousUser
 from django.core.files.storage import default_storage
+from django.core.exceptions import ObjectDoesNotExist
 from apps.profile.forms import StudentForm, PostingForm
 from apps.profile.models import *
 from apps.profile.utils import add_to_algolia
@@ -34,12 +35,13 @@ def home(request):
     else:
         postings = Posting.objects.all()
         count = postings.count()
-    if request.user.username != "":
+    try:
         student = Student.objects.get(user=request.user)
+    except ObjectDoesNotExist:
+        applications = []
+    else:
         apps = Application.objects.filter(student=student)
         applications = [app.posting.id for app in apps]
-    else:
-        applications = []
     return render_to_response('index.html', {'postings':postings, 'count':count, 
         'applications':applications,'context_list':context_list}, context_instance=RequestContext(request))
 
