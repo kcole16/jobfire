@@ -37,7 +37,7 @@ def home(request):
         count = postings.count()
     try:
         student = Student.objects.get(user=request.user)
-    except ObjectDoesNotExist:
+    except (ObjectDoesNotExist, TypeError):
         applications = []
     else:
         apps = Application.objects.filter(student=student)
