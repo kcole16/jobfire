@@ -168,7 +168,6 @@ def company_signup(request):
         industry = Industry.objects.get(name="Technology")
         company = Company(name=form.cleaned_data['name'],
                             logo="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/company_logos/%s" % uuid,
-                            tagline=form.cleaned_data['tagline'],
                             about=form.cleaned_data['about'],
                             url=form.cleaned_data['url'],
                             address=form.cleaned_data['address'],

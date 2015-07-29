@@ -23,7 +23,6 @@ class CompanyForm(forms.Form):
     logo = forms.FileField()
     email = forms.CharField(label="Email")
     password = forms.CharField(label="Password")
-    tagline = forms.CharField(label="Tagline")
     about = forms.CharField(label="About")
     url = forms.CharField(label="URL")
     address = forms.CharField(label="Address")

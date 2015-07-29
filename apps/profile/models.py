@@ -30,7 +30,6 @@ class Student(models.Model):
 class Company(models.Model):
 	name = models.CharField(max_length=500)
 	logo = models.CharField(max_length=500)
-	tagline = models.CharField(max_length=200)
 	about = models.CharField(max_length=1000)
 	url = models.CharField(max_length=500)
 	address = models.CharField(max_length=500)
