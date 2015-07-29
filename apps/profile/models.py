@@ -48,7 +48,9 @@ class Recruiter(models.Model):
 class Posting(models.Model):
 	date_created = models.DateField(auto_now_add=True)
 	expiration_date = models.DateField()
+	job_start_date = models.CharField(max_length=100)
 	position = models.CharField(max_length=100)
+	role = models.CharField(max_length=100)
 	job_type = models.CharField(max_length=100)
 	company = models.ForeignKey(Company)
 	location = models.CharField(max_length=100)

@@ -19,7 +19,8 @@
   </head>
   <body>
     <div class="container">
-      <h3>Create Profile</h3>
+      <h3>Post a Job</h3>
+      <br>
       <div class="row">
         {% if errors != None %}
         {{ errors }}
@@ -28,13 +29,12 @@
             {% csrf_token %}
             <div class="row">
               <div class="input-field col s12">
-                <select name="company" id="id_company" required>
-                  <option value="" disabled selected>Select Company</option>
-                  {% for company in companies %}
-                  <option value="{{ company.name }}">{{ company.name }}</option>
-                  {% endfor %}
+                <select name="start_date" id="id_start_date" required>
+                  <option value="" disabled selected>Start Date</option>
+                  <option value="immediate">Immediate</option>
+                  <option value="flexible">Flexible</option>
                 </select>
-                <label>Company</label>
+                <label>Preferred Start Date</label>
               </div>
            </div>
             <div class="row">
@@ -63,6 +63,17 @@
                   <option value="internship">Internship</option>
                 </select>
                 <label>Job Type</label>
+              </div>
+           </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <select name="role" id="id_role" required>
+                  <option value="" disabled selected>Role</option>
+                  <option value="engineering">Engineering</option>
+                  <option value="product">Product</option>
+                  <option value="business">Business</option>
+                </select>
+                <label>Role</label>
               </div>
            </div>
             <div class="row">

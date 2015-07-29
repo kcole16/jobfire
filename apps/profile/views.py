@@ -1,6 +1,7 @@
 from uuid import uuid4
 import os
 import urllib 
+import datetime
 
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,7 +14,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, AnonymousUser
 from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
-from apps.profile.forms import StudentForm, PostingForm
+from apps.profile.forms import StudentForm, CompanyForm, PostingForm
 from apps.profile.models import *
 from apps.profile.utils import add_to_algolia
 
@@ -46,6 +47,11 @@ def home(request):
         user = True
     return render_to_response('index.html', {'postings':postings, 'count':count, 
         'applications':applications,'context_list':context_list, 'user':user}, context_instance=RequestContext(request))
+
+@login_required
+def company_home(request):
+    company = Company.objects.get(user=request.user)
+    postings = Posting.objects.filter(company=company)
 
 def privacy(request):
     return render_to_response('privacy.html')
@@ -132,31 +138,73 @@ def student_signup(request):
                               'industries':industries, 'majors':majors},
                               context_instance=RequestContext(request))
 
+
+def company_signup(request):
+    if request.POST:
+        form = CompanyForm(request.POST)
+        form.is_valid()
+        try:
+            logo = request.FILES['logo'].read()
+        except MultiValueDictKeyError:
+            logo = "Ask"
+        uuid = uuid4()
+        s3 = default_storage.open('jobfire/company_logos/%s' % uuid, 'w')
+        s3.write(logo)
+        s3.close()
+        email = form.cleaned_data['email']
+        user = User.objects.create_user(email, email, 'password')
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+        industry = Industry.objects.get(name="Finance")
+        company = Company(name=form.cleaned_data['name'],
+                            logo="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/company_logos/%s" % uuid,
+                            tagline=form.cleaned_data['tagline'],
+                            about=form.cleaned_data['about'],
+                            url=form.cleaned_data['url'],
+                            address=form.cleaned_data['address'],
+                            phone=form.cleaned_data['phone'],
+                            industry=industry
+                            )
+        company.save()
+        recruiter = Recruiter(user=user, first_name=company, last_name=company, 
+            email=form.cleaned_data['email'], company=company)
+        recruiter.save()
+        current_user = authenticate(username=recruiter.email,
+                                    password=form.cleaned_data['password'])
+        login(request, current_user)
+        return redirect('create_posting')
+    else:
+        form = CompanyForm()
+    return render_to_response('company_signup.html',
+                              {'form': form},
+                              context_instance=RequestContext(request))
+
 @login_required
 def create_posting(request):
     if request.POST:
         form = PostingForm(request.POST)
         form.is_valid()
-        company = Company.objects.get(name=form.cleaned_data['company'])
+        company = Recruiter.objects.get(user=request.user).company
         university = University.objects.get(name='University of Virginia')
-        posting = Posting(expiration_date='2015-12-31',
+        expiration_date = datetime.datetime.now() + datetime.timedelta(days=90)
+        posting = Posting(expiration_date=expiration_date,
+                            job_start_date=form.cleaned_data['start_date'],
                             position=form.cleaned_data['position'],
                             job_type=form.cleaned_data['job_type'],
                             company=company,
+                            role=form.cleaned_data['role'],
                             location=form.cleaned_data['location'],
                             university=university,
                             description=form.cleaned_data['description']
                             )
         posting.save()
-        add_to_algolia(posting)
+        # add_to_algolia(posting)
         return redirect('home')
     else:
         form = PostingForm()
         universities = University.objects.all()
-        companies = Company.objects.all()
     return render_to_response('create_posting.html',
-                              {'form': form, 'universities':universities,
-                              'companies':companies},
+                              {'form': form, 'universities':universities},
                               context_instance=RequestContext(request))
 
 @login_required

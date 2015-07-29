@@ -19,7 +19,8 @@ urlpatterns = patterns('',
     #Profile
     url(r'^student_profile/', 'apps.profile.views.student_profile', name='student_profile'),
 
-    #Create Posting
+    #Company
+    url(r'^company_signup/', 'apps.profile.views.company_signup', name='company_signup'),
     url(r'^create_posting/', 'apps.profile.views.create_posting', name='create_posting'),
 
     #Privacy and Terms
