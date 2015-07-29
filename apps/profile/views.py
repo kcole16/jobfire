@@ -79,6 +79,13 @@ def posting_detail(request, posting_id):
         {'posting':posting}, context_instance=RequestContext(request))
 
 @login_required
+def view_posting(request, posting_id):
+    company = Recruiter.objects.get(user=request.user).company
+    posting = Posting.objects.get(pk=posting_id)
+    return render_to_response('view_posting.html', 
+        {'posting':posting, 'company':company}, context_instance=RequestContext(request))
+
+@login_required
 def apply(request, posting_id):
     student = Student.objects.get(user=request.user)
     posting = Posting.objects.get(id=posting_id)

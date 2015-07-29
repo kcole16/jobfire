@@ -1,0 +1,28 @@
+{% extends "company_base.html" %}
+{% block title %}Posting{% endblock %}
+{% block content %}
+{% load staticfiles %}
+      <!--   Icon Section   -->
+<div class="container">
+  <br>
+  <div class="row center">
+    <img class="company-logo" src="{{ posting.company.logo }}">
+  </div>
+  <div class="row center">
+    <h4>{{ posting.position }}</h4>
+    <h5>{{ posting.company.name }}</h5>
+  </div>
+  <div class="row">
+    <h6>About {{ posting.company.name }}:</h6>
+    <p class="flow-text about">{{ posting.company.about }}</p>
+    <h6>Job Description:</h6>
+    <p class="flow-text about">{{ posting.description }}</p>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function(){
+  });
+</script>
+{% endblock %}

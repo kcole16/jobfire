@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^company_signup/', 'apps.profile.views.company_signup', name='company_signup'),
     url(r'^dashboard/', 'apps.profile.views.company_home', name='company_home'),
     url(r'^create_posting/', 'apps.profile.views.create_posting', name='create_posting'),
+    url(r'^view_posting/(.+)/', 'apps.profile.views.view_posting', name='view_posting'),
     url(r'^company_applications/', 'apps.profile.views.company_applications', name='company_applications'),
 
     #Privacy and Terms
