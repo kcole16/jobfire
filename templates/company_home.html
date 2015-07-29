@@ -4,7 +4,7 @@
 {% load staticfiles %}
       <!--   Icon Section   -->
 <div class="section">
-    <div class="col m4 s12">
+    {% if posting_list.0|length != 0 %}
       {% for list in posting_list %}
       <div class="row">
         {% for posting in list %}
@@ -24,10 +24,14 @@
         </div>
         {% endfor %}
       </div>
-    {% endfor %}
+      {% endfor %}
+    {% else %}
+    <div class="row center no-post">
+      <h5>You haven't posted any jobs!</h5>
+      <a href="{% url 'create_posting' %}">Create one now</a>
+    </div>
+    {% endif %}
 </div>
-
-
 <script>
   $(document).ready(function(){
     var selected = {};

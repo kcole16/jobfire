@@ -182,7 +182,7 @@ def company_signup(request):
         current_user = authenticate(username=recruiter.email,
                                     password=form.cleaned_data['password'])
         login(request, current_user)
-        return redirect('create_posting')
+        return redirect('company_home')
     else:
         form = CompanyForm()
     return render_to_response('company_signup.html',

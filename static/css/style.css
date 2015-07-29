@@ -107,6 +107,9 @@ div.col.m3.s4.clear {
 a#logo {
 	padding: 0px;
 }
+.no-post {
+	margin-top: 100px;
+}
 @media only screen and (max-width : 800px) {
 	.search-params {
 		margin-left: 2px;
