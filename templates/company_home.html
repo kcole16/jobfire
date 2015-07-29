@@ -1,82 +1,30 @@
-{% extends "base.html" %}
+{% extends "company_base.html" %}
 {% block title %}JobFire{% endblock %}
 {% block content %}
 {% load staticfiles %}
       <!--   Icon Section   -->
 <div class="section">
-  <div class="search z-depth-1">
-    <div class="col m10 s12">
-      <div class="search-bar">
-        <form class="search-form">
-          <input type="text" id="search" placeholder="Search Keywords"></input>
-        </form>
-      </div>
-    </div>
-    <div class="search-params">
+    <div class="col m4 s12">
+      {% for list in posting_list %}
       <div class="row">
-        <form action="{% url 'home' %}">
-          <div class="col m3 s4 param">
-            <select name="job_type" id="id_job_type" required>
-              <option name="job_type" value="" disabled selected>Job Type</option>
-              <option value="Internship">Internship</option>
-              <option value="Full-Time">Full-Time</option>
-              <option value="Part-Time">Part-Time</option>
-            </select>
+        {% for posting in list %}
+        <div class="col s12 m4">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">{{ posting.position }}</span><br>
+              <span class="posting-location">{{ posting.location }}</span>
+              <br><br>
+              <p>{{posting.description|truncatewords:35}}</p>
+            </div>
+            <div class="card-action">
+              <a href="#">Applicants</a>
+              <a href="#">View Posting</a>
+            </div>
           </div>
-          <div class="col m3 s4 param">
-            <select name="location" id="id_location" required>
-              <option name="location" value="" disabled selected>Location</option>
-              <option value="NewYork">New York</option>
-              <option value="SanFrancisco">San Francisco</option>
-              <option value="WashingtonDC">Washington, DC</option>
-            </select>
-          </div>
-          <div class="col m3 s4 param">
-            <select name="industries" id="id_industries" required>
-              <option name="industries" value="" disabled selected>Role</option>
-              <option value="Engineer">Engineering</option>
-              <option value="Product">Product</option>
-              <option value="Business">Business</option>
-            </select>
-          </div>
-          <div class="col m3 s4 clear">
-            <a href="{% url 'home' %}">Clear Search</a>
-          </div>
-        </form>
+        </div>
+        {% endfor %}
       </div>
-    </div>
-  </div>
-</div>
-<div class="center">
-  <h6>{{ count }} jobs available</h6>
-</div>
-<div class="section">
-  <div class="results z-depth-1">
-    {% for posting in postings %}
-    {% if posting.id not in applications %}
-    <div class="row result">
-      <div class="col m2 s12 company-logo">
-        <img class="square-logo" src="{{ posting.company.logo }}">
-      </div>
-      <div class="col m3 s12">
-        <ul class="posting-details">
-          <li><strong>{{ posting.company.name }}</strong></li>
-          <li>{{ posting.position }}</li>
-          <li>{{ posting.location }}</li>
-        </ul>
-      </div>
-      <div class="col m5 s12">
-        <p>{{ posting.description|truncatewords:12 }}</p>
-      </div>
-      <div class="col m2 s12">
-        <a href="{% url 'posting_detail' posting.id%}" class="waves-effect waves-light btn-large btn-posting blue">Apply</a>
-      </div>
-    </div>
-    <div class="row block">
-    </div>
-    {% endif %}
     {% endfor %}
-  </div>
 </div>
 
 

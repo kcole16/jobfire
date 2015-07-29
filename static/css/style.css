@@ -11,8 +11,17 @@ header, div#content, footer {
   }
 .side-nav-header {
 	height: 120px;
-	background-color: navy;
+	width: 270px;
+	background-color: gray;
 	display: table-cell;
+	border-bottom: 2px solid white;
+}
+.side-nav-header#student {
+	height: 120px;
+	width: 270px;
+	background-color: gray;
+	display: table-cell;
+	border-bottom: 2px solid white;
 	vertical-align: middle;
 }
 .side-nav {
@@ -83,6 +92,20 @@ div.col.m2.s12.company-logo {
 div.col.m3.s4.clear {
 	margin-top: 10px;
 	padding-left: 45px;
+}
+.card {
+	height: 300px;
+}
+.posting-location {
+	font-size: 17px;
+    font-weight: 200;
+}
+.company-logo {
+	height: 118px;
+	width: 270px;
+}
+a#logo {
+	padding: 0px;
 }
 @media only screen and (max-width : 800px) {
 	.search-params {

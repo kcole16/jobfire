@@ -1,103 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Top Jobs for Top Candidates">
-    <meta name="author" content="HawkHire, Inc.">
-    {% load static from staticfiles %}
-    <link rel="icon" type="image/png" href="{% static "img/favicon-32x32.png" %}" sizes="32x32" />
-    <link rel="icon" type="image/png" href="{% static "img/favicon-16x16.png" %}" sizes="16x16" />
-    <title>Create Profile</title>
-    <link rel="stylesheet" type="text/css" href="{% static "css/materialize.css" %}" >
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <script src="{% static "js/jquery.min.js" %}"></script>
-    <script src="{% static "js/materialize.js" %}"></script>
-    <script src="{% static "js/init.js" %}"></script>
-  </head>
-  <body>
-    <div class="container">
-      <h3>Post a Job</h3>
-      <br>
-      <div class="row">
-        {% if errors != None %}
-        {{ errors }}
-        {% endif %}
-          <form class="col s12" role="form" method="POST" action="{% url 'create_posting' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="row">
-              <div class="input-field col s12">
-                <select name="start_date" id="id_start_date" required>
-                  <option value="" disabled selected>Start Date</option>
-                  <option value="immediate">Immediate</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-                <label>Preferred Start Date</label>
-              </div>
-           </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <select name="university" id="id_university" required>
-                  <option value="" disabled selected>University</option>
-                  {% for university in universities %}
-                  <option value="{{ university.name }}">{{ university.name }}</option>
-                  {% endfor %}
-                </select>
-                <label>University</label>
-              </div>
-           </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <label for="position">Position</label>
-                <input type="text" name="position" required/>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <select name="job_type" id="id_job_type" required>
-                  <option value="" disabled selected>Job Type</option>
-                  <option value="full-time">Full-Time</option>
-                  <option value="part-time">Part-Time</option>
-                  <option value="internship">Internship</option>
-                </select>
-                <label>Job Type</label>
-              </div>
-           </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <select name="role" id="id_role" required>
-                  <option value="" disabled selected>Role</option>
-                  <option value="engineering">Engineering</option>
-                  <option value="product">Product</option>
-                  <option value="business">Business</option>
-                </select>
-                <label>Role</label>
-              </div>
-           </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <label for="location">Location</label>
-                <input type="text" name="location" required/>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <textarea name="description" id="id_description" class="materialize-textarea"></textarea>
-                <label for="description">Description</label>
-              </div>
-            </div>
-        <button class="btn waves-light red darken-4" type="submit" name="action">Submit
-            <i class="mdi-content-send right"></i>
-        </button>
-          </form>
-      </div>
+{% extends "company_base.html" %}
+{% block title %}JobFire{% endblock %}
+{% block content %}
+{% load staticfiles %}
+<div class="container">
+  <h3>Post a Job</h3>
+  <br>
+  <div class="row">
+    {% if errors != None %}
+    {{ errors }}
+    {% endif %}
+      <form class="col s12" role="form" method="POST" action="{% url 'create_posting' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="input-field col s12">
+            <select name="start_date" id="id_start_date" required>
+              <option value="" disabled selected>Start Date</option>
+              <option value="immediate">Immediate</option>
+              <option value="flexible">Flexible</option>
+            </select>
+            <label>Preferred Start Date</label>
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <select name="university" id="id_university" required>
+              <option value="" disabled selected>University</option>
+              {% for university in universities %}
+              <option value="{{ university.name }}">{{ university.name }}</option>
+              {% endfor %}
+            </select>
+            <label>University</label>
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label for="position">Position</label>
+            <input type="text" name="position" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <select name="job_type" id="id_job_type" required>
+              <option value="" disabled selected>Job Type</option>
+              <option value="full-time">Full-Time</option>
+              <option value="part-time">Part-Time</option>
+              <option value="internship">Internship</option>
+            </select>
+            <label>Job Type</label>
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <select name="role" id="id_role" required>
+              <option value="" disabled selected>Role</option>
+              <option value="engineering">Engineering</option>
+              <option value="product">Product</option>
+              <option value="business">Business</option>
+            </select>
+            <label>Role</label>
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label for="location">Location</label>
+            <input type="text" name="location" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea name="description" id="id_description" class="materialize-textarea"></textarea>
+            <label for="description">Description</label>
+          </div>
+        </div>
+    <button class="btn waves-light red darken-4" type="submit" name="action">Submit
+        <i class="mdi-content-send right"></i>
+    </button>
+      </form>
   </div>
-    <script>
-    $(document).ready(function() {
-        $('select').material_select();
-      });
-    </script>
-  </body>
-</html>
+</div>
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+  });
+</script>
+{% endblock %}

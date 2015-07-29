@@ -21,47 +21,58 @@ from apps.profile.utils import add_to_algolia
 import bugsnag
 from algoliasearch import algoliasearch
 
+@login_required
 def home(request):
-    client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
-    index = client.init_index('Postings')
-    context_list = []
-    query = ""
-    if request.GET.dict():
-        args = request.GET.dict()
-        for k in request.GET.dict():
-            query += " %s" % str(args[k].decode('utf-8'))
-            context_list.append(args[k])
-        postings = index.search(query)['hits']
-        count = len(postings)
-    else:
-        postings = Posting.objects.all()
-        count = postings.count()
     try:
-        student = Student.objects.get(user=request.user)
-    except (ObjectDoesNotExist, TypeError):
-        applications = []
-        user = False
+        recruiter = Recruiter.objects.get(user=request.user)
+    except ObjectDoesNotExist:
+        client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
+        index = client.init_index('Postings')
+        context_list = []
+        query = ""
+        if request.GET.dict():
+            args = request.GET.dict()
+            for k in request.GET.dict():
+                query += " %s" % str(args[k].decode('utf-8'))
+                context_list.append(args[k])
+            postings = index.search(query)['hits']
+            count = len(postings)
+        else:
+            postings = Posting.objects.all()
+            count = postings.count()
+        try:
+            student = Student.objects.get(user=request.user)
+        except (ObjectDoesNotExist, TypeError):
+            applications = []
+            user = False
+        else:
+            apps = Application.objects.filter(student=student)
+            applications = [app.posting.id for app in apps]
+            user = True
+        return render_to_response('index.html', {'postings':postings, 'count':count, 
+            'applications':applications,'context_list':context_list, 'user':user}, context_instance=RequestContext(request))
     else:
-        apps = Application.objects.filter(student=student)
-        applications = [app.posting.id for app in apps]
-        user = True
-    return render_to_response('index.html', {'postings':postings, 'count':count, 
-        'applications':applications,'context_list':context_list, 'user':user}, context_instance=RequestContext(request))
+        return redirect('company_home')
 
 @login_required
 def company_home(request):
-    company = Company.objects.get(user=request.user)
+    company = Recruiter.objects.get(user=request.user).company
     postings = Posting.objects.filter(company=company)
+    count = 0
+    list_num = 0
+    posting_list = [[]]
+    for posting in postings:
+        if count < 3:
+            posting_list[list_num].append(posting)
+            count += 1
+        else:
+            count = 1
+            list_num += 1
+            posting_list.append([posting])
 
-def privacy(request):
-    return render_to_response('privacy.html')
+    return render_to_response('company_home.html', {'posting_list':posting_list, 'company':company}, context_instance=RequestContext(request))
 
-def terms(request):
-    return render_to_response('terms.html')
-
-def about(request):
-    return render_to_response('about.html')
-
+@login_required
 def posting_detail(request, posting_id):
     posting = Posting.objects.get(pk=posting_id)
     return render_to_response('posting_detail.html', 
@@ -138,7 +149,6 @@ def student_signup(request):
                               'industries':industries, 'majors':majors},
                               context_instance=RequestContext(request))
 
-
 def company_signup(request):
     if request.POST:
         form = CompanyForm(request.POST)
@@ -181,6 +191,7 @@ def company_signup(request):
 
 @login_required
 def create_posting(request):
+    company = Recruiter.objects.get(user=request.user).company
     if request.POST:
         form = PostingForm(request.POST)
         form.is_valid()
@@ -204,11 +215,25 @@ def create_posting(request):
         form = PostingForm()
         universities = University.objects.all()
     return render_to_response('create_posting.html',
-                              {'form': form, 'universities':universities},
+                              {'form': form, 'universities':universities, 'company':company},
                               context_instance=RequestContext(request))
+
+def company_applications(request):
+    company = Recruiter.objects.get(user=request.user).company
+    applications = Application.objects.filter(company=company)
+    return render_to_response('company_applications.html', {'company':company})
 
 @login_required
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+def privacy(request):
+    return render_to_response('privacy.html')
+
+def terms(request):
+    return render_to_response('terms.html')
+
+def about(request):
+    return render_to_response('about.html')
 
