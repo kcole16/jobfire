@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 
     'apps.profile',
     'storages',
+    'tinymce',
 )
 
 MIDDLEWARE_CLASSES = (

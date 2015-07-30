@@ -1,4 +1,5 @@
 from django import forms
+from tinymce.widgets import TinyMCE
 
 
 class StudentForm(forms.Form):
@@ -36,4 +37,4 @@ class PostingForm(forms.Form):
     role = forms.CharField(label="Role")
     job_type = forms.CharField(label="Job Type")
     location = forms.CharField(label="Location")
-    description = forms.CharField(label="Description")
+    description = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30, 'placeholder':'Description'}))

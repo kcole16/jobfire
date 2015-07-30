@@ -1,7 +1,13 @@
 {% extends "company_base.html" %}
 {% block title %}JobFire{% endblock %}
-{% block content %}
 {% load staticfiles %}
+{% block extra_head %}
+<script>
+  var django = {jQuery: jQuery};
+</script>
+{{ form.media }}
+{% endblock extra_head %}
+{% block content %}
 <div class="container">
   <h3>Post a Job</h3>
   <br>
@@ -35,7 +41,7 @@
         <div class="row">
           <div class="input-field col s12">
             <label for="position">Position</label>
-            <input type="text" name="position" required/>
+            <input type="text" name="position" placeholder="Software Engineer, etc." required/>
           </div>
         </div>
         <div class="row">
@@ -63,13 +69,13 @@
         <div class="row">
           <div class="input-field col s12">
             <label for="location">Location</label>
-            <input type="text" name="location" required/>
+            <input type="text" name="location" placeholder="New York, NY" required/>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <textarea name="description" id="id_description" class="materialize-textarea"></textarea>
-            <label for="description">Description</label>
+            {{ form.description }}
+            <label for="description" class="post-describe">Description</label><br>
           </div>
         </div>
     <button class="btn waves-light red darken-4" type="submit" name="action">Submit

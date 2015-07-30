@@ -16,7 +16,7 @@
     <h6>About {{ posting.company.name }}:</h6>
     <p class="flow-text about">{{ posting.company.about }}</p>
     <h6>Job Description:</h6>
-    <p class="flow-text about">{{ posting.description }}</p>
+    <p class="flow-text about">{{ posting.description|safe }}</p>
   </div>
   <div class="row center">
     <a href="{% url 'apply' posting.id%}" class="waves-effect waves-light btn-large blue">Apply</a>

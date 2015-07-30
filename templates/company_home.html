@@ -14,7 +14,11 @@
               <span class="card-title">{{ posting.position }}</span><br>
               <span class="posting-location">{{ posting.location }}</span>
               <br><br>
-              <p>{{posting.description|truncatewords:35}}</p>
+              <p>
+                {% with description=posting.description|safe %}
+                {{ description|slice:"65" }}
+                {% endwith %}
+              </p>
             </div>
             <div class="card-action">
               <a href="#">Applicants</a>
