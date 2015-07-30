@@ -16,27 +16,37 @@
   </head>
 <body>
   <style>
-  body {
-    background-image: url("{% static 'img/city.png' %}");
-    background-size: 107% 200%;
-  }
-  .container {
-    margin-top: 120px;
-  }
-  .row {
-    color: white;
-  }
-  .buttons {
-    margin-right: auto;
-    margin-left: auto;
-    width: 300px;
-  }
-  .btn-home {
-    width: 150px;
-  }
-  a {
-    color: white;
-  }
+    body {
+      background-image: url("{% static 'img/city-min.png' %}");
+      background-size: 107% 200%;
+    }
+    .container {
+      margin-top: 120px;
+    }
+    .row {
+      color: white;
+    }
+    .buttons {
+      margin-right: auto;
+      margin-left: auto;
+      width: 300px;
+    }
+    .btn-home {
+      width: 150px;
+    }
+    a {
+      color: white;
+    }
+    @media only screen and (max-width : 500px) {
+      .buttons {
+        margin-right: auto;
+        margin-left: auto;
+        width: 250px;
+      }
+      .btn-home {
+        width: 125px;
+      }
+    }
   </style>
   <div class="container">
     <div class="row center">
