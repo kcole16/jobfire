@@ -5,7 +5,8 @@
 <script>
   var django = {jQuery: jQuery};
 </script>
-{{ form.media }}
+<script src="{% static "tiny_mce/tiny_mce.js" %}"></script>
+<script src="{% static "tiny_mce/init_tiny_mce.js" %}"></script>
 {% endblock extra_head %}
 {% block content %}
 <div class="container">
