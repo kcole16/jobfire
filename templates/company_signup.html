@@ -42,7 +42,7 @@
             <div class="row">
               <div class="input-field col s12">
                 <label for="url">URL</label>
-                <input type="text" name="url" required/>
+                <input type="text" name="url" id="id_url" required/>
               </div>
             </div>
             <div class="row">
@@ -89,8 +89,20 @@
       </div>
   </div>
     <script>
+    function validateURL(textval) {
+      var urlregex = new RegExp(
+            "^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.){1}([0-9A-Za-z]+\.)");
+      return urlregex.test(textval);
+    }
     $(document).ready(function() {
         $('select').material_select();
+        $('#id_url').focusout(function(){
+          var url = $(this).val();
+          if (validateURL(url) === false) {
+            alert('Please enter a valid URL (include www)');
+            $(this).focus();
+          }
+        });
         $('#id_password_check').focusout(function(){
             var pass = $('#id_password').val();
             var pass2 = $('#id_password_check').val();
