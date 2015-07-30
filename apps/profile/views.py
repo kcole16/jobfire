@@ -23,40 +23,43 @@ from algoliasearch import algoliasearch
 
 
 def home(request):
-    return render_to_response('home.html')
+    if request.user.is_authenticated():
+        try:
+            recruiter = Recruiter.objects.get(user=request.user)
+        except ObjectDoesNotExist:
+            return redirect('student_home')
+        else:
+            return redirect('company_home')
+    else:
+        return render_to_response('home.html')
 
 @login_required
 def student_home(request):
-    try:
-        recruiter = Recruiter.objects.get(user=request.user)
-    except ObjectDoesNotExist:
-        client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
-        index = client.init_index('Postings')
-        context_list = []
-        query = ""
-        if request.GET.dict():
-            args = request.GET.dict()
-            for k in request.GET.dict():
-                query += " %s" % str(args[k].decode('utf-8'))
-                context_list.append(args[k])
-            postings = index.search(query)['hits']
-            count = len(postings)
-        else:
-            postings = Posting.objects.all()
-            count = postings.count()
-        try:
-            student = Student.objects.get(user=request.user)
-        except (ObjectDoesNotExist, TypeError):
-            applications = []
-            user = False
-        else:
-            apps = Application.objects.filter(student=student)
-            applications = [app.posting.id for app in apps]
-            user = True
-        return render_to_response('student_home.html', {'postings':postings, 'count':count, 
-            'applications':applications,'context_list':context_list, 'user':user}, context_instance=RequestContext(request))
+    client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
+    index = client.init_index('Postings')
+    context_list = []
+    query = ""
+    if request.GET.dict():
+        args = request.GET.dict()
+        for k in request.GET.dict():
+            query += " %s" % str(args[k].decode('utf-8'))
+            context_list.append(args[k])
+        postings = index.search(query)['hits']
+        count = len(postings)
     else:
-        return redirect('company_home')
+        postings = Posting.objects.all()
+        count = postings.count()
+    try:
+        student = Student.objects.get(user=request.user)
+    except (ObjectDoesNotExist, TypeError):
+        applications = []
+        user = False
+    else:
+        apps = Application.objects.filter(student=student)
+        applications = [app.posting.id for app in apps]
+        user = True
+    return render_to_response('student_home.html', {'postings':postings, 'count':count, 
+        'applications':applications,'context_list':context_list, 'user':user}, context_instance=RequestContext(request))
 
 @login_required
 def company_home(request):
