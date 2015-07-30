@@ -66,7 +66,11 @@
         </ul>
       </div>
       <div class="col m5 s12">
-        <p>{{ posting.description|truncatewords:12 }}</p>
+        <p>
+        {% with description=posting.description|safe %}
+        {{ description|slice:"30" }}
+        {% endwith %}
+        </p>
       </div>
       <div class="col m2 s12">
         <a href="{% url 'posting_detail' posting.id%}" class="waves-effect waves-light btn-large btn-posting blue">Apply</a>
