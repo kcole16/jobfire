@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Top Jobs for Top Candidates">
+    <meta name="author" content="HawkHire, Inc.">
+    {% load static from staticfiles %}
+    <title>{% block title %}{% endblock title %}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static "css/materialize.css" %}" >
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/materialize.js" %}"></script>
+    <script src="{% static "js/init.js" %}"></script>
+  </head>
+<body>
+  <style>
+  body {
+    background-image: url("{% static 'img/city.png' %}");
+    background-size: 107% 200%;
+  }
+  .container {
+    margin-top: 120px;
+  }
+  .row {
+    color: white;
+  }
+  .buttons {
+    margin-right: auto;
+    margin-left: auto;
+    width: 300px;
+  }
+  .btn-home {
+    width: 150px;
+  }
+  a {
+    color: white;
+  }
+  </style>
+  <div class="container">
+    <div class="row center">
+      <h1>JobFire</h1>
+      <h3>Careers for Engineers</h3>
+    </div>
+    <div class="section buttons">
+      <div class="row center">
+        <div class="col s6 m6">
+          <a href="{% url 'student_signup' %}" class="waves-effect waves-light btn-large btn-home blue">Students</a>
+        </div>
+        <div class="col s6 m6">
+          <a href="{% url 'company_signup' %}" class="waves-effect waves-light btn-large btn-home blue">Companies</a>
+          <br>
+          <br>
+          <br>
+        </div>
+        <a href="{% url 'login' %}">Already Registered? Login</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

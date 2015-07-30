@@ -21,8 +21,12 @@ from apps.profile.utils import add_to_algolia
 import bugsnag
 from algoliasearch import algoliasearch
 
-@login_required
+
 def home(request):
+    return render_to_response('home.html')
+
+@login_required
+def student_home(request):
     try:
         recruiter = Recruiter.objects.get(user=request.user)
     except ObjectDoesNotExist:
@@ -49,7 +53,7 @@ def home(request):
             apps = Application.objects.filter(student=student)
             applications = [app.posting.id for app in apps]
             user = True
-        return render_to_response('index.html', {'postings':postings, 'count':count, 
+        return render_to_response('student_home.html', {'postings':postings, 'count':count, 
             'applications':applications,'context_list':context_list, 'user':user}, context_instance=RequestContext(request))
     else:
         return redirect('company_home')
@@ -145,7 +149,7 @@ def student_signup(request):
         current_user = authenticate(username=email,
                                     password=form.cleaned_data['password'])
         login(request, current_user)
-        return redirect('home')
+        return redirect('student_home')
     else:
         form = StudentForm()
         universities = University.objects.all()

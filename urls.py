@@ -3,23 +3,22 @@ from django.contrib import admin
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
-    url(r'^$', 'apps.profile.views.home', name='home'),    
+    url(r'^$', 'apps.profile.views.home', name='home'),  
+      
     #Login
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='login'),
     url(r'^logout/', 'apps.profile.views.logout_view', name='logout'),
-    url(r'^student_signup/', 'apps.profile.views.student_signup', name='student_signup'),
-    # url(r'^recruiter_signup', 'apps.profile.views.recruiter_signup', name='recruiter_signup'),
 
-    #Apply
+    #Students
+    url(r'^main/', 'apps.profile.views.student_home', name='student_home'),
+    url(r'^student_signup/', 'apps.profile.views.student_signup', name='student_signup'),
     url(r'^posting_detail/(.+)/', 'apps.profile.views.posting_detail', name='posting_detail'),
     url(r'^apply/(.+)/', 'apps.profile.views.apply', name='apply'),
     url(r'^applications/', 'apps.profile.views.applications', name='applications'),
     url(r'^interviews/', 'apps.profile.views.interviews', name='interviews'),
-
-    #Profile
     url(r'^student_profile/', 'apps.profile.views.student_profile', name='student_profile'),
 
-    #Company
+    #Companies
     url(r'^company_signup/', 'apps.profile.views.company_signup', name='company_signup'),
     url(r'^dashboard/', 'apps.profile.views.company_home', name='company_home'),
     url(r'^create_posting/', 'apps.profile.views.create_posting', name='create_posting'),
