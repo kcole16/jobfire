@@ -48,11 +48,14 @@ input#search {
 .results {
 	background-color: #f9f9fa;
 }
-.row.result {
-	height: 120px;
+.result {
+	min-height: 120px;
 	border-bottom: 1px solid #EEE;
 	border-top: 1px solid white;
 	margin-bottom: 0px; 
+}
+.detail {
+	margin-left: 40px;
 }
 ul.posting-details li{
 	padding-bottom: 10px;
@@ -122,8 +125,8 @@ a#logo {
 	div#content {
 		padding-left: 20px;
 	}
-    .row.result {
-      height: 420px;
+    .result {
+      min-height: 420px;
       text-align: center;
     }
     div.col.m2.s12.company-logo {

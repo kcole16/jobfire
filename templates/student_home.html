@@ -54,28 +54,38 @@
   <div class="results z-depth-1">
     {% for posting in postings %}
     {% if posting.id not in applications %}
-    <div class="row result">
-      <div class="col m2 s12 company-logo">
-        <img class="square-logo" src="{{ posting.company.logo }}">
+    <div class="result" name="{{ posting.id }}">
+      <div class="row">
+        <div class="col m2 s12 company-logo">
+          <img class="square-logo" src="{{ posting.company.logo }}">
+        </div>
+        <div class="col m3 s12">
+          <ul class="posting-details">
+            <li><strong>{{ posting.company.name }}</strong></li>
+            <li>{{ posting.position }}</li>
+            <li>{{ posting.location }}</li>
+          </ul>
+        </div>
+        <div class="col m5 s12">
+          <p>
+  <!--         {% with description=posting.description|safe %}
+          {{ description|slice:"30" }}
+          {% endwith %} -->
+          </p>
+        </div>
+        <div class="col m2 s12">
+          <a href="{% url 'posting_detail' posting.id%}" class="waves-effect waves-light btn-large btn-posting blue">Apply</a>
+        </div>
       </div>
-      <div class="col m3 s12">
-        <ul class="posting-details">
-          <li><strong>{{ posting.company.name }}</strong></li>
-          <li>{{ posting.position }}</li>
-          <li>{{ posting.location }}</li>
-        </ul>
-      </div>
-      <div class="col m5 s12">
-        <p>
-        {% with description=posting.description|safe %}
-        {{ description|slice:"30" }}
-        {% endwith %}
-        </p>
-      </div>
-      <div class="col m2 s12">
-        <a href="{% url 'posting_detail' posting.id%}" class="waves-effect waves-light btn-large btn-posting blue">Apply</a>
+      <div class="row detail" id="{{posting.id}}">
+        <h6>About {{ posting.company.name }}:</h6>
+        <p class="flow-text about">{{ posting.company.about }}</p>
+        <h6>Job Description:</h6>
+        <p class="flow-text about">{{ posting.description|safe }}</p>
       </div>
     </div>
+
+
     <div class="row block">
     </div>
     {% endif %}
@@ -121,7 +131,12 @@
         $(location).attr('href',url);
       }
     });
-
+    $('.detail').hide();
+    $('.result').click(function() {
+      var element = '#'+$(this).attr('name');
+      console.log(element);
+      $(element).toggle('slide');
+    });
   });
 </script>
 {% endblock %}
