@@ -24,7 +24,7 @@
         {% if errors != None %}
         {{ errors }}
         {% endif %}
-          <form class="col s12" role="form" method="POST" action="{% url 'student_signup' %}" enctype="multipart/form-data">
+          <form class="col s12" role="form" id="register" method="POST" action="{% url 'student_signup' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
               <div class="input-field col s12">
@@ -101,6 +101,7 @@
                 alert('Passwords do not match!');
             }
         });
+        mixpanel.track_forms("#register", "Student Signed Up");
       });
     </script>
   </body>
