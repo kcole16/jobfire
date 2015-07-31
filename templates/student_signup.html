@@ -93,16 +93,17 @@
   </div>
     <script>
     $(document).ready(function() {
-        $('select').material_select();
-        $('#id_password_check').focusout(function(){
-            var pass = $('#id_password').val();
-            var pass2 = $('#id_password_check').val();
-            if(pass != pass2){
-                alert('Passwords do not match!');
-            }
-        });
-        mixpanel.track_forms("#register", "Student Signed Up");
+      mixpanel.track('Viewed Company Signup');
+      $('select').material_select();
+      $('#id_password_check').focusout(function(){
+          var pass = $('#id_password').val();
+          var pass2 = $('#id_password_check').val();
+          if(pass != pass2){
+              alert('Passwords do not match!');
+          }
       });
+      mixpanel.track_forms("#register", "Student Signed Up");
+    });
     </script>
   </body>
 </html>
