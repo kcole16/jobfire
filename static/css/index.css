@@ -1,0 +1,183 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+body {
+	background-color: white;
+}
+label.form-field {
+	color: #C0504D;
+}
+.navbar {
+	background-color: #003459;
+	box-shadow: none;
+}
+.company {
+	color: white;
+	text-align: center;
+}
+.logo {
+	padding-top: 5px;
+	width: 60px;
+}
+.top {
+	background-color: #003459;
+	height: 500px;
+}
+.tagline {
+	color: white;
+}
+.top-icons {
+	color: #ff5722;
+}
+.darker {
+	color: white;
+	background-color: #003459;
+}
+div.mentors {
+	height: 700px;
+	display: table-cell;
+	vertical-align: middle;
+}
+.lighter {
+	color: #003459;
+	background-color: white;
+}
+.services {
+	height: 650px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+.price-list {
+	display: table-cell;
+	vertical-align: middle;
+	height: 750px;
+}
+.process {
+	text-align: center;
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.faq {
+	text-align: left;
+}
+.answers {
+	font-size: 18px;
+}
+.pricing {
+	width: 88%;
+	margin-right: auto;
+	margin-left: auto;
+}
+.price-header {
+	text-align: center;
+}
+.price {
+	text-align: center;
+	color: white;
+	background-color: #C0504D;
+}
+.price-button {
+	background-color: #C0504D;
+}
+.collection {
+	height: 283px;
+}
+#faq-header {
+	text-align: center;
+}
+.icon-block {
+  padding: 0 15px;
+}
+.candidate-form {
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 500px;
+	padding-top: 15px; 
+	color: #C0504D;
+}
+.candidates {
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 700px;
+	color: #C0504D;
+}
+.title {
+	text-align: center;
+	font-size: 32px;
+}
+.candidate-description {
+	font-size: 18px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.success {
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom:250px;
+	max-width: 800px;
+	padding-top: 30px;
+	color: #C0504D;
+}
+.waiting {
+	text-align: center;
+	color: black;
+}
+.sup {
+	height: 149px;
+	width: 100%;
+	text-align: center;
+}
+div#buttons.row.center {
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+	width: 65%;
+}
+.button {
+	width: 100%;
+	margin-bottom: 5px;
+}
+.linkedin {
+	width: 200px;
+}
+.service-select {
+	max-width: 240px;
+}
+div.col.s12.m6.link {
+	padding: 3px;
+}
+.stripe-button {
+	width: 300px;
+}
+#middle {
+	height: 150px;
+}
+@media only screen and (max-width: 500px) {
+	div#buttons.row.center {
+		width: 100%;
+	}
+	.tagline {
+		font-size: 36px;
+	}
+	.logo {
+		width: 60px;
+	}
+	a#logo-container.brand-logo.logo-name {
+		font-size: 20px;
+	}
+	.top {
+		height: 590px;
+	}
+}
+.about-pic {
+	width: 150px;
+}
+.payment {
+	color: #C0504D;
+}

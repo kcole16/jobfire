@@ -32,7 +32,7 @@ def home(request):
         else:
             return redirect('company_home')
     else:
-        return render_to_response('home.html')
+        return render_to_response('index.html')
 
 @login_required
 def student_home(request):
