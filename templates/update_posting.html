@@ -16,7 +16,7 @@
     {% if errors != None %}
     {{ errors }}
     {% endif %}
-      <form class="col s12" role="form" method="POST" action="{% url 'create_posting' %}" enctype="multipart/form-data">
+      <form class="col s12" role="form" method="POST" action="{% url 'update_posting' posting.id%}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
           <div class="input-field col s12">

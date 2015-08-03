@@ -1,4 +1,5 @@
 from django import forms
+from apps.profile.models import Posting
 from tinymce.widgets import TinyMCE
 
 
@@ -30,11 +31,12 @@ class CompanyForm(forms.Form):
     phone = forms.CharField(label="Phone")
 
 
-class PostingForm(forms.Form):
-    start_date = forms.CharField(label="Start Date")
-    university = forms.CharField(label="University")
-    position = forms.CharField(label="Position")
-    role = forms.CharField(label="Role")
-    job_type = forms.CharField(label="Job Type")
-    location = forms.CharField(label="Location")
-    description = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30, 'placeholder':'Description'}))
+class PostingForm(forms.ModelForm):
+    class Meta:
+        model = Posting
+        fields = ['job_start_date', 'university', 'position', 'role', 
+        'job_type', 'location', 'description']
+        widgets = {
+            'description': TinyMCE(attrs={'cols': 80, 'rows': 30, 'placeholder':'Description'}),
+            'university': forms.Select(choices=(('this','that'),))
+        }

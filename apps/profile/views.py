@@ -2,6 +2,7 @@ from uuid import uuid4
 import os
 import urllib 
 import datetime
+from ast import literal_eval
 
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
@@ -208,17 +209,15 @@ def create_posting(request):
     if request.POST:
         form = PostingForm(request.POST)
         form.is_valid()
-        company = Recruiter.objects.get(user=request.user).company
-        university = University.objects.get(name='University of Virginia')
         expiration_date = datetime.datetime.now() + datetime.timedelta(days=90)
         posting = Posting(expiration_date=expiration_date,
-                            job_start_date=form.cleaned_data['start_date'],
+                            job_start_date=form.cleaned_data['job_start_date'],
                             position=form.cleaned_data['position'],
                             job_type=form.cleaned_data['job_type'],
                             company=company,
                             role=form.cleaned_data['role'],
                             location=form.cleaned_data['location'],
-                            university=university,
+                            university=form.cleaned_data['university'],
                             description=form.cleaned_data['description']
                             )
         posting.save()
@@ -226,9 +225,23 @@ def create_posting(request):
         return redirect('home')
     else:
         form = PostingForm()
-        universities = University.objects.all()
     return render_to_response('create_posting.html',
-                              {'form': form, 'universities':universities, 'company':company},
+                              {'form': form, 'company':company},
+                              context_instance=RequestContext(request))
+
+@login_required
+def update_posting(request, posting_id):
+    posting = Posting.objects.get(pk=posting_id)
+    if request.POST:
+        form = PostingForm(request.POST, instance=posting)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        # add_to_algolia(posting)
+    else:
+        form = PostingForm(instance=posting)
+    return render_to_response('update_posting.html',
+                              {'form': form, 'posting':posting},
                               context_instance=RequestContext(request))
 
 def company_applications(request):

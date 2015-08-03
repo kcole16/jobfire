@@ -11,6 +11,9 @@ class University(models.Model):
 	color_main = models.CharField(max_length=10)
 	color_secondary = models.CharField(max_length=10)
 
+	def __unicode__(self):
+	    return u'{0}'.format(self.name)
+
 class Industry(models.Model):
 	name = models.CharField(max_length=500)
 
@@ -47,10 +50,12 @@ class Recruiter(models.Model):
 class Posting(models.Model):
 	date_created = models.DateField(auto_now_add=True)
 	expiration_date = models.DateField()
-	job_start_date = models.CharField(max_length=100)
+	job_start_date = models.CharField(max_length=100, choices=(('immediate','Immediate'),('flexible','Flexible')))
 	position = models.CharField(max_length=100)
-	role = models.CharField(max_length=100)
-	job_type = models.CharField(max_length=100)
+	role = models.CharField(max_length=100, choices=(('engineering','Engineering'),
+		('product','product'),('business','business')))
+	job_type = models.CharField(max_length=100, choices=(('full-time','Full-Time'), 
+		('part-time','Part-Time'), ('internship','Internship')))
 	company = models.ForeignKey(Company)
 	location = models.CharField(max_length=100)
 	university = models.ForeignKey(University)
