@@ -15,6 +15,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, AnonymousUser
 from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
 from apps.profile.forms import StudentForm, CompanyForm, PostingForm
 from apps.profile.models import *
 from apps.profile.utils import add_to_algolia
@@ -125,36 +126,43 @@ def interviews(request):
 def student_signup(request):
     if request.POST:
         form = StudentForm(request.POST, request.FILES)
-        form.is_valid()
-        try:
-            resume = request.FILES['resume'].read()
-        except MultiValueDictKeyError:
-            resume = "Ask"
-        uuid = uuid4()
-        s3 = default_storage.open('jobfire/resumes/%s' % uuid, 'w')
-        s3.write(resume)
-        s3.close()
-        email = form.cleaned_data['email']
-        user = User.objects.create_user(email, email, 'password')
-        user.set_password(form.cleaned_data['password'])
-        user.save()
-        major = Major.objects.get(name=form.cleaned_data['major'])
-        university = University.objects.get(name=form.cleaned_data['university'])
-        industry = Industry.objects.get(name="Technology")
-        student = Student(user=user,
-                            first_name=form.cleaned_data['first_name'],
-                            last_name=form.cleaned_data['last_name'],
-                            email=form.cleaned_data['email'],
-                            major=major,
-                            university=university,
-                            resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
-                            )
-        student.save()
-        current_user = authenticate(username=email,
-                                    password=form.cleaned_data['password'])
-        login(request, current_user)
-        return redirect('student_home')
-    else:
+        if form.is_valid():
+            try:
+                resume = request.FILES['resume'].read()
+            except MultiValueDictKeyError:
+                resume = "Ask"
+            uuid = uuid4()
+            s3 = default_storage.open('jobfire/resumes/%s' % uuid, 'w')
+            s3.write(resume)
+            s3.close()
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.create_user(email, email, 'password')
+            except IntegrityError:
+                message = 'An account already exists for this email address'
+                return render_to_response('student_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+
+            major = Major.objects.get(name=form.cleaned_data['major'])
+            university = University.objects.get(name=form.cleaned_data['university'])
+            industry = Industry.objects.get(name="Technology")
+            student = Student(user=user,
+                                first_name=form.cleaned_data['first_name'],
+                                last_name=form.cleaned_data['last_name'],
+                                email=form.cleaned_data['email'],
+                                major=major,
+                                university=university,
+                                resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
+                                )
+            student.save()
+            current_user = authenticate(username=email,
+                                        password=form.cleaned_data['password'])
+            login(request, current_user)
+            return redirect('student_home')  
+        else:
+            print form.errors
+    else:     
         form = StudentForm()
         universities = University.objects.all()
         industries = Industry.objects.all()
@@ -177,7 +185,11 @@ def company_signup(request):
         s3.write(logo)
         s3.close()
         email = form.cleaned_data['email']
-        user = User.objects.create_user(email, email, 'password')
+        try:
+            user = User.objects.create_user(email, email, 'password')
+        except IntegrityError:
+            message = 'An account already exists for this email address'
+            return render_to_response('company_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
         user.set_password(form.cleaned_data['password'])
         user.save()
         industry = Industry.objects.get(name="Technology")

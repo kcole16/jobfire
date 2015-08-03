@@ -28,7 +28,10 @@
       <br>
       <div class="row">
         {% if errors != None %}
-        {{ errors }}
+        {{ form.errors }}
+        {% endif %}
+        {% if message != None %}
+        <h6 style="color:red;">{{ message }}</h6>
         {% endif %}
           <form class="col s12" role="form" id="register" method="POST" action="{% url 'company_signup' %}" enctype="multipart/form-data">
             {% csrf_token %}
