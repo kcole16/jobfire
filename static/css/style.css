@@ -13,14 +13,14 @@ header, div#content, footer {
 .side-nav-header {
 	height: 120px;
 	width: 270px;
-	background-color: gray;
+	background-color: #f9f9fa;
 	display: table-cell;
 	border-bottom: 2px solid white;
 }
 .side-nav-header#student {
 	height: 120px;
 	width: 270px;
-	background-color: gray;
+	background-color: #e9eaec;
 	display: table-cell;
 	border-bottom: 2px solid white;
 	vertical-align: middle;
@@ -105,11 +105,12 @@ div.col.m3.s4.clear {
     font-weight: 200;
 }
 .company-logo {
-	height: 118px;
-	width: 270px;
+	height: 120px;
+	width: 120px;
 }
 a#logo {
-	padding: 0px;
+	padding-top: 10px;
+	text-align: center;
 }
 .no-post {
 	margin-top: 100px;
