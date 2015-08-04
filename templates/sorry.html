@@ -1,117 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Resume Reviews and Mock Interviews from Industry Professionals">
-    <meta name="author" content="HypeMentor">
-    <meta name="google-site-verification" content="rZP9vD2f_-b0V7XzaOF12tNY_sx0GLlpgzKCXWd01zY" />
-    {% load static from staticfiles %}
-    <link rel="icon" type="image/png" href="{% static "img/favicon-32x32.png" %}" sizes="32x32" />
-    <link rel="icon" type="image/png" href="{% static "img/favicon-16x16.png" %}" sizes="16x16" />
-    <title>JobFire</title>
-
-    <link rel="stylesheet" type="text/css" href="{% static "css/materialize.css" %}" >
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link href="{% static "css/index.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <script src="{% static "js/jquery.min.js" %}"></script>
-    <script src="{% static "js/materialize.js" %}"></script>
-    <script src="{% static "js/init.js" %}"></script>
-    <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-    for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
-    mixpanel.init("95081ab8e98914b6965495daf3aa590c");
-    </script>
-  </head>
-  <body>
-    <div class="navbar-fixed">  
-      <nav class="navbar" role="navigation">
-          <div class="nav-wrapper container">
-            <a id="logo-container" href="/" class="brand-logo logo-name"><img class="logo" src="{% static "img/fire-orange-logo.png" %}"></a>
-            <ul class="right hide-on-med-and-down light">
-              <li><a href="{% url 'login' %}">Login</a></li>
-            </ul>
-            <ul class="right hide-on-med-and-down">
-              <li><a href="#companies">Companies</a></li>
-            </ul>
-<!--             <ul class="right hide-on-med-and-down">
-              <li><a href="#mentors">Pricing</a></li>
-            </ul> -->
-            <ul class="right hide-on-med-and-down">
-              <li><a href="#students">Students</a></li>
-            </ul>
-
-            <ul id="nav-mobile" class="side-nav">
-              <li><a href="#companies">Companies</a></li>
-              <li><a href="#students">Students</a></li>
-              <li><a href="{% url 'login' %}">Login</a></li>
-            </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-          </div>
-      </nav>
+{% extends "base.html" %}
+{% block title %}JobFire{% endblock %}
+{% block content %}
+{% load staticfiles %}
+<div class="section no-pad-bot top" id="index-banner">
+    <div class="container">
+      <br>
+      <h3 class="company">Sorry!</h3>
+      <div class="row center">
+        <h5 class="header col s12 light white-text">We aren't available yet at your school. Please sign up <a href="https://kc19.typeform.com/to/tJmwjt" target="_blank">here</a>, and we'll let you know once we're on campus!</h5>
+      </div>  
     </div>
-      <div id="content">
-        <div class="section no-pad-bot top" id="index-banner">
-            <div class="container">
-              <br>
-              <h3 class="company">Sorry!</h3>
-              <div class="row center">
-                <h5 class="header col s12 light white-text">We aren't available yet at your school. Please sign up <a href="https://kc19.typeform.com/to/tJmwjt" target="_blank">here</a>, and we'll let you know once we're on campus!</h5>
-              </div>  
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <div id="footer">
-            <footer class="page-footer deep-orange">
-              <div class="container">
-                <div class="row">
-                  <div class="col m2 s12">
-                    <a href="/about/" class="white-text">About Us</a>
-                  </div>
-
-                  <div class="col m2 s12">
-                    <a href="http://blog.hypementor.com" target="_blank" class="white-text">Our Blog</a>
-                  </div>
-                  <div class="col m2 s12">
-                    <a href="/privacy/" class="white-text" target="_blank">Privacy</a>
-                  </div>
-                  <div class="col m2 s12">
-                    <a href="/terms/" class="white-text">Terms</a>
-                  </div>
-                  <div class="col m2 s12">
-                    <a href="https://www.facebook.com/pages/HypeMentor/1668054760089784" target="_blank" class="white-text"><i class="fa fa-facebook"></i></a>
-                  </div>
-                  <div class="col m2 s12">
-                    <a href="https://twitter.com/hypementor" target="_blank" class="white-text"><i class="fa fa-twitter"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="footer-copyright">
-                <div class="container">
-                  © 2015 HawkHire, Inc.  <a href="mailto:jai@jobfire.co" target="_top">jai@jobfire.co</a>  <a href="mailto:kendall@jobfire.co" target="_top">kendall@jobfire.co</a>
-                </div>
-              </div>
-            </footer>
-      </div>
-    <script>
-    $(document).ready(function(){
-      mixpanel.track('Viewed Home');
-      $('a[href^="#"]').on('click',function (e) {
-          e.preventDefault();
-          var target = this.hash;
-          var $target = $(target);
-
-          $('html, body').stop().animate({
-              'scrollTop': $target.offset().top
-          }, 900, 'swing', function () {
-              window.location.hash = target;
-          });
-      });
-    });
-    </script>
-  </body>
-</html>
+</div>
+{% endblock %}
+        

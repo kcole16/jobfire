@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static "css/materialize.css" %}" >
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{% static "css/index.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
     {% block extra_styles %}{% endblock extra_styles %}
     {% endblock styles %}
 
@@ -40,54 +40,81 @@
 
     {% block extra_head %}{% endblock extra_head %}
   </head>
-<body>
-  <div class="side-nav fixed">
-    <div class="side-nav-header" id="student" style="background-color:navy;">
-      <a href="{% url 'home' %}" id="school-logo"><img src="{% static "img/uva-logo-white.png" %}"></a>
+  <body>
+    <div class="navbar-fixed">  
+      <nav class="navbar" role="navigation">
+          <div class="nav-wrapper container">
+            <a id="logo-container" href="/" class="brand-logo logo-name"><img class="logo" src="{% static "img/fire-orange-logo.png" %}"></a>
+            <ul class="right hide-on-med-and-down light">
+              <li><a href="{% url 'login' %}">Login</a></li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+              <li><a href="/#companies">Companies</a></li>
+            </ul>
+<!--             <ul class="right hide-on-med-and-down">
+              <li><a href="#mentors">Pricing</a></li>
+            </ul> -->
+            <ul class="right hide-on-med-and-down">
+              <li><a href="/#students">Students</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="side-nav">
+              <li><a href="{% url 'home' %}/#companies">Companies</a></li>
+              <li><a href="{% url 'home' %}/#students">Students</a></li>
+              <li><a href="{% url 'login' %}">Login</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+          </div>
+      </nav>
     </div>
-    <ul id="slide-out">
-    <li><a href="{% url 'student_profile' %}" id="sidenav">My Profile</a></li>
-    <li><a href="{% url 'student_home' %}" id="sidenav">Available Jobs</a></li>
-    <li><a href="{% url 'applications' %}" id="sidenav">Applications</a></li>
-    <li><a href="{% url 'logout' %}" id="sidenav">Logout</a></li>
-<!--     <li><a href="#!" id="sidenav">Settings</a></li>
- -->  </ul>
-  </div>
     <div id="content">{% block content %}{% endblock %}</div>
-<!--     <div id="footer">
-        {% block footer %}
-          <footer class="page-footer light-blue lighten-2">
-            <div class="container">
-              <div class="row">
-                <div class="col m2 s12">
-                  <a href="/about/" class="white-text">About Us</a>
-                </div>
-
-                <div class="col m2 s12">
-                  <a href="mailto:kendall@hawkhire.com" target="_top" class="white-text">Support</a>
-                </div>
-                <div class="col m2 s12">
-                  <a href="/privacy/" class="white-text">Privacy</a>
-                </div>
-                <div class="col m2 s12">
-                  <a href="/terms/" class="white-text">Terms</a>
-                </div>
-                <div class="col m2 s12">
-                  <a href="https://www.facebook.com/hawkhire" target="_blank" class="white-text"><i class="fa fa-facebook"></i></a>
-                </div>
-                <div class="col m2 s12">
-                  <a href="https://twitter.com/HawkHire" target="_blank" class="white-text"><i class="fa fa-twitter"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="footer-copyright">
+      <div id="footer">
+            <footer class="page-footer deep-orange">
               <div class="container">
-                © 2015 HawkHire, Inc.
-              </div>
-            </div>
-          </footer>
-        {% endblock %}
-    </div> -->
+                <div class="row">
+                  <div class="col m2 s12">
+                    <a href="/about/" class="white-text">About Us</a>
+                  </div>
 
-</body>
+                  <div class="col m2 s12">
+                    <a href="http://blog.hypementor.com" target="_blank" class="white-text">Our Blog</a>
+                  </div>
+                  <div class="col m2 s12">
+                    <a href="/privacy/" class="white-text" target="_blank">Privacy</a>
+                  </div>
+                  <div class="col m2 s12">
+                    <a href="/terms/" class="white-text">Terms</a>
+                  </div>
+                  <div class="col m2 s12">
+                    <a href="https://www.facebook.com/pages/HypeMentor/1668054760089784" target="_blank" class="white-text"><i class="fa fa-facebook"></i></a>
+                  </div>
+                  <div class="col m2 s12">
+                    <a href="https://twitter.com/hypementor" target="_blank" class="white-text"><i class="fa fa-twitter"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="footer-copyright">
+                <div class="container">
+                  © 2015 HawkHire, Inc.  <a href="mailto:jai@jobfire.co" target="_top">jai@jobfire.co</a>  <a href="mailto:kendall@jobfire.co" target="_top">kendall@jobfire.co</a>
+                </div>
+              </div>
+            </footer>
+      </div>
+    <script>
+    $(document).ready(function(){
+      mixpanel.track('Viewed Home');
+      $('a[href^="#"]').on('click',function (e) {
+          e.preventDefault();
+          var target = this.hash;
+          var $target = $(target);
+
+          $('html, body').stop().animate({
+              'scrollTop': $target.offset().top
+          }, 900, 'swing', function () {
+              window.location.hash = target;
+          });
+      });
+    });
+    </script>
+  </body>
 </html>
