@@ -2,7 +2,7 @@ from uuid import uuid4
 import os
 import urllib 
 import datetime
-from ast import literal_eval
+import logging
 
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
@@ -18,11 +18,15 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from apps.profile.forms import StudentForm, CompanyForm, PostingForm
 from apps.profile.models import *
-from apps.profile.utils import add_to_algolia
+from apps.profile.utils import add_to_algolia, send_mail, send_conf_email
 
 import bugsnag
+from mixpanel import Mixpanel
 from algoliasearch import algoliasearch
+from bugsnag.handlers import BugsnagHandler
 
+
+logger = logging.getLogger("error.logger")
 
 def home(request):
     if request.user.is_authenticated():
@@ -51,17 +55,12 @@ def student_home(request):
     else:
         postings = Posting.objects.all()
         count = postings.count()
-    try:
-        student = Student.objects.get(user=request.user)
-    except (ObjectDoesNotExist, TypeError):
-        applications = []
-        user = False
-    else:
-        apps = Application.objects.filter(student=student)
-        applications = [app.posting.id for app in apps]
-        user = True
+
+    student = Student.objects.get(user=request.user)
+    apps = Application.objects.filter(student=student)
+    applications = [app.posting.id for app in apps]
     return render_to_response('student_home.html', {'postings':postings, 'count':count, 
-        'applications':applications,'context_list':context_list, 'user':user}, context_instance=RequestContext(request))
+        'applications':applications,'context_list':context_list, 'student':student}, context_instance=RequestContext(request))
 
 @login_required
 def company_home(request):
@@ -79,7 +78,8 @@ def company_home(request):
             list_num += 1
             posting_list.append([posting])
 
-    return render_to_response('company_home.html', {'posting_list':posting_list, 'company':company}, context_instance=RequestContext(request))
+    return render_to_response('company_home.html', {'posting_list':posting_list, 'company':company}, 
+        context_instance=RequestContext(request))
 
 @login_required
 def posting_detail(request, posting_id):
@@ -116,12 +116,12 @@ def applications(request):
     return render_to_response('applications.html', 
         {'applications':applications}, context_instance=RequestContext(request))
 
-@login_required
-def interviews(request):
-    student = Student.objects.get(user=request.user)
-    interviews = Interview.objects.filter(student=student)
-    return render_to_response('interviews.html', 
-        {'interviews':interviews}, context_instance=RequestContext(request))
+# @login_required
+# def interviews(request):
+#     student = Student.objects.get(user=request.user)
+#     interviews = Interview.objects.filter(student=student)
+#     return render_to_response('interviews.html', 
+#         {'interviews':interviews}, context_instance=RequestContext(request))
 
 def student_signup(request):
     if request.POST:
@@ -131,37 +131,57 @@ def student_signup(request):
                 resume = request.FILES['resume'].read()
             except MultiValueDictKeyError:
                 resume = "Ask"
-            uuid = uuid4()
-            s3 = default_storage.open('jobfire/resumes/%s' % uuid, 'w')
-            s3.write(resume)
-            s3.close()
-            email = form.cleaned_data['email']
-            try:
-                user = User.objects.create_user(email, email, 'password')
-            except IntegrityError:
-                message = 'An account already exists for this email address'
-                return render_to_response('student_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
-            user.set_password(form.cleaned_data['password'])
-            user.save()
+            email = str(form.cleaned_data['email'])
+            extension = email.split('@')[1]
+            try: 
+                university = University.objects.get(email_ext=extension)
+            except ObjectDoesNotExist:
+                return render_to_response('sorry.html')
+            else:
+                uuid = uuid4()
+                s3 = default_storage.open('jobfire/resumes/%s' % uuid, 'w')
+                s3.write(resume)
+                s3.close()
+                try:
+                    user = User.objects.create_user(email, email, 'password')
+                except IntegrityError:
+                    message = 'An account already exists for this email address'
+                    return render_to_response('student_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
+                user.set_password(form.cleaned_data['password'])
+                user.save()
 
-            major = Major.objects.get(name=form.cleaned_data['major'])
-            university = University.objects.get(name=form.cleaned_data['university'])
-            industry = Industry.objects.get(name="Technology")
-            student = Student(user=user,
-                                first_name=form.cleaned_data['first_name'],
-                                last_name=form.cleaned_data['last_name'],
-                                email=form.cleaned_data['email'],
-                                major=major,
-                                university=university,
-                                resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
-                                )
-            student.save()
-            current_user = authenticate(username=email,
-                                        password=form.cleaned_data['password'])
-            login(request, current_user)
-            return redirect('student_home')  
+                major = Major.objects.get(name=form.cleaned_data['major'])
+                industry = Industry.objects.get(name="Technology")
+                student = Student(user=user,
+                                    first_name=form.cleaned_data['first_name'],
+                                    last_name=form.cleaned_data['last_name'],
+                                    email=form.cleaned_data['email'],
+                                    major=major,
+                                    university=university,
+                                    resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
+                                    )
+                student.save()
+                email_token = str(uuid4()).replace('-', '')
+                email_conf = EmailConfirmation(user=user, code=email_token)
+                email_conf.save()
+                mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
+                mp.people_set(student.id, {
+                    '$first_name'    : 'Kendall',
+                    '$last_name'     : student.last_name,
+                    '$email'         : student.email,
+                    '$university'         : student.university.name,
+                    '$major' : student.major.name,
+                    '$type': 'student',
+                    '$created': student.user.date_joined,
+                    '$email_token': email_token
+                })
+                send_conf_email(student, email_token)
+                current_user = authenticate(username=email,
+                                            password=form.cleaned_data['password'])
+                login(request, current_user)
+                return redirect('student_home')  
         else:
-            print form.errors
+            logger.error(form.errors)
     else:     
         form = StudentForm()
         universities = University.objects.all()
@@ -175,40 +195,42 @@ def student_signup(request):
 def company_signup(request):
     if request.POST:
         form = CompanyForm(request.POST)
-        form.is_valid()
-        try:
-            logo = request.FILES['logo'].read()
-        except MultiValueDictKeyError:
-            logo = "Ask"
-        uuid = uuid4()
-        s3 = default_storage.open('jobfire/company_logos/%s' % uuid, 'w')
-        s3.write(logo)
-        s3.close()
-        email = form.cleaned_data['email']
-        try:
-            user = User.objects.create_user(email, email, 'password')
-        except IntegrityError:
-            message = 'An account already exists for this email address'
-            return render_to_response('company_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
-        user.set_password(form.cleaned_data['password'])
-        user.save()
-        industry = Industry.objects.get(name="Technology")
-        company = Company(name=form.cleaned_data['name'],
-                            logo="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/company_logos/%s" % uuid,
-                            about=form.cleaned_data['about'],
-                            url=form.cleaned_data['url'],
-                            address=form.cleaned_data['address'],
-                            phone=form.cleaned_data['phone'],
-                            industry=industry
-                            )
-        company.save()
-        recruiter = Recruiter(user=user, first_name=company, last_name=company, 
-            email=form.cleaned_data['email'], company=company)
-        recruiter.save()
-        current_user = authenticate(username=recruiter.email,
-                                    password=form.cleaned_data['password'])
-        login(request, current_user)
-        return redirect('company_home')
+        if form.is_valid():
+            try:
+                logo = request.FILES['logo'].read()
+            except MultiValueDictKeyError:
+                logo = "Ask"
+            uuid = uuid4()
+            s3 = default_storage.open('jobfire/company_logos/%s' % uuid, 'w')
+            s3.write(logo)
+            s3.close()
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.create_user(email, email, 'password')
+            except IntegrityError:
+                message = 'An account already exists for this email address'
+                return render_to_response('company_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            industry = Industry.objects.get(name="Technology")
+            company = Company(name=form.cleaned_data['name'],
+                                logo="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/company_logos/%s" % uuid,
+                                about=form.cleaned_data['about'],
+                                url=form.cleaned_data['url'],
+                                address=form.cleaned_data['address'],
+                                phone=form.cleaned_data['phone'],
+                                industry=industry
+                                )
+            company.save()
+            recruiter = Recruiter(user=user, first_name=company, last_name=company, 
+                email=form.cleaned_data['email'], company=company)
+            recruiter.save()
+            current_user = authenticate(username=recruiter.email,
+                                        password=form.cleaned_data['password'])
+            login(request, current_user)
+            return redirect('company_home')
+        else:
+            logger.error(form.errors)
     else:
         form = CompanyForm()
     return render_to_response('company_signup.html',
@@ -244,6 +266,7 @@ def create_posting(request):
 @login_required
 def update_posting(request, posting_id):
     posting = Posting.objects.get(pk=posting_id)
+    company = posting.company
     if request.POST:
         form = PostingForm(request.POST, instance=posting)
         if form.is_valid():
@@ -253,13 +276,26 @@ def update_posting(request, posting_id):
     else:
         form = PostingForm(instance=posting)
     return render_to_response('update_posting.html',
-                              {'form': form, 'posting':posting},
+                              {'form': form, 'posting':posting, 'company':company},
                               context_instance=RequestContext(request))
 
 def company_applications(request):
     company = Recruiter.objects.get(user=request.user).company
     applications = Application.objects.filter(company=company)
     return render_to_response('company_applications.html', {'company':company})
+
+def confirm_email(request, email_token):
+    success = False
+    try:
+        email_conf = EmailConfirmation.objects.get(code=email_token)
+    except ObjectDoesNotExist:
+        pass
+    else:
+        student = Student.objects.get(user=email_conf.user)
+        student.confirmed = True
+        student.save()
+        success = True
+    return render_to_response('confirm_email.html', {'success':success}, context_instance=RequestContext(request))
 
 @login_required
 def logout_view(request):

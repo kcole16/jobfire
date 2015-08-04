@@ -143,7 +143,24 @@ TEMPLATE_DIRS = (
 )
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# BUGSNAG = {
-#   "api_key": "aae944193939d6ca19d4dd9d1c6edb5f",
-#   "project_root": SITE_ROOT,
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'root': {
+        'level': 'ERROR',
+        'handlers': ['bugsnag'],
+    },
+
+    'handlers': {
+        'bugsnag': {
+            'level': 'INFO',
+            'class': 'bugsnag.handlers.BugsnagHandler',
+        },
+    }
+}
+
+BUGSNAG = {
+  "api_key": os.environ['BUGSNAG_KEY'],
+  "project_root": "SITE_ROOT",
+}

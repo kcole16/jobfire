@@ -15,8 +15,9 @@ urlpatterns = patterns('',
     url(r'^posting_detail/(.+)/', 'apps.profile.views.posting_detail', name='posting_detail'),
     url(r'^apply/(.+)/', 'apps.profile.views.apply', name='apply'),
     url(r'^applications/', 'apps.profile.views.applications', name='applications'),
-    url(r'^interviews/', 'apps.profile.views.interviews', name='interviews'),
+    # url(r'^interviews/', 'apps.profile.views.interviews', name='interviews'),
     url(r'^student_profile/', 'apps.profile.views.student_profile', name='student_profile'),
+    url(r'^confirm_email/(.+)/', 'apps.profile.views.confirm_email', name='confirm_email'),
 
     #Companies
     url(r'^company_signup/', 'apps.profile.views.company_signup', name='company_signup'),

@@ -8,7 +8,6 @@ class StudentForm(forms.Form):
     last_name = forms.CharField(label="Last Name")
     password = forms.CharField(label="Password")
     email = forms.CharField(label="Email")
-    university = forms.CharField(label="University")
     major = forms.CharField(label="Major")
     resume = forms.FileField()
 

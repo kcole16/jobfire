@@ -48,7 +48,7 @@
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <label for="email">Email</label>
+                <label for="email">Email (.edu only)</label>
                 <input type="email" name="email" required/>
               </div>
             </div>
@@ -64,17 +64,6 @@
                 <input type="password" name="re-password" id="id_password_check" required/>
               </div>
             </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <select name="university" id="id_university" required>
-                  <option value="" disabled selected>University</option>
-                  {% for university in universities %}
-                  <option value="{{ university.name }}">{{ university.name }}</option>
-                  {% endfor %}
-                </select>
-                <label>University</label>
-              </div>
-           </div>
             <div class="row">
               <div class="input-field col s12">
                 <select name="major" id="id_major" required>

@@ -96,6 +96,12 @@
 
 <script>
   $(document).ready(function(){
+
+    mixpanel.identify("{{ student.id }}");
+    mixpanel.people.set({
+      "$last_login": new Date(),        
+    });
+
     var selected = {};
     location.search.substr(1).split("&").forEach(function (pair) {
         if (pair === "") return;
@@ -108,7 +114,9 @@
       $('option[name='+key+']').removeAttr('selected');
       $('option[value='+selected[key]+']').attr('selected', true);
     };
+
     $('select').material_select();
+
     $('select').change(function() {
       var q = $(this).val();
       var base = $(this).attr("name")
@@ -119,6 +127,7 @@
       }
       $(location).attr('href',url);
     });
+
     $('input[id=search]').keypress(function(e){
       if (e.which == 13) {
         e.preventDefault();
@@ -131,12 +140,19 @@
         $(location).attr('href',url);
       }
     });
+
     $('.detail').hide();
     $('.result').click(function() {
       var element = '#'+$(this).attr('name');
       console.log(element);
       $(element).toggle('slide');
     });
+
+    $('.btn-posting').click(function() {
+      mixpanel.track("Applied to Job");
+      mixpanel.people.increment('job_apps');
+    });
+
   });
 </script>
 {% endblock %}

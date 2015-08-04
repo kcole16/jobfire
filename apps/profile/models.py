@@ -10,6 +10,7 @@ class University(models.Model):
 	logo = models.FileField(upload_to="university/logos")
 	color_main = models.CharField(max_length=10)
 	color_secondary = models.CharField(max_length=10)
+	email_ext = models.CharField(max_length=30)
 
 	def __unicode__(self):
 	    return u'{0}'.format(self.name)
@@ -29,6 +30,7 @@ class Student(models.Model):
 	industries = models.ManyToManyField(Industry)
 	university = models.ForeignKey(University)
 	resume_s3 = models.CharField(max_length=1000)
+	confirmed = models.BooleanField(default=False)
 
 class Company(models.Model):
 	name = models.CharField(max_length=500)
@@ -79,6 +81,10 @@ class Document(models.Model):
 	type = models.CharField(max_length=100)
 	s3_location = models.CharField(max_length=100)
 	student = models.ForeignKey(Student)
+
+class EmailConfirmation(models.Model):
+	user = models.ForeignKey(User)
+	code = models.CharField(max_length=100)
 
 
 
