@@ -18,7 +18,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from apps.profile.forms import StudentForm, CompanyForm, PostingForm
 from apps.profile.models import *
-from apps.profile.utils import add_to_algolia, send_mail, send_conf_email
+from apps.profile.utils import add_to_algolia, send_mail, send_conf_email, format_city
 
 import bugsnag
 from mixpanel import Mixpanel
@@ -42,6 +42,7 @@ def home(request):
 @login_required
 def student_home(request):
     student = Student.objects.get(user=request.user)
+    print student.confirmed
     client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
     index = client.init_index('Postings')
     context_list = []

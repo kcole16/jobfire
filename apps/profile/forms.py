@@ -1,6 +1,7 @@
 from django import forms
 from apps.profile.models import Posting
 from tinymce.widgets import TinyMCE
+from apps.profile.utils import format_city
 
 
 class StudentForm(forms.Form):
@@ -31,11 +32,18 @@ class CompanyForm(forms.Form):
 
 
 class PostingForm(forms.ModelForm):
+    
     class Meta:
         model = Posting
         fields = ['job_start_date', 'university', 'position', 'role', 
         'job_type', 'location', 'description']
         widgets = {
             'description': TinyMCE(attrs={'cols': 80, 'rows': 30, 'placeholder':'Description'}),
-            'university': forms.Select(choices=(('this','that'),))
+            'university': forms.Select(choices=(('this','that'),)),
+            'location': forms.TextInput(attrs={'id':'pac-input', 'placeholder': 'Washington, DC'}),
+            'position': forms.TextInput(attrs={'placeholder': 'Software Engineer'})
         }
+    def clean_location(self):
+            location = format_city(self.cleaned_data['location'])
+
+            return location 

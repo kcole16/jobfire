@@ -52,3 +52,8 @@ def send_conf_email(student, email_token):
     <p>Kendall<br>Co-Founder<br>JobFire, Inc.</p>""" % (student.first_name, email_token, email_token)
     send_mail(subject, student.email, html, sender)
 
+def format_city(city):
+    splits = city.split(',')
+    formatted = "%s, %s" % (splits[0], splits[1])
+    return formatted
+
