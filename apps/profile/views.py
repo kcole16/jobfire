@@ -41,6 +41,7 @@ def home(request):
 
 @login_required
 def student_home(request):
+    student = Student.objects.get(user=request.user)
     client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
     index = client.init_index('Postings')
     context_list = []
@@ -53,14 +54,11 @@ def student_home(request):
         postings = index.search(query)['hits']
         count = len(postings)
     else:
-        postings = Posting.objects.all()
-        count = postings.count()
+        postings = Posting.objects.raw('select * from profile_posting where id not in (select posting_id from profile_application where student_id = %s);' % student.id)
+        count = len(list(postings))
 
-    student = Student.objects.get(user=request.user)
-    apps = Application.objects.filter(student=student)
-    applications = [app.posting.id for app in apps]
     return render_to_response('student_home.html', {'postings':postings, 'count':count, 
-        'applications':applications,'context_list':context_list, 'student':student}, context_instance=RequestContext(request))
+        'context_list':context_list, 'student':student}, context_instance=RequestContext(request))
 
 @login_required
 def company_home(request):

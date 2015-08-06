@@ -53,7 +53,6 @@
 <div class="section">
   <div class="results z-depth-1">
     {% for posting in postings %}
-    {% if posting.id not in applications %}
     <div class="result" name="{{ posting.id }}">
       <div class="row">
         <div class="col m2 s12 company-logo">
@@ -80,7 +79,7 @@
       <div class="row detail" id="{{posting.id}}">
         <h6>About {{ posting.company.name }}:</h6>
         <p>{{ posting.company.about }}</p>
-        <h6>Job Description:</h6>
+        <h6>Description:</h6>
         <p>{{ posting.description|safe }}</p>
       </div>
     </div>
@@ -88,7 +87,6 @@
 
     <div class="row block">
     </div>
-    {% endif %}
     {% endfor %}
   </div>
 </div>
