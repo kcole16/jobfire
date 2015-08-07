@@ -16,7 +16,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from apps.profile.forms import StudentForm, CompanyForm, PostingForm
+from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm
 from apps.profile.models import *
 from apps.profile.utils import add_to_algolia, send_mail, send_conf_email, format_city
 
@@ -286,6 +286,39 @@ def update_posting(request, posting_id):
         form = PostingForm(instance=posting)
     return render_to_response('update_posting.html',
                               {'form': form, 'posting':posting, 'company':company},
+                              context_instance=RequestContext(request))
+
+@login_required
+def update_profile(request):
+    student = Student.objects.get(user=request.user)
+    semester = None
+    grad_year = None
+    if request.POST:
+        form = StudentUpdateForm(request.POST, request.FILES, instance=student)
+        if form.is_valid():
+            form.save()
+            student.graduation_date = "%s %s" % (form.cleaned_data['semester'],
+                form.cleaned_data['grad_year'])
+            if form.cleaned_data['resume']:
+                resume = request.FILES['resume'].read()
+                uuid = uuid4()
+                s3 = default_storage.open('jobfire/resumes/%s' % uuid, 'w')
+                s3.write(resume)
+                s3.close()
+                student.resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
+            student.save()
+            return redirect('student_profile')
+        else:
+            print form.errors
+        # add_to_algolia(posting)
+    else:
+        form = StudentUpdateForm(instance=student)
+        grad_info = student.graduation_date.split(' ')
+        semester = grad_info[0]
+        grad_year = grad_info[1]
+    return render_to_response('update_profile.html',
+                              {'form': form, 'semester':semester, 'grad_year':grad_year,
+                              'student':student},
                               context_instance=RequestContext(request))
 
 def company_applications(request):

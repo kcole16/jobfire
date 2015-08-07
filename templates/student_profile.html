@@ -4,7 +4,6 @@
 {% load staticfiles %}
 
 <div class="container">
-  <br><br>
   <div class="row">
     <h3>{{ student.first_name }} {{ student.last_name}}</h3><br>
   </div>
@@ -12,8 +11,9 @@
       <p class="flow-text"><strong>Expected Graduation:</strong> {{ student.graduation_date }}</li>
       <p class="flow-text"><strong>Major:</strong> {{ student.major.name }}</li>
       <p class="flow-text"><strong>LinkedIn:</strong> {{ student.linkedin }}</li>
-      <p class="flow-text"><strong>Github/Portfolio URL:</strong> {{ student.github }}</li>
+      <p class="flow-text"><strong>Github/Portfolio URL:</strong> {{ student.portfolio }}</li>
       <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></li>
+      <p class="flow-text"><a href="{% url 'update_profile' %}">Update</a></li>
   </div>
 </div>
 <script>

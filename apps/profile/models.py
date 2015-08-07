@@ -21,6 +21,9 @@ class Industry(models.Model):
 class Major(models.Model):
 	name = models.CharField(max_length=100)
 
+	def __unicode__(self):
+	    return u'{0}'.format(self.name)
+
 class Student(models.Model):
 	user = models.ForeignKey(User)
 	first_name = models.CharField(max_length=500)
