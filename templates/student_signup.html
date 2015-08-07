@@ -3,7 +3,8 @@
 {% block content %}
 {% load staticfiles %}
 <div class="container">
-      <h3>Student Signup</h3>
+      <br>
+      <h4>Student Signup</h4>
       <div class="row">
         {% if errors != None %}
         {{ form.errors }}
@@ -51,7 +52,20 @@
                   <option value="{{ major.name }}">{{ major.name }}</option>
                   {% endfor %}
                 </select>
-                <label>Major</label>
+                <label>Major:</label>
+              </div>
+           </div>
+            <label>Graduation Date:</label>
+            <div class="row">
+              <div class="col s4 m4">
+                <select name="semester" id="id_semester" required>
+                  <option value="" disabled selected>Semester</option>
+                  <option value="Spring">Spring</option>
+                  <option value="Winter">Winter</option>
+                </select>
+              </div>
+              <div class="grad-year col s4 m4">
+                <input type="text" name="grad_year" id="id_grad_year" placeholder="Year" required>
               </div>
            </div>
           <div class="file-field input-field">

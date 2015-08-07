@@ -42,7 +42,6 @@ def home(request):
 @login_required
 def student_home(request):
     student = Student.objects.get(user=request.user)
-    print student.confirmed
     client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
     index = client.init_index('Postings')
     context_list = []
@@ -82,9 +81,17 @@ def company_home(request):
 
 @login_required
 def posting_detail(request, posting_id):
+    applied = False
+    student = Student.objects.get(user=request.user)
     posting = Posting.objects.get(pk=posting_id)
+    try:
+        application = Application.objects.get(student=student, posting=posting)
+    except ObjectDoesNotExist:
+        pass
+    else:
+        applied = True
     return render_to_response('posting_detail.html', 
-        {'posting':posting}, context_instance=RequestContext(request))
+        {'posting':posting, 'applied':applied}, context_instance=RequestContext(request))
 
 @login_required
 def view_posting(request, posting_id):
@@ -149,6 +156,8 @@ def student_signup(request):
                 user.set_password(form.cleaned_data['password'])
                 user.save()
 
+                graduation_date = "%s %s" % (form.cleaned_data['semester'],
+                    form.cleaned_data['grad_year'])
                 major = Major.objects.get(name=form.cleaned_data['major'])
                 industry = Industry.objects.get(name="Technology")
                 student = Student(user=user,
@@ -157,6 +166,7 @@ def student_signup(request):
                                     email=form.cleaned_data['email'],
                                     major=major,
                                     university=university,
+                                    graduation_date=graduation_date,
                                     resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
                                     )
                 student.save()

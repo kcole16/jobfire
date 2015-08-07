@@ -9,9 +9,10 @@
     <h3>{{ student.first_name }} {{ student.last_name}}</h3><br>
   </div>
   <div class="row">
-      <p class="flow-text"><strong>Email:</strong> {{ student.email }}</li>
-      <p class="flow-text"><strong>University:</strong> {{ student.university.name }}</li>
+      <p class="flow-text"><strong>Expected Graduation:</strong> {{ student.graduation_date }}</li>
       <p class="flow-text"><strong>Major:</strong> {{ student.major.name }}</li>
+      <p class="flow-text"><strong>LinkedIn:</strong> {{ student.linkedin }}</li>
+      <p class="flow-text"><strong>Github/Portfolio URL:</strong> {{ student.github }}</li>
       <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></li>
   </div>
 </div>

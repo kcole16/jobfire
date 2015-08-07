@@ -27,7 +27,9 @@ class Student(models.Model):
 	last_name = models.CharField(max_length=500)
 	email = models.CharField(max_length=500)
 	major = models.ForeignKey(Major)
-	industries = models.ManyToManyField(Industry)
+	graduation_date = models.CharField(max_length=100)
+	portfolio = models.CharField(max_length=100, null=True)
+	linkedin = models.CharField(max_length=100, null=True)
 	university = models.ForeignKey(University)
 	resume_s3 = models.CharField(max_length=1000)
 	confirmed = models.BooleanField(default=False)
@@ -52,12 +54,12 @@ class Recruiter(models.Model):
 class Posting(models.Model):
 	date_created = models.DateField(auto_now_add=True)
 	expiration_date = models.DateField()
-	job_start_date = models.CharField(max_length=100, choices=(('immediate','Immediate'),('flexible','Flexible')))
+	job_start_date = models.CharField(max_length=100, choices=(('Immediate','Immediate'),('Flexible','Flexible')))
 	position = models.CharField(max_length=100)
-	role = models.CharField(max_length=100, choices=(('engineering','Engineering'),
-		('product','product'),('business','business')))
-	job_type = models.CharField(max_length=100, choices=(('full-time','Full-Time'), 
-		('part-time','Part-Time'), ('internship','Internship')))
+	role = models.CharField(max_length=100, choices=(('Engineering','Engineering'),
+		('Product','Product'),('Business','Business')))
+	job_type = models.CharField(max_length=100, choices=(('Full-time','Full-Time'), 
+		('Internship (Summer)','Internship (Summer)'), ('Internship (School Year)','Internship (School Year)')))
 	company = models.ForeignKey(Company)
 	location = models.CharField(max_length=100)
 	university = models.ForeignKey(University)

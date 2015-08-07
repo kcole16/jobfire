@@ -10,6 +10,8 @@ class StudentForm(forms.Form):
     password = forms.CharField(label="Password")
     email = forms.CharField(label="Email")
     major = forms.CharField(label="Major")
+    grad_year = forms.CharField(label="Graduation Date")
+    semester = forms.CharField()
     resume = forms.FileField()
 
     def clean(self):
