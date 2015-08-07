@@ -83,10 +83,6 @@ div.col.m2.s12.company-logo {
 .apply-logo {
 	text-align: center;
 }
-.company-logo {
-	width: 100px;
-	height: 100px;
-}
 .select-wrapper input.select-dropdown {
 	border-bottom: none;
 }
@@ -107,6 +103,15 @@ div.col.m3.s4.clear {
 .company-logo {
 	height: 105px;
 	width: 105px;
+}
+.student-logo {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    color: gray;
+    background-color: lightgray;
 }
 a#logo {
 	padding-top: 10px;

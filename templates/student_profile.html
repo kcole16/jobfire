@@ -4,8 +4,13 @@
 {% load staticfiles %}
 
 <div class="container">
+  <br><br>
   <div class="row">
-    <h3>{{ student.first_name }} {{ student.last_name}}</h3><br>
+    <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
+<!--     <img class="company-logo z-depth-1 circle responsive-img" src="{% static 'img/kendall.jpg' %}">
+ -->    
+    <h3 class="light">{{ student.first_name }} {{ student.last_name}}</h3><a href="{% url 'update_profile' %}">Update</a>
+
   </div>
   <div class="row">
       <p class="flow-text"><strong>Expected Graduation:</strong> {{ student.graduation_date }}</li>
@@ -13,7 +18,6 @@
       <p class="flow-text"><strong>LinkedIn:</strong> {{ student.linkedin }}</li>
       <p class="flow-text"><strong>Github/Portfolio URL:</strong> {{ student.portfolio }}</li>
       <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></li>
-      <p class="flow-text"><a href="{% url 'update_profile' %}">Update</a></li>
   </div>
 </div>
 <script>
