@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'apps.profile',
+    'apps.panel',
     'storages',
     'tinymce',
 )

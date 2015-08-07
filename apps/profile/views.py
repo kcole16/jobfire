@@ -54,7 +54,7 @@ def student_home(request):
         postings = index.search(query)['hits']
         count = len(postings)
     else:
-        postings = Posting.objects.raw('select * from profile_posting where id not in (select posting_id from profile_application where student_id = %s);' % student.id)
+        postings = Posting.objects.raw('select * from profile_posting where id not in (select posting_id from profile_application where student_id = %s) and university_id = %s;' % (student.id, student.university.id))
         count = len(list(postings))
 
     return render_to_response('student_home.html', {'postings':postings, 'count':count, 

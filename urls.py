@@ -27,6 +27,9 @@ urlpatterns = patterns('',
     url(r'^update_posting/(.+)/', 'apps.profile.views.update_posting', name='update_posting'),
     url(r'^company_applications/', 'apps.profile.views.company_applications', name='company_applications'),
 
+    #Admin
+    url(r'^panel/create_university/', 'apps.panel.views.create_university', name='create_university'),
+
     #Privacy and Terms
     url(r'^privacy/', 'apps.profile.views.privacy', name='privacy'),
     url(r'^about/', 'apps.profile.views.about', name='about'),

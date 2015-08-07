@@ -42,8 +42,8 @@
   </head>
 <body>
   <div class="side-nav fixed">
-    <div class="side-nav-header" id="student" style="background-color:navy;">
-      <a href="{% url 'home' %}" id="school-logo"><img src="{% static "img/uva-logo-white.png" %}"></a>
+    <div class="side-nav-header" id="student" style="background-color:{{ student.university.color_main }};">
+      <a href="{% url 'home' %}" id="school-logo"><img class="university-logo" src="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/{{ student.university.logo }}"></a>
     </div>
     <ul id="slide-out">
     <li><a href="{% url 'student_profile' %}" id="sidenav">My Profile</a></li>

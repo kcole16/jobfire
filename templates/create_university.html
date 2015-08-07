@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}JobFire{% endblock %}
+{% block content %}
+{% load staticfiles %}
+<div class="container">
+      <br>
+      <h4>Create University</h4>
+      <div class="row">
+        {% if errors != None %}
+        {{ form.errors }}
+        {% endif %}
+        <form class="col s12" role="form" id="register" method="POST" action="{% url 'create_university' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+        <button class="btn waves-light red darken-4" type="submit" name="action">Submit
+            <i class="mdi-content-send right"></i>
+        </button>
+          </form>
+      </div>
+  </div>
+  <script>
+    $(document).ready(function() {
+  </script>
+{% endblock %}
