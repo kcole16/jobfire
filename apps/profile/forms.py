@@ -30,6 +30,12 @@ class StudentUpdateForm(forms.ModelForm):
         model = Student
         fields = ['major', 'linkedin', 'portfolio']
 
+    def clean(self):
+        cleaned_data = super(StudentForm, self).clean()
+        for name in self.fields:
+            if not self[name].html_name in self.data and self.fields[name].initial is not None:
+                cleaned_data[name] = self.fields[name].initial
+        return cleaned_data
 
 class CompanyForm(forms.Form):
     name = forms.CharField(label="Name")
