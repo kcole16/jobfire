@@ -34,7 +34,7 @@ class StudentUpdateForm(forms.ModelForm):
         cleaned_data = super(StudentUpdateForm, self).clean()
         for name in self.fields:
             if not self[name].html_name in self.data:
-                cleaned_data[name] = self.fields[name].initial
+                cleaned_data[name] = None
         return cleaned_data
 
 class CompanyForm(forms.Form):
