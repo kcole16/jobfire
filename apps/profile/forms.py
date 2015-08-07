@@ -31,7 +31,7 @@ class StudentUpdateForm(forms.ModelForm):
         fields = ['major', 'linkedin', 'portfolio']
 
     def clean(self):
-        cleaned_data = super(StudentForm, self).clean()
+        cleaned_data = super(StudentUpdateForm, self).clean()
         for name in self.fields:
             if not self[name].html_name in self.data and self.fields[name].initial is not None:
                 cleaned_data[name] = self.fields[name].initial
