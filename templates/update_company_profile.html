@@ -1,0 +1,87 @@
+{% extends "company_base.html" %}
+{% block title %}JobFire{% endblock %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+  <h3>{{ company.name }}</h3>
+  <br>
+  <div class="row">
+    {% if errors != None %}
+    {{ errors }}
+    {% endif %}
+      <form class="col s12" role="form" method="POST" action="{% url 'update_company_profile' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="input-field col s12">
+            <label>Company Name</label>
+            {{ form.name }}
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label for="email">Contact Email</label>
+            <input name="email" id="id_email" type="text" value="{{ recruiter.email }}">
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label for="password">New Password</label>
+            <input name="password" id="id_password" type="password">
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label>Confirm New Password</label>
+            <input name="password_check" id="id_password_check" type="password">
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label>URL</label>
+            {{ form.url }}
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label>Detailed Description</label>
+            {{ form.about }}
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            {{ form.address }}
+            <label>Address</label>
+          </div>
+       </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label>Phone</label>
+            {{ form.phone }}
+          </div>
+       </div>
+        <div class="file-field input-field">
+          <input class="file-path validate" type="text" value="Logo" />
+            <div class="btn blue-grey">
+              <span>File</span>
+              <input type="file" name="logo" id="id_logo" accept="image/*" />
+            </div>
+      </div>
+    <button class="btn waves-light red darken-4" type="submit" name="action">Update
+        <i class="mdi-content-send right"></i>
+    </button>
+      </form>
+  </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#id_password_check').focusout(function(){
+        var pass = $('#id_password').val();
+        var pass2 = $('#id_password_check').val();
+        if(pass != pass2){
+            alert('Passwords do not match!');
+            $('#id_password_check').focus();
+        }
+    });
+  });
+</script>
+{% endblock %}

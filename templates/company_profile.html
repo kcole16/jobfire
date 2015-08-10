@@ -1,0 +1,24 @@
+{% extends "company_base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+{% load staticfiles %}
+
+<div class="container">
+  <br><br>
+  <div class="row">
+    <img class="company-logo z-depth-1 circle responsive-img" src="{{ company.logo }}">
+    <h3 class="light">{{ company.name }}</h3><a href="{% url 'update_company_profile' %}">Update</a>
+  </div>
+  <div class="row">
+      <p class="flow-text"><strong>Contact Email:</strong> {{ recruiter.email }}</li>
+      <p class="flow-text"><strong>URL:</strong> {{ company.url }}</li>
+      <p class="flow-text"><strong>About:</strong> {{ company.about }}</li>
+      <p class="flow-text"><strong>Address:</strong> {{ company.address }}</li>
+      <p class="flow-text"><strong>Phone:</strong> {{ company.phone }}</li>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+  });
+</script>
+{% endblock %}

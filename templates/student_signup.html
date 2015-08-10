@@ -90,6 +90,7 @@
           var pass2 = $('#id_password_check').val();
           if(pass != pass2){
               alert('Passwords do not match!');
+              $('#id_password_check').focus();
           }
       });
       mixpanel.track_forms("#register", "Student Signed Up");

@@ -20,12 +20,14 @@ urlpatterns = patterns('',
     url(r'^confirm_email/(.+)/', 'apps.profile.views.confirm_email', name='confirm_email'),
 
     #Companies
-    url(r'^company_signup/', 'apps.profile.views.company_signup', name='company_signup'),
-    url(r'^dashboard/', 'apps.profile.views.company_home', name='company_home'),
-    url(r'^create_posting/', 'apps.profile.views.create_posting', name='create_posting'),
-    url(r'^view_posting/(.+)/', 'apps.profile.views.view_posting', name='view_posting'),
-    url(r'^update_posting/(.+)/', 'apps.profile.views.update_posting', name='update_posting'),
-    url(r'^company_applications/', 'apps.profile.views.company_applications', name='company_applications'),
+    url(r'^company_signup/', 'apps.company.views.company_signup', name='company_signup'),
+    url(r'^dashboard/', 'apps.company.views.company_home', name='company_home'),
+    url(r'^create_posting/', 'apps.company.views.create_posting', name='create_posting'),
+    url(r'^view_posting/(.+)/', 'apps.company.views.view_posting', name='view_posting'),
+    url(r'^update_posting/(.+)/', 'apps.company.views.update_posting', name='update_posting'),
+    url(r'^company_applications/', 'apps.company.views.company_applications', name='company_applications'),
+    url(r'^company_profile/', 'apps.company.views.company_profile', name='company_profile'),
+    url(r'^update_company_profile/', 'apps.company.views.update_company_profile', name='update_company_profile'),
 
     #Admin
     url(r'^panel/create_university/', 'apps.panel.views.create_university', name='create_university'),

@@ -61,25 +61,6 @@ def student_home(request):
         'context_list':context_list, 'student':student}, context_instance=RequestContext(request))
 
 @login_required
-def company_home(request):
-    company = Recruiter.objects.get(user=request.user).company
-    postings = Posting.objects.filter(company=company)
-    count = 0
-    list_num = 0
-    posting_list = [[]]
-    for posting in postings:
-        if count < 3:
-            posting_list[list_num].append(posting)
-            count += 1
-        else:
-            count = 1
-            list_num += 1
-            posting_list.append([posting])
-
-    return render_to_response('company_home.html', {'posting_list':posting_list, 'company':company}, 
-        context_instance=RequestContext(request))
-
-@login_required
 def posting_detail(request, posting_id):
     applied = False
     student = Student.objects.get(user=request.user)
@@ -92,13 +73,6 @@ def posting_detail(request, posting_id):
         applied = True
     return render_to_response('posting_detail.html', 
         {'posting':posting, 'applied':applied}, context_instance=RequestContext(request))
-
-@login_required
-def view_posting(request, posting_id):
-    company = Recruiter.objects.get(user=request.user).company
-    posting = Posting.objects.get(pk=posting_id)
-    return render_to_response('view_posting.html', 
-        {'posting':posting, 'company':company}, context_instance=RequestContext(request))
 
 @login_required
 def apply(request, posting_id):
@@ -201,92 +175,6 @@ def student_signup(request):
                               'industries':industries, 'majors':majors},
                               context_instance=RequestContext(request))
 
-def company_signup(request):
-    if request.POST:
-        form = CompanyForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                logo = request.FILES['logo'].read()
-            except MultiValueDictKeyError:
-                logo = "Ask"
-            uuid = uuid4()
-            s3 = default_storage.open('jobfire/company_logos/%s' % uuid, 'w')
-            s3.write(logo)
-            s3.close()
-            email = form.cleaned_data['email']
-            try:
-                user = User.objects.create_user(email, email, 'password')
-            except IntegrityError:
-                message = 'An account already exists for this email address'
-                return render_to_response('company_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            industry = Industry.objects.get(name="Technology")
-            company = Company(name=form.cleaned_data['name'],
-                                logo="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/company_logos/%s" % uuid,
-                                about=form.cleaned_data['about'],
-                                url=form.cleaned_data['url'],
-                                address=form.cleaned_data['address'],
-                                phone=form.cleaned_data['phone'],
-                                industry=industry
-                                )
-            company.save()
-            recruiter = Recruiter(user=user, first_name=company, last_name=company, 
-                email=form.cleaned_data['email'], company=company)
-            recruiter.save()
-            current_user = authenticate(username=recruiter.email,
-                                        password=form.cleaned_data['password'])
-            login(request, current_user)
-            return redirect('company_home')
-        else:
-            logger.error(form.errors)
-    else:
-        form = CompanyForm()
-    return render_to_response('company_signup.html',
-                              {'form': form},
-                              context_instance=RequestContext(request))
-
-@login_required
-def create_posting(request):
-    company = Recruiter.objects.get(user=request.user).company
-    if request.POST:
-        form = PostingForm(request.POST)
-        form.is_valid()
-        expiration_date = datetime.datetime.now() + datetime.timedelta(days=90)
-        posting = Posting(expiration_date=expiration_date,
-                            job_start_date=form.cleaned_data['job_start_date'],
-                            position=form.cleaned_data['position'],
-                            job_type=form.cleaned_data['job_type'],
-                            company=company,
-                            role=form.cleaned_data['role'],
-                            location=form.cleaned_data['location'],
-                            university=form.cleaned_data['university'],
-                            description=form.cleaned_data['description']
-                            )
-        posting.save()
-        # add_to_algolia(posting)
-        return redirect('home')
-    else:
-        form = PostingForm()
-    return render_to_response('create_posting.html',
-                              {'form': form, 'company':company},
-                              context_instance=RequestContext(request))
-
-@login_required
-def update_posting(request, posting_id):
-    posting = Posting.objects.get(pk=posting_id)
-    company = posting.company
-    if request.POST:
-        form = PostingForm(request.POST, instance=posting)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-        # add_to_algolia(posting)
-    else:
-        form = PostingForm(instance=posting)
-    return render_to_response('update_posting.html',
-                              {'form': form, 'posting':posting, 'company':company},
-                              context_instance=RequestContext(request))
 
 @login_required
 def update_profile(request):
@@ -320,11 +208,6 @@ def update_profile(request):
                               {'form': form, 'semester':semester, 'grad_year':grad_year,
                               'student':student},
                               context_instance=RequestContext(request))
-
-def company_applications(request):
-    company = Recruiter.objects.get(user=request.user).company
-    applications = Application.objects.filter(company=company)
-    return render_to_response('company_applications.html', {'company':company})
 
 def confirm_email(request, email_token):
     success = False
