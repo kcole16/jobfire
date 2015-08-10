@@ -84,7 +84,7 @@
     $(document).ready(function() {
       mixpanel.track('Viewed Company Signup');
       $('select').material_select();
-      $('#id_url').focusout(function(){
+      $('#id_url').change(function(){
         var url = $(this).val();
         if (validateURL(url) === false) {
           alert('Please enter a valid URL (include www)');
