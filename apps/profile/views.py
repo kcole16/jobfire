@@ -16,6 +16,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm
 from apps.profile.models import *
 from apps.profile.utils import add_to_algolia, send_mail, send_conf_email, format_city
@@ -51,11 +52,21 @@ def student_home(request):
         for k in request.GET.dict():
             query += " %s" % str(args[k].decode('utf-8'))
             context_list.append(args[k])
-        postings = index.search(query)['hits']
-        count = len(postings)
+        postings_list = index.search(query)['hits']
+        count = len(postings_list)
     else:
-        postings = Posting.objects.raw('select * from profile_posting where id not in (select posting_id from profile_application where student_id = %s) and university_id = %s;' % (student.id, student.university.id))
-        count = len(list(postings))
+        postings_list = Posting.objects.raw('select * from profile_posting where id not in (select posting_id from profile_application where student_id = %s) and university_id = %s;' % (student.id, student.university.id))
+        count = len(list(postings_list))
+
+    paginator = Paginator(postings_list, 25) # Show 25 contacts per page
+    paginator._count = len(list(postings_list))
+    page = request.GET.get('page')
+    try:
+        postings = paginator.page(page)
+    except PageNotAnInteger:
+        postings = paginator.page(1)
+    except EmptyPage:
+        postings = paginator.page(paginator.num_pages)
 
     return render_to_response('student_home.html', {'postings':postings, 'count':count, 
         'context_list':context_list, 'student':student}, context_instance=RequestContext(request))
