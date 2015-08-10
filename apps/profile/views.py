@@ -203,7 +203,7 @@ def student_signup(request):
 
 def company_signup(request):
     if request.POST:
-        form = CompanyForm(request.POST)
+        form = CompanyForm(request.POST, request.FILES)
         if form.is_valid():
             try:
                 logo = request.FILES['logo'].read()
