@@ -2,6 +2,8 @@
 {% block title %}JobFire{% endblock %}
 {% block content %}
 {% load staticfiles %}
+{% block extra_head %}
+{% endblock extra_head %}
       <!--   Icon Section   -->
 <div class="section">
     {% if posting_list.0|length != 0 %}
@@ -23,6 +25,7 @@
             <div class="card-action">
               <a href="{% url 'view_posting' posting.id%}">View</a>
               <a href="{% url 'update_posting' posting.id%}">Update</a>
+              <a class="red-text remove" href="#" name="{{ posting.id }}">Remove</a>
             </div>
           </div>
         </div>
@@ -36,44 +39,27 @@
     </div>
     {% endif %}
 </div>
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <h4>Delete Posting</h4>
+    <p>Are you sure you want to delete this posting?</p>
+  </div>
+  <div class="modal-footer">
+    <a class="btn green white-text modal-action modal-close waves-effect waves-green btn-flat">No</a>
+    <a id="yes" class="btn red white-text waves-effect waves-green btn-flat" style="margin-right:5px;">Yes, I'm sure</a>
+  </div>
+</div>
 <script>
   $(document).ready(function(){
-    var selected = {};
-    location.search.substr(1).split("&").forEach(function (pair) {
-        if (pair === "") return;
-        var parts = pair.split("=");
-        selected[parts[0]] = parts[1] &&
-        decodeURIComponent(parts[1].replace(/\+/g, " "));
-    });
-    console.log(selected);
-    for (var key in selected) {
-      $('option[name='+key+']').removeAttr('selected');
-      $('option[value='+selected[key]+']').attr('selected', true);
-    };
     $('select').material_select();
-    $('select').change(function() {
-      var q = $(this).val();
-      var base = $(this).attr("name")
-      if(String(window.location.href).indexOf('?') > -1){
-        var url = window.location.href + "&"+base + "=" + q;
-      } else {
-        var url = window.location.href + "?"+base + "=" + q;
-      }
-      $(location).attr('href',url);
+    $('.remove').click(function(){
+      $('#modal1').openModal();
     });
-    $('input[id=search]').keypress(function(e){
-      if (e.which == 13) {
-        e.preventDefault();
-        var q = $(this).val();
-        if(String(window.location.href).indexOf('?') > -1){
-          var url = window.location.href + "&"+"q" + "=" + q;
-        } else {
-          var url = window.location.href + "?"+"q" + "=" + q;
-        }
-        $(location).attr('href',url);
-      }
+    $('#yes').click(function(){
+      var posting_id = $('.remove').attr('name');
+      console.log($('.remove').attr('name'));
+      window.location.href = "/remove_posting/"+posting_id+"/";
     });
-
   });
 </script>
 {% endblock %}

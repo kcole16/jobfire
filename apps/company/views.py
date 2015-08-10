@@ -142,6 +142,14 @@ def view_posting(request, posting_id):
         {'posting':posting, 'company':company}, context_instance=RequestContext(request))
 
 @login_required
+def remove_posting(request, posting_id):
+    company = Recruiter.objects.get(user=request.user).company
+    posting = Posting.objects.get(pk=posting_id)
+    if company.id == posting.company.id:
+    	posting.delete()
+	return redirect('company_home')
+
+@login_required
 def company_profile(request):
 	recruiter = Recruiter.objects.get(user=request.user)
 	company = recruiter.company
