@@ -105,7 +105,7 @@ def applications(request):
     student = Student.objects.get(user=request.user)
     applications = Application.objects.filter(student=student)
     return render_to_response('applications.html', 
-        {'applications':applications}, context_instance=RequestContext(request))
+        {'applications':applications, 'student':student}, context_instance=RequestContext(request))
 
 # @login_required
 # def interviews(request):
