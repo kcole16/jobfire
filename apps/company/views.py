@@ -174,12 +174,14 @@ def update_company_profile(request):
             if form.cleaned_data['password']:
             	request.user.set_password(form.cleaned_data['password'])
             	request.user.save()
-            if form.cleaned_data['email'] != recruiter.email:
-            	email = form.cleaned_data['email']
-            	recruiter.email = email
+            if str(form.cleaned_data['email']) != str(recruiter.email):
+            	user = request.user
+            	new_email = form.cleaned_data['email']
+            	recruiter.email = new_email
             	recruiter.save()
-            	request.user.email = email
-            	request.user.save()
+            	user.email = new_email
+            	user.username = new_email
+            	user.save()
             company.save()
             return redirect('company_profile')
         else:
