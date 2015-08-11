@@ -14,9 +14,11 @@ class CompanyForm(forms.Form):
     address = forms.CharField(label="Address")
     phone = forms.CharField(label="Phone")
 
+class UpdatePasswordForm(forms.Form):
+    password = forms.CharField(label="Password")
+
 class UpdateForm(forms.ModelForm):
     logo = forms.FileField(required=False)
-    password = forms.CharField(required=False)
     email = forms.CharField(required=False)
 
     class Meta:

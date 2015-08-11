@@ -25,18 +25,6 @@
        </div>
         <div class="row">
           <div class="input-field col s12">
-            <label for="password">New Password</label>
-            <input name="password" id="id_password" type="password">
-          </div>
-       </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <label>Confirm New Password</label>
-            <input name="password_check" id="id_password_check" type="password">
-          </div>
-       </div>
-        <div class="row">
-          <div class="input-field col s12">
             <label>URL</label>
             {{ form.url }}
           </div>
@@ -74,14 +62,6 @@
 </div>
 <script>
 $(document).ready(function() {
-    $('#id_password_check').focusout(function(){
-        var pass = $('#id_password').val();
-        var pass2 = $('#id_password_check').val();
-        if(pass != pass2){
-            alert('Passwords do not match!');
-            $('#id_password_check').focus();
-        }
-    });
   });
 </script>
 {% endblock %}

@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'apps.panel',
     'storages',
     'tinymce',
+    'password_reset',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -143,6 +144,15 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'kendall@jobfire.co'
+SERVER_EMAIL = 'kendall@jobfire.co'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'kendall@jobfire.co'
+EMAIL_HOST_PASSWORD = os.environ['EMAIL']
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 LOGGING = {
     'version': 1,

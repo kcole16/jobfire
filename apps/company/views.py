@@ -16,7 +16,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from apps.company.forms import CompanyForm, PostingForm, UpdateForm
+from apps.company.forms import CompanyForm, PostingForm, UpdateForm, UpdatePasswordForm
 from apps.profile.models import *
 from apps.profile.utils import add_to_algolia, send_mail, send_conf_email, format_city
 
@@ -171,9 +171,6 @@ def update_company_profile(request):
                 s3.write(logo)
                 s3.close()
                 company.logo="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/company_logos/%s" % uuid
-            if form.cleaned_data['password']:
-            	request.user.set_password(form.cleaned_data['password'])
-            	request.user.save()
             if str(form.cleaned_data['email']) != str(recruiter.email):
             	user = request.user
             	new_email = form.cleaned_data['email']
@@ -191,6 +188,24 @@ def update_company_profile(request):
         form = UpdateForm(instance=company)
     return render_to_response('update_company_profile.html',
                               {'form': form, 'company':company, 'recruiter':recruiter},
+                              context_instance=RequestContext(request))
+
+@login_required
+def change_password(request):
+    company = Recruiter.objects.get(user=request.user).company
+    if request.POST:
+        form = UpdatePasswordForm(request.POST)
+        if form.is_valid():
+            request.user.set_password(form.cleaned_data['password'])
+            request.user.save()
+            return redirect('company_profile')
+        else:
+            print form.errors
+        # add_to_algolia(posting)
+    else:
+        form = UpdatePasswordForm()
+    return render_to_response('change_password.html',
+                              {'form': form, 'company':company},
                               context_instance=RequestContext(request))
 
 def company_applications(request):

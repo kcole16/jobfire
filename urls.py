@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^company_applications/', 'apps.company.views.company_applications', name='company_applications'),
     url(r'^company_profile/', 'apps.company.views.company_profile', name='company_profile'),
     url(r'^update_company_profile/', 'apps.company.views.update_company_profile', name='update_company_profile'),
+    url(r'^change_password/', 'apps.company.views.change_password', name='change_password'),
 
     #Admin
     url(r'^panel/create_university/', 'apps.panel.views.create_university', name='create_university'),
@@ -44,5 +45,6 @@ urlpatterns = patterns('',
 
     #Dependencies
     (r'^tinymce/', include('tinymce.urls')),
+    (r'^password_reset/', include('password_reset.urls')),
 
 )
