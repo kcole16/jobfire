@@ -20,12 +20,12 @@ SECRET_KEY = 'reztln=pcv%oxzs46l(js9tv+mg-a(ac9#09i8v%-eqrbht)5_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['PRODUCTION'] == "True":
-    DEBUG = True
-    TEMPLATE_DEBUG = True
+    DEBUG = False
+    TEMPLATE_DEBUG = False
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['.jobfire-dev.elasticbeanstalk.com','.jobfire-dev.elasticbeanstalk.com.', '.jobfire.com.', '.jobfire.com', 'localhost']
+ALLOWED_HOSTS = ['.jobfire.elasticbeanstalk.com','.jobfire.elasticbeanstalk.com.', '.jobfire.co.', '.jobfire.co', 'localhost']
 
 # Application definition
 
