@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  </head>
+
+  <body>
+    <center>
+      <div class="container-fluid center-block">
+      <div class="center-block">
+        <div class="center-block main">
+          <h1>Companies</h1><br>
+          <div class="list-group">
+            <table class="table table-bordered table-striped">
+              <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>About</th>
+              </tr>
+              {% for company in companies %}
+              <tr>
+                <td>{{ company.name }}</td>
+                <td><a href="{{ company.url }}">{{ company.url }}</a></td>
+                <td>{{ company.address }}</td>
+                <td>{{ company.phone }}</td>
+                <td>{{ company.about }}</td>
+              </tr>
+              {% endfor %}
+            </table>
+        </div>
+      </div>
+    </div>
+  </center>
+
+
+  </body>
+
+</html>

@@ -32,6 +32,10 @@ urlpatterns = patterns('',
 
     #Admin
     url(r'^panel/create_university/', 'apps.panel.views.create_university', name='create_university'),
+    url(r'^panel/view_companies/', 'apps.panel.views.view_companies', name='view_companies'),
+    url(r'^panel/view_universities/', 'apps.panel.views.view_universities', name='view_universities'),
+    url(r'^panel/view_students/(.+)/', 'apps.panel.views.view_students', name='view_students'),
+
 
     #Privacy and Terms
     url(r'^privacy/', 'apps.profile.views.privacy', name='privacy'),

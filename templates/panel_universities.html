@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  </head>
+
+  <body>
+    <center>
+      <div class="container-fluid center-block">
+      <div class="center-block">
+        <div class="center-block main">
+          <h1>Universities</h1><br>
+          <div class="list-group">
+            <table class="table table-bordered table-striped">
+              <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Email Extension</th>
+                <th>View Students</th>
+              </tr>
+              {% for university in universities %}
+              <tr>
+                <td>{{ university.name }}</td>
+                <td>{{ university.address }}</td>
+                <td>{{ university.email_ext }}</td>
+                <td><a href="{% url 'view_students' university.id%}">View Students</a></td>
+              </tr>
+              {% endfor %}
+            </table>
+        </div>
+      </div>
+    </div>
+  </center>
+
+
+  </body>
+
+</html>

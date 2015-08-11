@@ -21,6 +21,7 @@ from apps.profile.models import *
 
 logger = logging.getLogger("error.logger")
 
+
 @staff_member_required
 def create_university(request):
     if request.POST:
@@ -33,3 +34,23 @@ def create_university(request):
     return render_to_response('create_university.html',
                               {'form': form},
                               context_instance=RequestContext(request))
+
+@staff_member_required
+def view_companies(request):
+    companies = Company.objects.all()
+    return render_to_response('panel_companies.html', {'companies':companies},
+        context_instance=RequestContext(request))
+
+@staff_member_required
+def view_universities(request):
+    universities = University.objects.all()
+    return render_to_response('panel_universities.html', {'universities':universities},
+        context_instance=RequestContext(request))
+
+@staff_member_required
+def view_students(request, university_id):
+    university = University.objects.get(pk=university_id)
+    students = Student.objects.filter(university=university)
+    return render_to_response('panel_students.html', {'students':students},
+        context_instance=RequestContext(request))
+
