@@ -83,7 +83,7 @@ def posting_detail(request, posting_id):
     else:
         applied = True
     return render_to_response('posting_detail.html', 
-        {'posting':posting, 'applied':applied}, context_instance=RequestContext(request))
+        {'posting':posting, 'applied':applied, 'student':student}, context_instance=RequestContext(request))
 
 @login_required
 def apply(request, posting_id):
