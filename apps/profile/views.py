@@ -43,7 +43,7 @@ def home(request):
 @login_required
 def student_home(request):
     student = Student.objects.get(user=request.user)
-    client = algoliasearch.Client("E4AL29PC9K", os.environ['ALGOLIA_KEY']);
+    client = algoliasearch.Client("74PKG6FSJB", os.environ['ALGOLIA_KEY']);
     index = client.init_index('Postings')
     context_list = []
     query = ""
