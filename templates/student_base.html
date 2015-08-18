@@ -43,10 +43,11 @@
 <body>
     <ul class="side-nav fixed" id="slide-out">
       <li class="side-nav-header" id="student" style="background-color:{{ student.university.color_main }};"><a href="{% url 'home' %}" id="school-logo"><img class="university-logo" src="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/{{ student.university.logo }}"></a></li>
-      <li><a href="{% url 'student_profile' %}" id="sidenav">My Profile</a></li>
-      <li><a href="{% url 'student_home' %}" id="sidenav">Available Jobs</a></li>
-      <li><a href="{% url 'applications' %}" id="sidenav">Applications</a></li>
-      <li><a href="{% url 'logout' %}" id="sidenav">Logout</a></li>
+      <li>
+      <a href="{% url 'student_profile' %}" id="sidenav"><i class="tiny material-icons circle">perm_identity</i>  My Profile</a></li>
+      <li><a href="{% url 'student_home' %}" id="sidenav"><i class="tiny material-icons circle">search</i>  Available Jobs</a></li>
+      <li><a href="{% url 'applications' %}" id="sidenav"><i class="tiny material-icons circle">toc</i>  Applications</a></li>
+      <li><a href="{% url 'logout' %}" id="sidenav"><i class="tiny material-icons circle">settings_power</i>  Logout</a></li>
     </ul>
     <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu small"></i></a>
     <div id="content">{% block content %}{% endblock %}</div>

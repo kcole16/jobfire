@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^student_profile/', 'apps.profile.views.student_profile', name='student_profile'),
     url(r'^update_profile/', 'apps.profile.views.update_profile', name='update_profile'),
     url(r'^confirm_email/(.+)/', 'apps.profile.views.confirm_email', name='confirm_email'),
+    url(r'^update_password/', 'apps.profile.views.update_password', name='update_password'),
 
     #Companies
     url(r'^company_signup/', 'apps.company.views.company_signup', name='company_signup'),

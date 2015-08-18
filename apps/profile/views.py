@@ -17,7 +17,7 @@ from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm
+from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm, UpdatePasswordForm
 from apps.profile.models import *
 from apps.profile.utils import send_mail, send_conf_email, format_city
 
@@ -217,6 +217,23 @@ def update_profile(request):
     return render_to_response('update_profile.html',
                               {'form': form, 'semester':semester, 'grad_year':grad_year,
                               'student':student},
+                              context_instance=RequestContext(request))
+
+@login_required
+def update_password(request):
+    student = Student.objects.get(user=request.user)
+    if request.POST:
+        form = UpdatePasswordForm(request.POST)
+        if form.is_valid():
+            request.user.set_password(form.cleaned_data['password'])
+            request.user.save()
+            return redirect('student_profile')
+        else:
+            print form.errors
+    else:
+        form = UpdatePasswordForm()
+    return render_to_response('update_password.html',
+                              {'form': form, 'student':student},
                               context_instance=RequestContext(request))
 
 def confirm_email(request, email_token):

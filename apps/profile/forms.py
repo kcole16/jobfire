@@ -56,3 +56,6 @@ class PostingForm(forms.ModelForm):
             location = format_city(self.cleaned_data['location'])
 
             return location 
+            
+class UpdatePasswordForm(forms.Form):
+    password = forms.CharField(label="Password")

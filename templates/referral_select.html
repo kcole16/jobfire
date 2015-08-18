@@ -9,31 +9,31 @@
     {% if errors != None %}
     {{ errors }}
     {% endif %}
-      <form class="col s12" role="form" method="POST" action="{% url 'update_profile' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-    <ul class="collection referrals">
-    {% for result in results %}
-      <li class="collection-item avatar">
-        <div class="col m6">
-          <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
-          <span class="title">{{ result.name }}</span>
-          <p>{{ result.email }}</p>
-        </div>
-        <div class="input-field col m6 referral">
-          <input hidden type="text" value="{{result.name}}"/>
-          <input hidden type="text" value="{{result.email}}"/>
-          <p class="referral-select">
-            <input type="checkbox" id="id_check_{{result.email}}"/>
-            <label for="id_check_{{result.email}}"></label>
-          </p>            
-        </div>
-      </li>
-    {% endfor %}
-  </ul>
-    <button class="btn waves-light green" type="submit" name="action">Submit
-        <i class="mdi-content-send right"></i>
-    </button>
-      </form>
+    <form class="col s12" role="form" method="POST" action="{% url 'update_profile' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <ul class="collection referrals">
+      {% for result in results %}
+        <li class="collection-item avatar">
+          <div class="col m6">
+            <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
+            <span class="title">{{ result.name }}</span>
+            <p>{{ result.email }}</p>
+          </div>
+          <div class="input-field col m6 referral">
+            <input hidden type="text" value="{{result.name}}"/>
+            <input hidden type="text" value="{{result.email}}"/>
+            <p class="referral-select">
+              <input type="checkbox" id="id_check_{{result.email}}"/>
+              <label for="id_check_{{result.email}}"></label>
+            </p>            
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+      <button class="btn waves-light green" type="submit" name="action">Submit
+          <i class="mdi-content-send right"></i>
+      </button>
+    </form>
   </div>
 </div>
 <script>

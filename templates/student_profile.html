@@ -8,7 +8,7 @@
     <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
 <!--     <img class="company-logo z-depth-1 circle responsive-img" src="{% static 'img/kendall.jpg' %}">
  -->    
-    <h3 class="light">{{ student.first_name }} {{ student.last_name}}</h3><a href="{% url 'update_profile' %}">Update</a>
+    <h3 class="light">{{ student.first_name }} {{ student.last_name}}</h3><a href="{% url 'update_profile' %}">Update</a><a class="change-password" href="{% url 'update_password' %}">Change Password</a>
 
   </div>
   <div class="row">
