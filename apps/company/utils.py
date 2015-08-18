@@ -20,6 +20,7 @@ def add_to_algolia(posting):
     "active":posting.active,
     "description":posting.description,
     "role": posting.role,
+    "job_start_date": posting.job_start_date,
     "id":posting.id
     }]	
     index.save_objects(posting_dict)    
