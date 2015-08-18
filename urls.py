@@ -31,6 +31,10 @@ urlpatterns = patterns('',
     url(r'^update_company_profile/', 'apps.company.views.update_company_profile', name='update_company_profile'),
     url(r'^change_password/', 'apps.company.views.change_password', name='change_password'),
 
+    #Referrals
+    url(r'^google_login/', 'apps.referrals.views.google_login', name='google_login'),
+    url(r'^oauth2callback/', 'apps.referrals.views.oauth2callback', name='oauth2callback'),
+
     #Admin
     url(r'^panel/create_university/', 'apps.panel.views.create_university', name='create_university'),
     url(r'^panel/view_companies/', 'apps.panel.views.view_companies', name='view_companies'),

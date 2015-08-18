@@ -39,6 +39,9 @@ INSTALLED_APPS = (
 
     'apps.profile',
     'apps.panel',
+    'apps.company',
+    'apps.referrals',
+    
     'storages',
     'tinymce',
     'password_reset',

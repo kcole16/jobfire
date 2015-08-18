@@ -19,7 +19,7 @@ from django.db import IntegrityError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm
 from apps.profile.models import *
-from apps.profile.utils import add_to_algolia, send_mail, send_conf_email, format_city
+from apps.profile.utils import send_mail, send_conf_email, format_city
 
 import bugsnag
 from mixpanel import Mixpanel
@@ -209,7 +209,6 @@ def update_profile(request):
             return redirect('student_profile')
         else:
             print form.errors
-        # add_to_algolia(posting)
     else:
         form = StudentUpdateForm(instance=student)
         grad_info = student.graduation_date.split(' ')

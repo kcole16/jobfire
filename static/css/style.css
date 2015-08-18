@@ -133,6 +133,16 @@ a#logo {
 .change-password {
 	margin-left: 10px;
 }
+.referrals {
+	max-width: 500px;
+}
+.referral {
+	display: table-cell;
+	vertical-align: top;
+}
+.referral-select {
+	text-align: right;
+}
 @media only screen and (max-width : 800px) {
 	.search-params {
 		margin-left: 2px;

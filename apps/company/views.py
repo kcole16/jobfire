@@ -18,7 +18,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from apps.company.forms import CompanyForm, PostingForm, UpdateForm, UpdatePasswordForm
 from apps.profile.models import *
-from apps.profile.utils import add_to_algolia, send_mail, send_conf_email, format_city
+from apps.profile.utils import send_mail, send_conf_email, format_city
+from apps.company.utils import add_to_algolia
 
 import bugsnag
 from mixpanel import Mixpanel
@@ -110,7 +111,7 @@ def create_posting(request):
                             description=form.cleaned_data['description']
                             )
         posting.save()
-        # add_to_algolia(posting)
+        add_to_algolia(posting)
         return redirect('home')
     else:
         form = PostingForm()
@@ -126,8 +127,8 @@ def update_posting(request, posting_id):
         form = PostingForm(request.POST, instance=posting)
         if form.is_valid():
             form.save()
+            add_to_algolia(posting)
             return redirect('home')
-        # add_to_algolia(posting)
     else:
         form = PostingForm(instance=posting)
     return render_to_response('update_posting.html',
@@ -183,7 +184,6 @@ def update_company_profile(request):
             return redirect('company_profile')
         else:
             print form.errors
-        # add_to_algolia(posting)
     else:
         form = UpdateForm(instance=company)
     return render_to_response('update_company_profile.html',
@@ -201,7 +201,6 @@ def change_password(request):
             return redirect('company_profile')
         else:
             print form.errors
-        # add_to_algolia(posting)
     else:
         form = UpdatePasswordForm()
     return render_to_response('change_password.html',
