@@ -32,9 +32,9 @@
             </select>
           </div>
           <div class="col m3 s4 param">
-            <select name="industries" id="id_industries" required>
-              <option name="industries" value="" disabled selected>Role</option>
-              <option value="Engineer">Engineering</option>
+            <select name="role" id="id_role" required>
+              <option name="role" value="" disabled selected>Role</option>
+              <option value="Engineering">Engineering</option>
               <option value="Product">Product</option>
               <option value="Business">Business</option>
             </select>
@@ -134,12 +134,13 @@
 
     $('select').change(function() {
       var q = $(this).val();
-      var base = $(this).attr("name")
-      if(String(window.location.href).indexOf('?') > -1){
-        var url = window.location.href + "&"+base + "=" + q;
-      } else {
-        var url = window.location.href + "?"+base + "=" + q;
+      var base = $(this).attr("name");
+      var url = window.location.href.split('?')[0] + '?';
+      selected[base] = q;
+      for (var key in selected) {
+        url = url+key + "=" + selected[key] + "&";
       }
+      url = url.replace(/&$/, '');
       $(location).attr('href',url);
     });
 
