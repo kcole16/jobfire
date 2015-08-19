@@ -43,22 +43,32 @@ def home(request):
 @login_required
 def student_home(request):
     student = Student.objects.get(user=request.user)
-    client = algoliasearch.Client("74PKG6FSJB", os.environ['ALGOLIA_KEY']);
-    index = client.init_index('Postings')
+    # client = algoliasearch.Client("74PKG6FSJB", os.environ['ALGOLIA_KEY']);
+    # index = client.init_index('Postings')
     context_list = []
     query = ""
-    keys = request.GET.dict().keys()
-    if 'location' in keys or 'job_type' in keys or 'role' in keys:
-        args = request.GET.dict()
-        for k in request.GET.dict():
-            query += " %s" % str(args[k].decode('utf-8'))
-            context_list.append(args[k])
-        postings_list = index.search(query)['hits']
-        count = len(postings_list)
-    else:
-        postings_list = Posting.objects.raw('select * from profile_posting where id not in (select posting_id from profile_application where student_id = %s) and university_id = %s;' % (student.id, student.university.id))
-        count = len(list(postings_list))
+    args = request.GET.dict()
+    if 'q' in args.keys():
+        args['q'] = str(args['q'].decode('utf-8'))
+        args['description__contains'] = args.pop('q')
+        # for k in args:
+        #     query += " %s" % str(args[k].decode('utf-8'))
+        #     context_list.append(args[k])
+        # results = index.search(query)['hits']
+        # postings_list = []
+        # for result in results:
+        #     for k in args:
+        #         if result[k] == args[k]:
+        #             postings_list.append(result)
+        # count = len(postings_list)
+        # postings_list = []
+    postings_list = Posting.objects.filter(**args)
+        # results = Posting.objects.raw('select * from profile_posting where id not in (select posting_id from profile_application where student_id = %s) and university_id = %s;' % (student.id, student.university.id))
+        # for result in results:
+        #     for k in args:
 
+        #             postings_list.append(result)
+    count = len(list(postings_list))
     paginator = Paginator(postings_list, 25) # Show 25 contacts per page
     paginator._count = len(list(postings_list))
     page = request.GET.get('page')

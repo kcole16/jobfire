@@ -18,21 +18,21 @@
           <div class="col m3 s4 param">
             <select name="job_type" id="id_job_type" required>
               <option name="job_type" value="" disabled selected>Job Type</option>
-              <option value="Full-Time">Full-Time</option>
-              <option value="Summer">Internship (Summer)</option>
-              <option value="SchoolYear">Internship (School Year)</option>
+              <option value="Full-time">Full-Time</option>
+              <option value="Internship (Summer)">Internship (Summer)</option>
+              <option value="Internship (School Year)">Internship (School Year)</option>
             </select>
           </div>
           <div class="col m3 s4 param">
             <select name="location" id="id_location" required>
               <option name="location" value="" disabled selected>Location</option>
-              <option value="NewYork">New York</option>
-              <option value="SanFrancisco">San Francisco</option>
-              <option value="WashingtonDC">Washington, DC</option>
-              <option value="Boston">Boston</option>
-              <option value="Chicago">Chicago</option>
-              <option value="Austin">Austin</option>
-              <option value="Atlanta">Atlanta</option>
+              <option value="New York, NY">New York</option>
+              <option value="San Francisco, CA">San Francisco</option>
+              <option value="Washington, DC">Washington, DC</option>
+              <option value="Boston, MA">Boston</option>
+              <option value="Chicago, IL">Chicago</option>
+              <option value="Austin, TX">Austin</option>
+              <option value="Atlanta, GA">Atlanta</option>
             </select>
           </div>
           <div class="col m3 s4 param">
@@ -131,7 +131,7 @@
     console.log(selected);
     for (var key in selected) {
       $('option[name='+key+']').removeAttr('selected');
-      $('option[value='+selected[key]+']').attr('selected', true);
+      $('option[value="'+selected[key]+'"]').attr('selected', true);
     };
 
     $('select').material_select();
@@ -142,7 +142,7 @@
       var url = window.location.href.split('?')[0] + '?';
       selected[base] = q;
       for (var key in selected) {
-        url = url+key + "=" + selected[key] + "&";
+        url = url+key + "=" + encodeURIComponent(selected[key]) + "&";
       }
       url = url.replace(/&$/, '');
       $(location).attr('href',url);
