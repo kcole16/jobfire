@@ -48,6 +48,8 @@ def student_home(request):
     context_list = []
     query = ""
     args = request.GET.dict()
+    page = request.GET.get('page')
+    args.pop('page', None)
     if 'q' in args.keys():
         args['q'] = str(args['q'].decode('utf-8'))
         args['description__contains'] = args.pop('q')
@@ -71,7 +73,6 @@ def student_home(request):
     count = len(list(postings_list))
     paginator = Paginator(postings_list, 25) # Show 25 contacts per page
     paginator._count = len(list(postings_list))
-    page = request.GET.get('page')
     try:
         postings = paginator.page(page)
     except PageNotAnInteger:
