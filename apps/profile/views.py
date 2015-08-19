@@ -45,8 +45,6 @@ def student_home(request):
     student = Student.objects.get(user=request.user)
     # client = algoliasearch.Client("74PKG6FSJB", os.environ['ALGOLIA_KEY']);
     # index = client.init_index('Postings')
-    context_list = []
-    query = ""
     args = request.GET.dict()
     page = request.GET.get('page')
     args.pop('page', None)
@@ -81,7 +79,7 @@ def student_home(request):
         postings = paginator.page(paginator.num_pages)
 
     return render_to_response('student_home.html', {'postings':postings, 'count':count, 
-        'context_list':context_list, 'student':student}, context_instance=RequestContext(request))
+        'student':student}, context_instance=RequestContext(request))
 
 @login_required
 def posting_detail(request, posting_id):

@@ -100,13 +100,21 @@
   <div class="pagination row center">
       <span class="step-links">
           {% if postings.has_previous %}
+              {% if request.GET.args %}
+              <a href="?page={{ postings.previous_page_number }}&{{ request.GET.args|urlencode:"" }}">previous</a>
+              {% else %}
               <a href="?page={{ postings.previous_page_number }}">previous</a>
+              {% endif %}
           {% endif %}
           <span class="current">
               Page {{ postings.number }} of {{ postings.paginator.num_pages }}
           </span>
           {% if postings.has_next %}
+              {% if request.GET.args %}
+              <a href="?page={{ postings.next_page_number }}&{{ request.GET.args|urlencode:"" }}">next</a>
+              {% else %}
               <a href="?page={{ postings.next_page_number }}">next</a>
+              {% endif %}
           {% endif %}
       </span>
   </div>
@@ -152,11 +160,12 @@
       if (e.which == 13) {
         e.preventDefault();
         var q = $(this).val();
-        if(String(window.location.href).indexOf('?') > -1){
-          var url = window.location.href + "&"+"q" + "=" + q;
-        } else {
-          var url = window.location.href + "?"+"q" + "=" + q;
+        var url = window.location.href.split('?')[0] + '?';
+        selected['q'] = q;
+        for (var key in selected) {
+          url = url+key + "=" + encodeURIComponent(selected[key]) + "&";
         }
+        url = url.replace(/&$/, '');
         $(location).attr('href',url);
       }
     });
