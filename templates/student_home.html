@@ -100,21 +100,13 @@
   <div class="pagination row center">
       <span class="step-links">
           {% if postings.has_previous %}
-              {% if request.GET.args %}
-              <a href="?page={{ postings.previous_page_number }}&{{ request.GET.args|urlencode:"" }}">previous</a>
-              {% else %}
-              <a href="?page={{ postings.previous_page_number }}">previous</a>
-              {% endif %}
+              <a href="?page={{ postings.previous_page_number }}{{ formatted_args }}">previous</a>
           {% endif %}
           <span class="current">
               Page {{ postings.number }} of {{ postings.paginator.num_pages }}
           </span>
           {% if postings.has_next %}
-              {% if request.GET.args %}
-              <a href="?page={{ postings.next_page_number }}&{{ request.GET.args|urlencode:"" }}">next</a>
-              {% else %}
-              <a href="?page={{ postings.next_page_number }}">next</a>
-              {% endif %}
+              <a href="?page={{ postings.next_page_number }}{{ formatted_args }}">next</a>
           {% endif %}
       </span>
   </div>

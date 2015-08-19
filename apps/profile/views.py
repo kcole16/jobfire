@@ -78,8 +78,12 @@ def student_home(request):
     except EmptyPage:
         postings = paginator.page(paginator.num_pages)
 
+    formatted_args = ""
+    if args != {}:
+        formatted_args = "&" + urllib.urlencode(args)
+
     return render_to_response('student_home.html', {'postings':postings, 'count':count, 
-        'student':student}, context_instance=RequestContext(request))
+        'student':student, 'formatted_args':formatted_args}, context_instance=RequestContext(request))
 
 @login_required
 def posting_detail(request, posting_id):
