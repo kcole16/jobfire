@@ -47,7 +47,8 @@ def student_home(request):
     index = client.init_index('Postings')
     context_list = []
     query = ""
-    if request.GET.dict():
+    keys = request.GET.dict().keys()
+    if 'location' in keys or 'job_type' in keys or 'role' in keys:
         args = request.GET.dict()
         for k in request.GET.dict():
             query += " %s" % str(args[k].decode('utf-8'))
@@ -185,7 +186,6 @@ def student_signup(request):
                               {'form': form, 'universities':universities,
                               'industries':industries, 'majors':majors},
                               context_instance=RequestContext(request))
-
 
 @login_required
 def update_profile(request):
