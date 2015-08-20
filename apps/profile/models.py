@@ -69,6 +69,10 @@ class Posting(models.Model):
 	active = models.BooleanField(default=True)
 	description = models.TextField(db_index=True)
 
+class UniversityPosting(models.Model):
+	posting = models.ForeignKey(Posting)
+	university = models.ForeignKey(University)
+	
 class Application(models.Model):
 	posting = models.ForeignKey(Posting)
 	student = models.ForeignKey(Student)

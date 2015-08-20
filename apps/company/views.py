@@ -111,6 +111,8 @@ def create_posting(request):
                             description=form.cleaned_data['description']
                             )
         posting.save()
+        new_posting = UniversityPosting(posting=posting, university=form.cleaned_data['university'])
+        new_posting.save()
         add_to_algolia(posting)
         return redirect('home')
     else:
