@@ -17,9 +17,8 @@
               <span class="posting-location">{{ posting.location }}</span>
               <br><br>
               <p>
-                {% with description=posting.description|safe %}
-                {{ description|slice:"65" }}
-                {% endwith %}
+                {{ posting.role }} Role<br>
+                {{ posting.job_start_date }} Start
               </p>
             </div>
             <div class="card-action">
