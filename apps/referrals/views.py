@@ -20,6 +20,7 @@ import urllib
 import requests
 from bs4 import BeautifulSoup
 
+
 def authenticate_google(code):
     url = 'https://www.googleapis.com/oauth2/v3/token'
     client_id = os.environ['GOOGLE_CLIENT_ID']
@@ -62,14 +63,24 @@ def google_login(request):
 	return HttpResponseRedirect(url)
 
 @login_required
-def oauth2callback(request):
-	code = request.GET['code']
-	access_token = authenticate_google(code)
-	student = Student.objects.get(user=request.user)
-	results = get_contacts(student, access_token)
+def referral_select(request, access_token):
+	success = False
+	results = None
+	student = None
+	if request.POST:
+		referrals = request.POST['referrals']
+		print referrals
+		return redirect('home')
+	else:
+		student = Student.objects.get(user=request.user)
+		results = get_contacts(student, access_token)
 	return render_to_response('referral_select.html', {'results':results, 'student':student}, 
 		context_instance=RequestContext(request))
 
-
-
+@login_required
+def oauth2callback(request):
+	code = request.GET['code']
+	access_token = authenticate_google(code)
+	url = reverse('referral_select', args=[access_token,])
+	return HttpResponseRedirect(url) 
 
