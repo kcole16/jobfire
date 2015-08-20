@@ -18,16 +18,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AlterField(
-            model_name='company',
-            name='about',
-            field=models.CharField(max_length=1000, db_index=True),
-        ),
-        migrations.AlterField(
-            model_name='posting',
-            name='description',
-            field=models.TextField(db_index=True),
-        ),
-        migrations.AlterField(
             model_name='posting',
             name='job_type',
             field=models.CharField(db_index=True, max_length=100, choices=[(b'Full-time', b'Full-Time'), (b'Internship (Summer)', b'Internship (Summer)'), (b'Internship (School Year)', b'Internship (School Year)')]),
