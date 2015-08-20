@@ -40,7 +40,7 @@ class Student(models.Model):
 class Company(models.Model):
 	name = models.CharField(max_length=500)
 	logo = models.CharField(max_length=500)
-	about = models.CharField(max_length=1000, db_index=True)
+	about = models.CharField(max_length=1000)
 	url = models.CharField(max_length=500)
 	address = models.CharField(max_length=500)
 	industry = models.ForeignKey(Industry)
@@ -67,12 +67,12 @@ class Posting(models.Model):
 	location = models.CharField(max_length=100, db_index=True)
 	university = models.ForeignKey(University)
 	active = models.BooleanField(default=True)
-	description = models.TextField(db_index=True)
+	description = models.TextField()
 
 class UniversityPosting(models.Model):
 	posting = models.ForeignKey(Posting)
 	university = models.ForeignKey(University)
-	
+
 class Application(models.Model):
 	posting = models.ForeignKey(Posting)
 	student = models.ForeignKey(Student)
