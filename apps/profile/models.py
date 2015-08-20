@@ -40,7 +40,7 @@ class Student(models.Model):
 class Company(models.Model):
 	name = models.CharField(max_length=500)
 	logo = models.CharField(max_length=500)
-	about = models.CharField(max_length=1000)
+	about = models.CharField(max_length=1000, db_index=True)
 	url = models.CharField(max_length=500)
 	address = models.CharField(max_length=500)
 	industry = models.ForeignKey(Industry)
@@ -59,15 +59,15 @@ class Posting(models.Model):
 	expiration_date = models.DateField()
 	job_start_date = models.CharField(max_length=100, choices=(('Immediate','Immediate'),('Flexible','Flexible')))
 	position = models.CharField(max_length=100)
-	role = models.CharField(max_length=100, choices=(('Engineering','Engineering'),
+	role = models.CharField(max_length=100, db_index=True, choices=(('Engineering','Engineering'),
 		('Product','Product'),('Business','Business')))
-	job_type = models.CharField(max_length=100, choices=(('Full-time','Full-Time'), 
+	job_type = models.CharField(max_length=100, db_index=True, choices=(('Full-time','Full-Time'), 
 		('Internship (Summer)','Internship (Summer)'), ('Internship (School Year)','Internship (School Year)')))
 	company = models.ForeignKey(Company)
-	location = models.CharField(max_length=100)
+	location = models.CharField(max_length=100, db_index=True)
 	university = models.ForeignKey(University)
 	active = models.BooleanField(default=True)
-	description = models.TextField()
+	description = models.TextField(db_index=True)
 
 class Application(models.Model):
 	posting = models.ForeignKey(Posting)

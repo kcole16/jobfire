@@ -49,8 +49,22 @@ def student_home(request):
     page = request.GET.get('page')
     args.pop('page', None)
     if 'q' in args.keys():
-        args['q'] = str(args['q'].decode('utf-8'))
-        args['description__contains'] = args.pop('q')
+        q = str(args['q'].decode('utf-8'))
+        args.pop('q')
+        try:
+            companies = Company.objects.get(about__contains=q)
+        except ObjectDoesNotExist:
+            company_ids = []
+        else:
+            if companies.count() > 1:
+                company_ids = [company.id for company in companies]
+            else:
+                company_ids = [companies.id]
+        first_results = Posting.objects.filter(**args)
+        postings_list = []
+        for result in first_results:
+            if q in result.description or result.company.id in company_ids:
+                postings_list.append(result)
         # for k in args:
         #     query += " %s" % str(args[k].decode('utf-8'))
         #     context_list.append(args[k])
@@ -62,7 +76,8 @@ def student_home(request):
         #             postings_list.append(result)
         # count = len(postings_list)
         # postings_list = []
-    postings_list = Posting.objects.filter(**args)
+    else:
+        postings_list = Posting.objects.filter(**args)
         # results = Posting.objects.raw('select * from profile_posting where id not in (select posting_id from profile_application where student_id = %s) and university_id = %s;' % (student.id, student.university.id))
         # for result in results:
         #     for k in args:
