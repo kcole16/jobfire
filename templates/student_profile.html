@@ -22,9 +22,7 @@
       <p class="flow-text"><strong>LinkedIn:</strong> {{ student.linkedin }}</p>
       <p class="flow-text"><strong>Github/Portfolio URL:</strong> {{ student.portfolio }}</p>
       <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></p>
-      {% if not student.picture %}
       <p><a href="{% url 'get_linkedin' %}"><button class="btn btn-lg" style="background-color:#0077B5;color:white;font-family:arial;font-size:18px;"><i class="fa fa-linkedin-square fa-1x"></i> Add LinkedIn</button></a></p>
-      {% endif %}
   </div>
 </div>
 <script>
