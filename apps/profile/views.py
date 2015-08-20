@@ -19,7 +19,7 @@ from django.db import IntegrityError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm, UpdatePasswordForm
 from apps.profile.models import *
-from apps.profile.utils import send_mail, send_conf_email, format_city
+from apps.profile.utils import send_mail, send_conf_email, format_city, authenticate_linkedin, save_linkedin_profile
 
 import bugsnag
 from mixpanel import Mixpanel
@@ -276,6 +276,23 @@ def confirm_email(request, email_token):
         student.save()
         success = True
     return render_to_response('confirm_email.html', {'success':success}, context_instance=RequestContext(request))
+
+@login_required
+def get_linkedin(request):
+    client_id = os.environ['LINKEDIN_CLIENT_ID']
+    scope = 'r_basicprofile r_emailaddress'
+    state = str(uuid4()).replace('-','')
+    redirect_uri = '%s/oauth/' % str(os.environ['PATH_URL'])
+    url = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%s&scope=%s&state=%s&redirect_uri=%s' % (client_id, scope, state, redirect_uri)
+    return redirect(url)
+
+@login_required
+def oauth(request):
+    code = request.GET['code']
+    access_token = authenticate_linkedin(code)
+    student = Student.objects.get(user=request.user)
+    user_status = save_linkedin_profile(student, access_token)
+    return redirect('student_profile')
 
 @login_required
 def logout_view(request):

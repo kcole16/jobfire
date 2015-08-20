@@ -19,6 +19,8 @@ urlpatterns = patterns('',
     url(r'^update_profile/', 'apps.profile.views.update_profile', name='update_profile'),
     url(r'^confirm_email/(.+)/', 'apps.profile.views.confirm_email', name='confirm_email'),
     url(r'^update_password/', 'apps.profile.views.update_password', name='update_password'),
+    url(r'^get_linkedin/', 'apps.profile.views.get_linkedin', name='get_linkedin'),
+    url(r'^oauth/', 'apps.profile.views.oauth', name='oauth'),
 
     #Companies
     url(r'^company_signup/', 'apps.company.views.company_signup', name='company_signup'),

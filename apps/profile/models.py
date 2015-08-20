@@ -35,6 +35,7 @@ class Student(models.Model):
 	linkedin = models.CharField(max_length=100, null=True, blank=True)
 	university = models.ForeignKey(University)
 	resume_s3 = models.CharField(max_length=1000)
+	picture = models.CharField(max_length=500, null=True)
 	confirmed = models.BooleanField(default=False)
 
 class Company(models.Model):

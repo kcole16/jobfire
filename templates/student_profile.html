@@ -5,18 +5,24 @@
 
 <div class="container">
   <div class="row">
+    {% if student.picture %}
+    <img src="{{ student.picture }}" class="company-logo z-depth-1 circle responsive-img">
+    {% else %}
     <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
+    {% endif %}
+
 <!--     <img class="company-logo z-depth-1 circle responsive-img" src="{% static 'img/kendall.jpg' %}">
  -->    
     <h3 class="light">{{ student.first_name }} {{ student.last_name}}</h3><a href="{% url 'update_profile' %}">Update</a><a class="change-password" href="{% url 'update_password' %}">Change Password</a>
 
   </div>
   <div class="row">
-      <p class="flow-text"><strong>Expected Graduation:</strong> {{ student.graduation_date }}</li>
-      <p class="flow-text"><strong>Major:</strong> {{ student.major.name }}</li>
-      <p class="flow-text"><strong>LinkedIn:</strong> {{ student.linkedin }}</li>
-      <p class="flow-text"><strong>Github/Portfolio URL:</strong> {{ student.portfolio }}</li>
-      <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></li>
+      <p class="flow-text"><strong>Expected Graduation:</strong> {{ student.graduation_date }}</p>
+      <p class="flow-text"><strong>Major:</strong> {{ student.major.name }}</p>
+      <p class="flow-text"><strong>LinkedIn:</strong> {{ student.linkedin }}</p>
+      <p class="flow-text"><strong>Github/Portfolio URL:</strong> {{ student.portfolio }}</p>
+      <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></p>
+      <p><a href="{% url 'get_linkedin' %}"><button class="btn btn-lg" style="background-color:#0077B5;color:white;font-family:arial;font-size:18px;"><i class="fa fa-linkedin-square fa-1x"></i> Add LinkedIn</button></a></p>
   </div>
 </div>
 <script>

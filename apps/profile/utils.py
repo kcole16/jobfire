@@ -4,6 +4,7 @@ import logging
 
 import requests
 from algoliasearch import algoliasearch
+from bs4 import BeautifulSoup
 
 logger = logging.getLogger("error.logger")
 
@@ -34,4 +35,54 @@ def format_city(city):
     splits = city.split(',')
     formatted = "%s, %s" % (splits[0], splits[1])
     return formatted
+
+def authenticate_linkedin(code):
+    url = 'https://www.linkedin.com/uas/oauth2/accessToken'
+    client_id = os.environ['LINKEDIN_CLIENT_ID']
+    client_secret = os.environ['LINKEDIN_CLIENT_SECRET']
+    data = {
+    'client_id': client_id,
+    'client_secret': client_secret,
+    'redirect_uri': '%s/oauth/' % str(os.environ['PATH_URL']),
+    'code': code,
+    'grant_type': 'authorization_code'
+    }
+    r = requests.post(url, data=data)
+    access_token = r.json()['access_token']
+    return access_token
+
+def try_attribute(xml, attribute):
+    try:
+        attribute = xml.find(attribute).string
+    except AttributeError:
+        attribute = None
+    return attribute
+
+def parse_profile(profile):
+    xml = BeautifulSoup(profile)
+    picture_url = try_attribute(xml, 'picture-url')
+    profile = try_attribute(xml, 'public-profile-url')
+    user_details = {
+        'profile':profile, 
+        'picture_url':picture_url
+        }   
+    return user_details
+
+def save_linkedin_profile(student, access_token):
+    url = 'https://api.linkedin.com/v1/people/~:(id,public-profile-url,picture-url)'
+    headers = {
+        'Host':'api.linkedin.com',
+        'Connection':'Keep-Alive',
+        'Authorization': 'Bearer %s' % access_token
+    }
+    r = requests.get(url, headers=headers)
+    if r.ok:
+        user_details = parse_profile(r.text)
+        student.picture = user_details['picture_url']
+        student.linkedin = user_details['profile']
+        student.save()
+
+
+
+
 
