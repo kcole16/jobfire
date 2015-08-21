@@ -128,7 +128,9 @@
         selected[parts[0]] = parts[1] &&
         decodeURIComponent(parts[1].replace(/\+/g, " "));
     });
-    console.log(selected);
+    if (Object.keys(selected).length > 0){
+      mixpanel.track('Search', {'Query':[Object.keys(selected).map(function(x){return selected[x]}).join(',')]});
+    };
     for (var key in selected) {
       $('option[name='+key+']').removeAttr('selected');
       $('option[value="'+selected[key]+'"]').attr('selected', true);
@@ -165,13 +167,12 @@
     $('.detail').hide();
     $('.result').click(function() {
       var element = '#'+$(this).attr('name');
-      console.log(element);
+      mixpanel.track('Looked At Posting', {'Posting ID': $(this).attr('name')});
       $(element).toggle('slide');
     });
 
     $('.btn-posting').click(function() {
-      mixpanel.track("Applied to Job");
-      mixpanel.people.increment('job_apps');
+      mixpanel.track("Went to Job Details");
     });
 
   });

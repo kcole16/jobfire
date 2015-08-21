@@ -119,6 +119,10 @@ def apply(request, posting_id):
     application = Application(posting=posting, student=student, 
         company=posting.company)
     application.save()
+    mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
+    mp.track(student.id, 'Applied to Company', {
+        'Company': posting.company.name,
+    })
     return redirect('applications')
 
 @login_required
@@ -145,15 +149,26 @@ def student_signup(request):
     if request.POST:
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
+            mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
             try:
                 resume = request.FILES['resume'].read()
             except MultiValueDictKeyError:
                 resume = "Ask"
             email = str(form.cleaned_data['email'])
             extension = email.split('@')[1]
+            graduation_date = "%s %s" % (form.cleaned_data['semester'],
+                form.cleaned_data['grad_year'])
             try: 
                 university = University.objects.get(email_ext=extension)
             except ObjectDoesNotExist:
+                mp.track(email, 'Attempted Signup: Unsupported School', {
+                    'Email': email,
+                    'Extension': extension,
+                    'First Name': form.cleaned_data['first_name'],
+                    'Last Name': form.cleaned_data['last_name'],
+                    'Major': form.cleaned_data['major'],
+                    'Graduation Date': graduation_date
+                })
                 return render_to_response('sorry.html')
             else:
                 uuid = uuid4()
@@ -167,9 +182,6 @@ def student_signup(request):
                     return render_to_response('student_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
                 user.set_password(form.cleaned_data['password'])
                 user.save()
-
-                graduation_date = "%s %s" % (form.cleaned_data['semester'],
-                    form.cleaned_data['grad_year'])
                 major = Major.objects.get(name=form.cleaned_data['major'])
                 industry = Industry.objects.get(name="Technology")
                 student = Student(user=user,
@@ -185,7 +197,6 @@ def student_signup(request):
                 email_token = str(uuid4()).replace('-', '')
                 email_conf = EmailConfirmation(user=user, code=email_token)
                 email_conf.save()
-                mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
                 mp.people_set(student.id, {
                     '$first_name'    : student.first_name,
                     '$last_name'     : student.last_name,
