@@ -51,15 +51,13 @@ def student_home(request):
     if 'q' in args.keys():
         q = str(args['q'].decode('utf-8'))
         args.pop('q')
-        try:
-            companies = Company.objects.filter(about__contains=q)
-        except ObjectDoesNotExist:
-            company_ids = []
+        companies = Company.objects.filter(about__contains=q)
+        if companies.count() > 1:
+            company_ids = [company.id for company in companies]
+        elif companies.count() == 1:
+            company_ids = [companies.id]
         else:
-            if companies.count() > 1:
-                company_ids = [company.id for company in companies]
-            else:
-                company_ids = [companies[0].id]
+            company_ids = []
         first_results = Posting.objects.filter(**args)
         postings_list = []
         for result in first_results:
