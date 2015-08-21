@@ -52,7 +52,7 @@ def student_home(request):
         q = str(args['q'].decode('utf-8'))
         args.pop('q')
         try:
-            companies = Company.objects.get(about__contains=q)
+            companies = Company.objects.filter(about__contains=q)
         except ObjectDoesNotExist:
             company_ids = []
         else:
