@@ -27,7 +27,7 @@ def send_conf_email(student, email_token):
     <br>If you have any questions, feel free to contact me at kendall@jobfire.co.</p>
     <p>Before getting started, please click the below link to confirm your email:<br>
     <a href="https://www.jobfire.co/confirm_email/%s/">https://www.jobfire.com/confirm_email/%s/</a></p>
-    <p>Best of luck</p>
+    <p>Best of luck,</p>
     <p>Kendall<br>Co-Founder<br>JobFire, Inc.</p>""" % (student.first_name, email_token, email_token)
     send_mail(subject, student.email, html, sender)
 
