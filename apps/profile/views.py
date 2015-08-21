@@ -59,7 +59,7 @@ def student_home(request):
             if companies.count() > 1:
                 company_ids = [company.id for company in companies]
             else:
-                company_ids = [companies.id]
+                company_ids = [companies[0].id]
         first_results = Posting.objects.filter(**args)
         postings_list = []
         for result in first_results:
