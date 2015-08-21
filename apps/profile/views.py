@@ -189,7 +189,7 @@ def student_signup(request):
                 email_conf.save()
                 mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
                 mp.people_set(student.id, {
-                    '$first_name'    : 'Kendall',
+                    '$first_name'    : student.first_name,
                     '$last_name'     : student.last_name,
                     '$email'         : student.email,
                     '$university'         : student.university.name,
