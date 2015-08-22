@@ -6,9 +6,6 @@
       <br>
       <h4>Student Signup</h4>
       <div class="row">
-        {% if errors != None %}
-        {{ form.errors }}
-        {% endif %}
         {% if message != None %}
         <h6 style="color:red;">{{ message }}</h6>
         {% endif %}
@@ -18,24 +15,28 @@
               <div class="input-field col s12">
                 <label for="first_name">First Name</label>
                 <input type="text" name="first_name" required/>
+                {{ form.first_name.errors }}
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
                 <label for="last_name">Last Name</label>
                 <input type="text" name="last_name" required/>
+                {{ form.last_name.errors }}
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
                 <label for="email">Email (.edu only)</label>
                 <input type="email" name="email" required/>
+                {{ form.email.errors }}
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
                 <label for="password">Password</label>
                 <input type="password" name="password" id="id_password" required/>
+                {{ form.password.errors }}
               </div>
             </div>
             <div class="row">
@@ -53,6 +54,7 @@
                   {% endfor %}
                 </select>
                 <label>Major:</label>
+                {{ form.major.errors }}
               </div>
            </div>
             <label>Graduation Date:</label>
@@ -66,6 +68,7 @@
               </div>
               <div class="grad-year col s4 m4">
                 <input type="text" name="grad_year" id="id_grad_year" placeholder="Year" required>
+                {{ form.grad_year.errors }}
               </div>
            </div>
           <div class="file-field input-field">
