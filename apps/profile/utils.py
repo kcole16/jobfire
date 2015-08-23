@@ -20,13 +20,13 @@ def send_mail(subject, recipient, html, sender):
         logger.error(r.text)
 
 def send_conf_email(student, email_token):
-    subject = "Welcome to JobFire"
-    sender = "kendall@jobfire.co"
+    subject = "Welcome to EntryWire"
+    sender = "kendall@entrywire.com"
     html = """<p>Hey %s,</p>
     <p>Welcome to EntryWire! We are excited to help you find a great job or internship at one of our partner companies.
     <br>If you have any questions, feel free to contact me at kendall@jobfire.co.</p>
     <p>Before getting started, please click the below link to confirm your email:<br>
-    <a href="https://www.jobfire.co/confirm_email/%s/">https://www.jobfire.com/confirm_email/%s/</a></p>
+    <a href="https://www.entrywire.com/confirm_email/%s/">https://www.entrywire.com/confirm_email/%s/</a></p>
     <p>Best of luck,</p>
     <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (student.first_name, email_token, email_token)
     send_mail(subject, student.email, html, sender)

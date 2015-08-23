@@ -21,7 +21,11 @@
       <p class="flow-text"><strong>Major:</strong> {{ student.major.name }}</p>
       <p class="flow-text"><strong>LinkedIn:</strong> {{ student.linkedin }}</p>
       <p class="flow-text"><strong>Github/Portfolio URL:</strong> {{ student.portfolio }}</p>
+      {% if student.resume_s3 != None %}
       <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></p>
+      {% else %}
+      <p class="flow-text"><strong>Resume:</strong> <a href="{% url 'update_profile' %}">Add</a></p>
+      {% endif %}
       <p><a href="{% url 'get_linkedin' %}"><button class="btn btn-lg" style="background-color:#0077B5;color:white;font-family:arial;font-size:18px;"><i class="fa fa-linkedin-square fa-1x"></i> Sync With LinkedIn</button></a></p>
   </div>
 </div>

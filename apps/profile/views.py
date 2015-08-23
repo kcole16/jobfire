@@ -150,10 +150,6 @@ def student_signup(request):
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
             mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
-            try:
-                resume = request.FILES['resume'].read()
-            except MultiValueDictKeyError:
-                resume = "Ask"
             email = str(form.cleaned_data['email'])
             extension = email.split('@')[1]
             graduation_date = "%s %s" % (form.cleaned_data['semester'],
@@ -171,10 +167,14 @@ def student_signup(request):
                 })
                 return render_to_response('sorry.html')
             else:
-                uuid = uuid4()
-                s3 = default_storage.open('jobfire/resumes/%s' % uuid, 'w')
-                s3.write(resume)
-                s3.close()
+                resume_s3 = None
+                if form.cleaned_data['resume']:
+                    resume = request.FILES['resume'].read()
+                    s3 = default_storage.open('jobfire/resumes/%s' % uuid, 'w')
+                    s3.write(resume)
+                    s3.close()
+                    uuid = uuid4()
+                    resume_s3 = "https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
                 try:
                     user = User.objects.create_user(email, email, 'password')
                 except IntegrityError:
@@ -191,7 +191,7 @@ def student_signup(request):
                                     major=major,
                                     university=university,
                                     graduation_date=graduation_date,
-                                    resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
+                                    resume_s3=resume_s3
                                     )
                 student.save()
                 email_token = str(uuid4()).replace('-', '')

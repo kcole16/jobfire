@@ -149,11 +149,11 @@ TEMPLATE_DIRS = (
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'kendall@jobfire.co'
-SERVER_EMAIL = 'kendall@jobfire.co'
+DEFAULT_FROM_EMAIL = 'kendall@entrywire.com'
+SERVER_EMAIL = 'kendall@entrywire.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'kendall@jobfire.co'
+EMAIL_HOST_USER = 'kendall@entrywire.com'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL']
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

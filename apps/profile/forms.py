@@ -12,7 +12,7 @@ class StudentForm(forms.Form):
     major = forms.CharField(label="Major")
     grad_year = forms.CharField(label="Graduation Date")
     semester = forms.CharField()
-    resume = forms.FileField()
+    resume = forms.FileField(required=False)
 
     def clean(self):
         cleaned_data = super(StudentForm, self).clean()

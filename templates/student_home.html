@@ -53,7 +53,11 @@
 </div>
 <div class="center">
   <h6>{{ count }} jobs available</h6>
-  {% if not student.confirmed %}
+  {% if not student.confirmed and student.resume_s3 == None %}
+  <h6 style="color:red;">Please confirm your email and add your resume to apply to jobs</h6>
+  {% elif student.resume_s3 == None %}
+  <h6 style="color:red;">Please add your resume to apply to jobs</h6>
+  {% elif not student.confirmed %}
   <h6 style="color:red;">Please confirm your email to apply to jobs</h6>
   {% endif %}
 </div>
@@ -80,7 +84,7 @@
           </ul>
         </div>
         <div class="col m2 s12">
-          {% if student.confirmed %}
+          {% if student.confirmed and student.resume_s3 != None %}
           <a href="{% url 'posting_detail' posting.id%}" class="waves-effect waves-light btn-large btn-posting blue">Apply</a>
           {% endif %}
         </div>
