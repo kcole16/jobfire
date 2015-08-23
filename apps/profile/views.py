@@ -216,6 +216,7 @@ def student_signup(request):
             logger.error(form.errors)
     else:     
         form = StudentForm()
+    universities = University.objects.all()
     industries = Industry.objects.all()
     majors = Major.objects.all()
     return render_to_response('student_signup.html',
