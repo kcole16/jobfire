@@ -143,6 +143,9 @@ a#logo {
 .referral-select {
 	text-align: right;
 }
+div.modal.posting-apply {
+	max-height: 80%;
+}
 @media only screen and (max-width : 800px) {
 	.search-params {
 		margin-left: 2px;

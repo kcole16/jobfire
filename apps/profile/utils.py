@@ -24,7 +24,7 @@ def send_conf_email(student, email_token):
     sender = "kendall@entrywire.com"
     html = """<p>Hey %s,</p>
     <p>Welcome to EntryWire! We are excited to help you find a great job or internship at one of our partner companies.
-    <br>If you have any questions, feel free to contact me at kendall@jobfire.co.</p>
+    <br>If you have any questions, feel free to contact me at kendall@entrywire.com.</p>
     <p>Before getting started, please click the below link to confirm your email:<br>
     <a href="https://www.entrywire.com/confirm_email/%s/">https://www.entrywire.com/confirm_email/%s/</a></p>
     <p>Best of luck,</p>
