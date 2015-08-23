@@ -116,13 +116,16 @@ def posting_detail(request, posting_id):
 def apply(request, posting_id):
     student = Student.objects.get(user=request.user)
     posting = Posting.objects.get(id=posting_id)
-    application = Application(posting=posting, student=student, 
-        company=posting.company)
-    application.save()
-    mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
-    mp.track(student.id, 'Applied to Company', {
-        'Company': posting.company.name,
-    })
+    try:
+        application = Application.objects.get(student=student, posting=posting)
+    except ObjectDoesNotExist: 
+        application = Application(posting=posting, student=student, 
+            company=posting.company)
+        application.save()
+        mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
+        mp.track(student.id, 'Applied to Company', {
+            'Company': posting.company.name,
+        })
     return redirect('applications')
 
 @login_required

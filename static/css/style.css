@@ -144,7 +144,7 @@ a#logo {
 	text-align: right;
 }
 div.modal.posting-apply {
-	max-height: 80%;
+	max-height: 85%;
 }
 @media only screen and (max-width : 800px) {
 	.search-params {
