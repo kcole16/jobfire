@@ -157,46 +157,19 @@ EMAIL_HOST_USER = 'kendall@jobfire.co'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL']
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-
-#     'root': {
-#         'level': 'ERROR',
-#         'handlers': ['bugsnag'],
-#     },
-
-#     'handlers': {
-#         'bugsnag': {
-#             'level': 'INFO',
-#             'class': 'bugsnag.handlers.BugsnagHandler',
-#         },
-#     }
-# }
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
+
+    'root': {
+        'level': 'ERROR',
+        'handlers': ['bugsnag'],
     },
+
     'handlers': {
-        'airbrake': {
-            'level': 'WARNING',
-            'class': 'airbrake.handlers.AirbrakeHandler',
-            'filters': ['require_debug_false'],
-            'api_key': 'dd09532656188d6d012ca1eb0beacd67b65ffc60',
-            'env_name': 'develop',
-            'api_url' : 'https://exceptions.codebasehq.com/notifier_api/v2/notices',
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['airbrake'],
-            'level': 'WARNING',
-            'propagate': True,
+        'bugsnag': {
+            'level': 'INFO',
+            'class': 'bugsnag.handlers.BugsnagHandler',
         },
     }
 }
