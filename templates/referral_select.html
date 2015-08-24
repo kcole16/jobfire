@@ -37,15 +37,28 @@
 </div>
 <script>
 $(document).ready(function() {
+
+  function sendReferrals(referrals) {
+    $.ajax({
+      type: "POST",
+      url: "/contact_referrals/",
+      data: {"data": JSON.stringify(referrals)},
+      dataType: 'application/json',
+      error: function (error) {
+        console.log(error);
+      }
+    });
+  };
+
   $('button').on('click', function(e) {
       e.preventDefault();
       var referrals = [];
       $('input[type=checkbox]:checked').each(function() { 
         referrals.push({'name':$(this).attr('name'), 'email':$(this).val()});
       });
-      console.log(referrals);
+      sendReferrals(referrals);
       $('input[name=referrals]').val(referrals);
-      $('form').submit();
+      window.location.href = "/"
   });
 });
 </script>

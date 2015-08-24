@@ -38,6 +38,7 @@ urlpatterns = patterns('',
     url(r'^google_login/', 'apps.referrals.views.google_login', name='google_login'),
     url(r'^oauth2callback/', 'apps.referrals.views.oauth2callback', name='oauth2callback'),
     url(r'^referral_select/(.+)/', 'apps.referrals.views.referral_select', name='referral_select'),
+    url(r'^contact_referrals/', 'apps.referrals.views.contact_referrals', name='contact_referrals'),
 
     #Admin
     url(r'^panel/create_university/', 'apps.panel.views.create_university', name='create_university'),
