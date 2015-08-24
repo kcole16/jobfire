@@ -172,11 +172,11 @@ def student_signup(request):
             else:
                 resume_s3 = None
                 if form.cleaned_data['resume']:
+                    uuid = uuid4()
                     resume = request.FILES['resume'].read()
                     s3 = default_storage.open('jobfire/resumes/%s' % uuid, 'w')
                     s3.write(resume)
                     s3.close()
-                    uuid = uuid4()
                     resume_s3 = "https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
                 try:
                     user = User.objects.create_user(email, email, 'password')
