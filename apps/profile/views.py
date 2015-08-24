@@ -81,6 +81,8 @@ def student_home(request):
         #     for k in args:
 
         #             postings_list.append(result)
+    applications = Application.objects.filter(student=student).values_list('posting_id', flat=True).order_by('id')
+    postings_list = [posting for posting in postings_list if posting.id not in applications]
     count = len(list(postings_list))
     paginator = Paginator(postings_list, 25) # Show 25 contacts per page
     paginator._count = len(list(postings_list))
