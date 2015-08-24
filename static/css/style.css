@@ -30,12 +30,13 @@ header, div#content, footer {
 }
 .side-nav.fixed a#school-logo {
 	padding: 0px;
+	text-align: center;
 }
 .side-nav li {
 	border-bottom: 1px solid #7D7D7D
 }
 .university-logo {
-	width: 225px;
+	max-width: 85px;
 }
 a#sidenav {
 	color: white;
