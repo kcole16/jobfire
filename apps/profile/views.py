@@ -141,7 +141,7 @@ def apply(request, posting_id):
     <p>You've successfully applied to the %s position at %s! They've received your resume, and will be in touch with next steps.</p>
     <p>If you have any questions, feel free to contact me at kendall@entrywire.com.</p>
     <p>Best of luck,</p>
-    <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (student.first_name, posting.company.name, posting.position)
+    <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (student.first_name, posting.position, posting.company.name)
     send_mail(subject, student.email, html, sender)
     return redirect('applications')
 
