@@ -65,7 +65,9 @@ input#search {
 .result:hover {
   background-color: #F5F5F5;
 }
-
+div.row.result-content {
+	margin-bottom: 0px;
+}
 .detail {
 	margin-left: 40px;
 }

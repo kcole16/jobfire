@@ -31,7 +31,7 @@ def authenticate_google(code):
     data = {
     'client_id': client_id,
     'client_secret': client_secret,
-    'redirect_uri': 'http://localhost:8000/oauth2callback/',
+    'redirect_uri': '%s/oauth2callback/' % os.environ['PATH_URL'],
     'code': code,
     'grant_type': 'authorization_code'
     }
@@ -78,7 +78,7 @@ def google_login(request):
     client_id = os.environ['GOOGLE_CLIENT_ID']
     scope = 'https://www.googleapis.com/auth/contacts.readonly'
     state = str(uuid.uuid4())
-    redirect_uri = 'http://localhost:8000/oauth2callback/'
+    redirect_uri = '%s/oauth2callback/' % os.environ['PATH_URL']
     base_url = 'https://accounts.google.com/o/oauth2/auth?'
     params = {'scope':scope, 'state':state, 'client_id':client_id,
     'redirect_uri':redirect_uri, 'response_type':'code'}
