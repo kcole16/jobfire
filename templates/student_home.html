@@ -1,5 +1,5 @@
 {% extends "student_base.html" %}
-{% block title %}JobFire{% endblock %}
+{% block title %}EntryWire | Dashboard{% endblock %}
 {% block content %}
 {% load staticfiles %}
       <!--   Icon Section   -->
@@ -157,6 +157,7 @@
       "$last_login": new Date(),        
     });
 
+    $('.result').css( 'cursor', 'pointer' );
     var selected = {};
     location.search.substr(1).split("&").forEach(function (pair) {
         if (pair === "") return;

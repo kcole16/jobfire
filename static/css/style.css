@@ -62,6 +62,10 @@ input#search {
 	border-top: 1px solid white;
 	margin-bottom: 0px; 
 }
+.result:hover {
+  background-color: #F5F5F5;
+}
+
 .detail {
 	margin-left: 40px;
 }
@@ -147,6 +151,9 @@ a#logo {
 }
 div.modal.posting-apply {
 	max-height: 85%;
+}
+.menu {
+	margin-left: 15px;
 }
 @media only screen and (max-width : 800px) {
 	.search-params {
