@@ -135,6 +135,14 @@ def apply(request, posting_id):
         mp.track(student.id, 'Applied to Company', {
             'Company': posting.company.name,
         })
+    subject = "Successfully Applied to %s" % posting.company.name
+    sender = "kendall@entrywire.com"
+    html = """<p>Hey %s,</p>
+    <p>You've successfully applied to the %s position at %s! They've received your resume, and will be in touch with next steps.</p>
+    <p>If you have any questions, feel free to contact me at kendall@entrywire.com.</p>
+    <p>Best of luck,</p>
+    <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (student.first_name, posting.company.name, posting.position)
+    send_mail(subject, student.email, html, sender)
     return redirect('applications')
 
 @login_required
