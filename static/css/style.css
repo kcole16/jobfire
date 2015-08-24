@@ -36,7 +36,8 @@ header, div#content, footer {
 	border-bottom: 1px solid #7D7D7D
 }
 .university-logo {
-	max-width: 85px;
+	max-height: 85px;
+	max-width: 225px;
 }
 a#sidenav {
 	color: white;
