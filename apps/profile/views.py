@@ -17,7 +17,7 @@ from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm, UpdatePasswordForm
+from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm, UpdatePasswordForm, QuickSignupForm
 from apps.profile.models import *
 from apps.profile.utils import send_mail, send_conf_email, format_city, authenticate_linkedin, save_linkedin_profile
 
@@ -38,7 +38,51 @@ def home(request):
         else:
             return redirect('company_home')
     else:
-        return render_to_response('index.html')
+        if request.POST:
+            form = QuickSignupForm(request.POST)
+            if form.is_valid():
+                mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
+                email = str(form.cleaned_data['email'])
+                extension = email.split('@')[1]
+                try: 
+                    university = University.objects.get(email_ext=extension)
+                except ObjectDoesNotExist:
+                    mp.track(email, 'Attempted Signup: Unsupported School', {
+                        'Email': email,
+                        'Extension': extension
+                    })
+                    return render_to_response('sorry.html')
+                else:
+                    try:
+                        user = User.objects.create_user(email, email, 'password')
+                    except IntegrityError:
+                        message = 'An account already exists for this email address'
+                        return render_to_response('student_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
+                    user.set_password(form.cleaned_data['password'])
+                    user.save()
+                    student = Student(user=user,
+                                        email=form.cleaned_data['email'],
+                                        university=university,
+                                        )
+                    student.save()
+                    email_token = str(uuid4()).replace('-', '')
+                    email_conf = EmailConfirmation(user=user, code=email_token)
+                    email_conf.save()
+                    mp.people_set(student.id, {
+                        '$email'         : student.email,
+                        '$university'         : student.university.name,
+                        '$type': 'student',
+                        '$created': student.user.date_joined,
+                        '$email_token': email_token
+                    })
+                    send_conf_email(student, email_token)
+                    current_user = authenticate(username=email,
+                                                password=form.cleaned_data['password'])
+                    login(request, current_user)
+                    return redirect('student_home')
+        else:
+            form = QuickSignupForm()
+        return render_to_response('index.html', {'form':form}, context_instance=RequestContext(request))
 
 @login_required
 def student_home(request):
@@ -158,12 +202,6 @@ def applications(request):
     return render_to_response('applications.html', 
         {'applications':applications, 'student':student}, context_instance=RequestContext(request))
 
-# @login_required
-# def interviews(request):
-#     student = Student.objects.get(user=request.user)
-#     interviews = Interview.objects.filter(student=student)
-#     return render_to_response('interviews.html', 
-#         {'interviews':interviews}, context_instance=RequestContext(request))
 
 def student_signup(request):
     if request.POST:
@@ -268,9 +306,14 @@ def update_profile(request):
             print form.errors
     else:
         form = StudentUpdateForm(instance=student)
-        grad_info = student.graduation_date.split(' ')
-        semester = grad_info[0]
-        grad_year = grad_info[1]
+        try:
+            grad_info = student.graduation_date.split(' ')
+        except AttributeError:
+            semester = None
+            grad_year = ""
+        else:
+            semester = grad_info[0]
+            grad_year = grad_info[1]
     return render_to_response('update_profile.html',
                               {'form': form, 'semester':semester, 'grad_year':grad_year,
                               'student':student},
@@ -322,6 +365,13 @@ def oauth(request):
     student = Student.objects.get(user=request.user)
     user_status = save_linkedin_profile(student, access_token)
     return redirect('student_profile')
+
+# @login_required
+# def interviews(request):
+#     student = Student.objects.get(user=request.user)
+#     interviews = Interview.objects.filter(student=student)
+#     return render_to_response('interviews.html', 
+#         {'interviews':interviews}, context_instance=RequestContext(request))
 
 @login_required
 def logout_view(request):

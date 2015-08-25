@@ -24,11 +24,19 @@ class StudentForm(forms.Form):
 
 class StudentUpdateForm(forms.ModelForm):
     resume = forms.FileField(required=False)
-    semester = forms.CharField()
-    grad_year = forms.CharField()
+    semester = forms.CharField(required=False)
+    grad_year = forms.CharField(required=False)
     class Meta:
         model = Student
-        fields = ['major', 'linkedin', 'portfolio']
+        fields = ['first_name','last_name','major', 'linkedin', 'portfolio']
+
+    def __init__(self, *args, **kwargs):
+        super(StudentUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].required = False
+        self.fields['last_name'].required = False
+        self.fields['portfolio'].required = False
+        self.fields['linkedin'].required = False
+        self.fields['major'].required = False
 
 
 class CompanyForm(forms.Form):
@@ -40,6 +48,10 @@ class CompanyForm(forms.Form):
     url = forms.CharField(label="URL")
     address = forms.CharField(label="Address")
     phone = forms.CharField(label="Phone")
+
+class QuickSignupForm(forms.Form):
+    email = forms.CharField(label="Email")
+    password = forms.CharField(label="Password")
 
 
 class PostingForm(forms.ModelForm):

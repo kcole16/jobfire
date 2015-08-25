@@ -54,9 +54,9 @@
 <div class="center">
   <h6>{{ count }} jobs available</h6>
   {% if not student.confirmed and student.resume_s3 == None %}
-  <h6 style="color:red;">Please confirm your email and <a href="{% url 'update_profile' %}">add your resume</a> to apply to jobs</h6>
+  <h6 style="color:red;">Please confirm your email and <a href="{% url 'update_profile' %}">complete your profile</a> to apply to jobs</h6>
   {% elif student.resume_s3 == None %}
-  <h6 style="color:red;">Please <a href="{% url 'update_profile' %}">add your resume</a> to apply to jobs</h6>
+  <h6 style="color:red;">Please <a href="{% url 'update_profile' %}">complete your profile</a> to apply to jobs</h6>
   {% elif not student.confirmed %}
   <h6 style="color:red;">Please confirm your email to apply to jobs</h6>
   {% endif %}

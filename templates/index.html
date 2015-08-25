@@ -57,19 +57,38 @@
       <div id="content">
         <div class="section no-pad-bot top" id="index-banner">
             <div class="container">
-              <br>
               <h1 class="company">EntryWire</h1>
               <div class="row center">
                 <h5 class="header col s12 light white-text">Tech Jobs for College Students</h5>
               </div>  
               <br>
-              <div class="row center" id="buttons">
-                <div class="col s12 m6 link">
+              <div class="row center form" id="buttons">
+<!--                 <div class="col s12 m6 link">
                   <a href="{% url 'student_signup' %}" id="candidates" class="button btn-large waves-effect waves-light deep-orange">Students</a>
                 </div>
                 <div class="col s12 m6 link">
                   <a href="{% url 'company_signup' %}" id="candidates" class="button btn-large waves-effect waves-light deep-orange">Companies</a>
-                </div>
+                </div> -->
+                <form class="col s12" role="form" method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <label for="email">School Email</label>
+                      <input name="email" id="id_email" type="text" required>
+                      {{ form.email.errors }}
+                    </div>
+                 </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <label>Password</label>
+                      {{ form.email.password }}
+                      <input name="password" id="id_password" type="password" required>
+                    </div>
+                 </div>
+                  <button class="btn waves-light deep-orange quick-signup" type="submit" name="action">Get Started
+                      <i class="mdi-content-send right"></i>
+                  </button>
+               </form>
               </div>
               <div class="row center">
                 <br>
@@ -84,7 +103,7 @@
               <h4>For Students</h4>
               <div class="row">
                 <div class="col s12 m12">
-                    <p class="light answers">We make it easy for engineering students to find jobs at tech companies and startups. <a href="{% url 'student_signup' %}">Get started now.</a></p>
+                    <p class="light answers">We make it easy for students to find jobs at tech companies and startups. <a href="{% url 'student_signup' %}">Get started now.</a></p>
                 </div>
               </div>
               <div class="row">
@@ -124,7 +143,7 @@
               <h4>For Companies</h4>
               <div class="row">
                 <div class="col s12 m12">
-                    <p class="light answers">Find the best engineering graduates from the top programs in the country. <a href="{% url 'company_signup' %}">Join our beta</a> and post for free.</p>
+                    <p class="light answers">Find the best graduates from the top programs in the country. <a href="{% url 'company_signup' %}">Join our beta</a> and post for free.</p>
                 </div>
               </div>
               <div class="row">

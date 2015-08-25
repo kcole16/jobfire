@@ -62,14 +62,18 @@ def parse_profile(profile):
     xml = BeautifulSoup(profile)
     picture_url = try_attribute(xml, 'picture-url')
     profile = try_attribute(xml, 'public-profile-url')
+    first_name = try_attribute(xml, 'first-name')
+    last_name = try_attribute(xml, 'last-name')
     user_details = {
         'profile':profile, 
-        'picture_url':picture_url
+        'picture_url':picture_url,
+        'first_name':first_name,
+        'last_name':last_name
         }   
     return user_details
 
 def save_linkedin_profile(student, access_token):
-    url = 'https://api.linkedin.com/v1/people/~:(id,public-profile-url,picture-url)'
+    url = 'https://api.linkedin.com/v1/people/~:(id,public-profile-url,first-name,last-name,picture-url)'
     headers = {
         'Host':'api.linkedin.com',
         'Connection':'Keep-Alive',
@@ -80,6 +84,8 @@ def save_linkedin_profile(student, access_token):
         user_details = parse_profile(r.text)
         student.picture = user_details['picture_url']
         student.linkedin = user_details['profile']
+        student.first_name = user_details['first_name']
+        student.last_name = user_details['last_name']
         student.save()
 
 

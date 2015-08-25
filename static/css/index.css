@@ -11,6 +11,42 @@ body {
 label.form-field {
 	color: #C0504D;
 }
+/*input {
+	color:white;
+}
+.input-field label{
+	color:white;
+}
+.input-field .prefix.active {
+     color: white;
+}*/
+div#buttons.row.center.form {
+	background-color: white;
+	height: 310px;
+	border-radius: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+	width: 450px;
+}
+form.col.s12 {
+	padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.quick-signup {
+	margin-top: 10px;
+	width: 390px;
+	height: 50px;
+}
+.input-field input[type=text]:focus {
+     border-bottom: 1px solid #ff5722;
+     box-shadow: 0 1px 0 0 #ff5722;
+}
+.input-field input[type=password]:focus {
+     border-bottom: 1px solid #ff5722;
+     box-shadow: 0 1px 0 0 #ff5722;
+}
 .navbar {
 	background-color: #003459;
 	box-shadow: none;
@@ -25,7 +61,7 @@ label.form-field {
 }
 .top {
 	background-color: #003459;
-	height: 500px;
+	height: 560px;
 }
 .tagline {
 	color: white;
@@ -133,12 +169,6 @@ div.mentors {
 	width: 100%;
 	text-align: center;
 }
-div#buttons.row.center {
-	margin-right: auto;
-	margin-left: auto;
-	text-align: center;
-	width: 65%;
-}
 .button {
 	width: 100%;
 	margin-bottom: 5px;
@@ -173,6 +203,12 @@ div.col.s12.m6.link {
 	}
 	.top {
 		height: 590px;
+	}
+	div#buttons.row.center.form {
+		width: 300px;
+	}
+	.quick-signup {
+		width: 240px;
 	}
 }
 .about-pic {
