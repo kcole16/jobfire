@@ -136,7 +136,7 @@ def apply(request, posting_id):
             'Company': posting.company.name,
         })
     subject = "Successfully Applied to %s" % posting.company.name
-    sender = "kendall@entrywire.com"
+    sender = "Kendall Cole at EntryWire <kendall@entrywire.com>"
     html = """<p>Hey %s,</p>
     <p>You've successfully applied to the %s position at %s! They've received your resume, and will be in touch with next steps.</p>
     <p>If you have any questions, feel free to contact me at kendall@entrywire.com.</p>

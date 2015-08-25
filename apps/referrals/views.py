@@ -68,7 +68,7 @@ def contact_referrals(request):
         <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (str(referral['name']).split(' ')[0], student.first_name, student.last_name,
             student.university.name)
         subject = "Startup Jobs for %s Students" % student.university.name
-        sender = "kendall@entrywire.com"
+        sender = "Kendall Cole at EntryWire <kendall@entrywire.com>"
         send_mail(subject, str(referral['email']), html, sender)
         referral_object = Referral(name=str(referral['name']), email=str(referral['email']), referred_by=student)
         referral_object.save()
