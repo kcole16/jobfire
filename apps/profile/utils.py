@@ -1,6 +1,7 @@
 import os
 import time
 import logging
+import json
 
 import requests
 from algoliasearch import algoliasearch
@@ -87,6 +88,12 @@ def save_linkedin_profile(student, access_token):
         student.first_name = user_details['first_name']
         student.last_name = user_details['last_name']
         student.save()
+
+def slack_notification(channel, text):
+    payload = {"channel": "#%s" % channel, "username": "Marvin","text":text}
+    url = "https://hooks.slack.com/services/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"
+    r = requests.post(url, json=payload)
+
 
 
 

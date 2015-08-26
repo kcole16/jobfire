@@ -19,7 +19,7 @@ from django.db import IntegrityError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm, UpdatePasswordForm, QuickSignupForm
 from apps.profile.models import *
-from apps.profile.utils import send_mail, send_conf_email, format_city, authenticate_linkedin, save_linkedin_profile
+from apps.profile.utils import *
 
 import bugsnag
 from mixpanel import Mixpanel
@@ -188,6 +188,10 @@ def apply(request, posting_id):
     <p>Best of luck,</p>
     <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (student.first_name, posting.position, posting.company.name)
     send_mail(subject, student.email, html, sender)
+    text = "%s %s from %s applied to the %s position at %s" % (student.first_name, student.last_name,
+        student.university.name, posting.position, posting.company.name)
+    channel = "applications"
+    slack_notification(channel, text)
     return redirect('applications')
 
 @login_required
