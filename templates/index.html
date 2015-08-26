@@ -69,7 +69,7 @@
                 <div class="col s12 m6 link">
                   <a href="{% url 'company_signup' %}" id="candidates" class="button btn-large waves-effect waves-light deep-orange">Companies</a>
                 </div> -->
-                <form class="col s12" role="form" method="POST" action="{% url 'home' %}">
+                <form class="col s12" role="form" method="POST" id="register" action="{% url 'home' %}">
                 {% csrf_token %}
                   <div class="row">
                     <div class="input-field col s12">
@@ -241,6 +241,7 @@
               window.location.hash = target;
           });
       });
+      mixpanel.track_forms("#register", "Student Signed Up");
     });
     </script>
   </body>

@@ -43,7 +43,8 @@ def home(request):
             if form.is_valid():
                 mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
                 email = str(form.cleaned_data['email'])
-                extension = email.split('@')[1]
+                root = email.split('@')[1].split(".")[-2:]
+                extension = "%s.%s" % (root[0], root[1])
                 try: 
                     university = University.objects.get(email_ext=extension)
                 except ObjectDoesNotExist:
@@ -209,7 +210,8 @@ def student_signup(request):
         if form.is_valid():
             mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
             email = str(form.cleaned_data['email'])
-            extension = email.split('@')[1]
+            root = email.split('@')[1].split(".")[-2:]
+            extension = "%s.%s" % (root[0], root[1])
             graduation_date = "%s %s" % (form.cleaned_data['semester'],
                 form.cleaned_data['grad_year'])
             try: 
