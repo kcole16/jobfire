@@ -70,6 +70,7 @@ class Posting(models.Model):
 	university = models.ForeignKey(University)
 	active = models.BooleanField(default=True)
 	description = models.TextField()
+	priority = models.IntegerField(default=0)
 
 class UniversityPosting(models.Model):
 	posting = models.ForeignKey(Posting)
