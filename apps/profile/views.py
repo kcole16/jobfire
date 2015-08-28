@@ -296,6 +296,7 @@ def update_profile(request):
     if request.POST:
         form = StudentUpdateForm(request.POST, request.FILES, instance=student)
         if form.is_valid():
+            mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
             form.save()
             student.graduation_date = "%s %s" % (form.cleaned_data['semester'],
                 form.cleaned_data['grad_year'])
@@ -307,6 +308,13 @@ def update_profile(request):
                 s3.close()
                 student.resume_s3="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/jobfire/resumes/%s" % uuid
             student.save()
+            mp.people_set(student.id, {
+                '$first_name'    : student.first_name,
+                '$last_name'     : student.last_name,
+                '$email'         : student.email,
+                '$university'         : student.university.name,
+                '$major' : student.major.name,
+            })
             return redirect('student_profile')
         else:
             print form.errors
