@@ -167,10 +167,11 @@ div.modal.posting-apply {
     overflow-y: auto;
 }
 div.posting-info {
-	padding: 15px;
 	background-color: #F5F5F5;
-	height: 300px;
+	padding: 15px;
+	height: 320px;
 	overflow-y: auto;
+	box-shadow: inset 1px 1px 3px #999;
 }
 @media only screen and (max-width : 800px) {
 	.search-params {
