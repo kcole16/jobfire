@@ -160,10 +160,13 @@ div.modal.posting-apply {
 	position: fixed;
 	overflow: hidden;
 }
+.university-modal {
+	height: 550px;
+}
 .universities {
 	margin-right: auto;
 	margin-left: auto;
-    height: 250px; /* or any value */
+    height: 350px; /* or any value */
     overflow-y: auto;
 }
 div.posting-info {
