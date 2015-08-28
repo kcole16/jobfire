@@ -1,38 +1,37 @@
 {% extends "company_base.html" %}
-{% block title %}EntryWire | Applications{% endblock %}
+{% block title %}EntryWire | All Applicants{% endblock %}
 {% block content %}
 {% load staticfiles %}
       <!--   Icon Section   -->
 <div class="container">
-  <br><br>
   <div class="row center">
-    <h4>Applications</h4>
+    <h4>All Applicants</h4>
   </div>
   {% if applications %}
   <table class="centered">
     <thead>
       <tr>
-          <th>Company</th>
+          <th>Student Name</th>
+          <th>University</th>
           <th>Position</th>
-          <th>Interview Status</th>
-          <th>View Position</th>
+          <th>Resume</th>
       </tr>
     </thead>
     <tbody>
       {% for application in applications %}
       <tr>
-        <td>{{ application.company.name }}</td>
+        <td><a href="{% url 'view_student' application.student.id%}">{{ application.student.first_name }} {{ application.student.last_name }}</a></td>
+        <td>{{ application.student.university.name }}</td>
         <td>{{ application.posting.position }}</td>
-        <td>Pending</td>
-        <td><a href="{% url 'posting_detail' application.posting.id%}">View</a></td>
+        <td><a href="{{ application.student.resume_s3 }}">View</a></td>
+
       </tr>
       {% endfor %}
     </tbody>
   </table>
   {% else %}
   <div class="row center">
-    <p class="flow-text">No Applicants Yet!</p>
-    <a href="{% url 'company_home' %}">View Postings</a>
+    <p class="flow-text">No applicants yet!</p>
   </div>
   {% endif %}
 </div>

@@ -23,6 +23,7 @@ logger = logging.getLogger("error.logger")
 
 
 @staff_member_required
+@login_required
 def create_university(request):
     if request.POST:
         form = UniversityForm(request.POST, request.FILES)
@@ -36,18 +37,21 @@ def create_university(request):
                               context_instance=RequestContext(request))
 
 @staff_member_required
+@login_required
 def view_companies(request):
     companies = Company.objects.all()
     return render_to_response('panel_companies.html', {'companies':companies},
         context_instance=RequestContext(request))
 
 @staff_member_required
+@login_required
 def view_universities(request):
     universities = University.objects.all()
     return render_to_response('panel_universities.html', {'universities':universities},
         context_instance=RequestContext(request))
 
 @staff_member_required
+@login_required
 def view_students(request, university_id):
     university = University.objects.get(pk=university_id)
     students = Student.objects.filter(university=university)

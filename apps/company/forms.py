@@ -29,9 +29,10 @@ class UpdateForm(forms.ModelForm):
         }
 
 class PostingForm(forms.ModelForm):
+    universities = forms.CharField(label="Universities")
     class Meta:
         model = Posting
-        fields = ['job_start_date', 'university', 'position', 'role', 
+        fields = ['job_start_date', 'position', 'role', 
         'job_type', 'location', 'description']
         widgets = {
             'description': TinyMCE(attrs={'cols': 80, 'rows': 30, 'placeholder':'Description'}),

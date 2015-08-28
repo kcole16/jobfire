@@ -156,6 +156,22 @@ div.modal.posting-apply {
 .menu {
 	margin-left: 15px;
 }
+.modal {
+	position: fixed;
+	overflow: hidden;
+}
+.universities {
+	margin-right: auto;
+	margin-left: auto;
+    height: 250px; /* or any value */
+    overflow-y: auto;
+}
+div.posting-info {
+	padding: 15px;
+	background-color: #F5F5F5;
+	height: 300px;
+	overflow-y: auto;
+}
 @media only screen and (max-width : 800px) {
 	.search-params {
 		margin-left: 2px;

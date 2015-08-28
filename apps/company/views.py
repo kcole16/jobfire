@@ -96,29 +96,32 @@ def company_signup(request):
 @login_required
 def create_posting(request):
     company = Recruiter.objects.get(user=request.user).company
+    universities = University.objects.all()
     if request.POST:
         form = PostingForm(request.POST)
-        form.is_valid()
-        expiration_date = datetime.datetime.now() + datetime.timedelta(days=90)
-        posting = Posting(expiration_date=expiration_date,
-                            job_start_date=form.cleaned_data['job_start_date'],
-                            position=form.cleaned_data['position'],
-                            job_type=form.cleaned_data['job_type'],
-                            company=company,
-                            role=form.cleaned_data['role'],
-                            location=form.cleaned_data['location'],
-                            university=form.cleaned_data['university'],
-                            description=form.cleaned_data['description']
-                            )
-        posting.save()
-        new_posting = UniversityPosting(posting=posting, university=form.cleaned_data['university'])
-        new_posting.save()
-        add_to_algolia(posting)
-        return redirect('home')
+        if form.is_valid():
+            universities = request.POST['universities'].split(',')
+            expiration_date = datetime.datetime.now() + datetime.timedelta(days=90)
+            posting = Posting(expiration_date=expiration_date,
+                                job_start_date=form.cleaned_data['job_start_date'],
+                                position=form.cleaned_data['position'],
+                                job_type=form.cleaned_data['job_type'],
+                                company=company,
+                                role=form.cleaned_data['role'],
+                                location=form.cleaned_data['location'],
+                                university=University.objects.get(pk=universities[0]),
+                                description=form.cleaned_data['description']
+                                )
+            posting.save()
+            for university in universities:
+                new_posting = UniversityPosting(posting=posting, university=University.objects.get(pk=university))
+                new_posting.save()
+            add_to_algolia(posting)
+            return redirect('home')
     else:
         form = PostingForm()
     return render_to_response('create_posting.html',
-                              {'form': form, 'company':company},
+                              {'form': form, 'company':company, 'universities':universities},
                               context_instance=RequestContext(request))
 
 @login_required
@@ -209,10 +212,17 @@ def change_password(request):
                               {'form': form, 'company':company},
                               context_instance=RequestContext(request))
 
-def company_applications(request):
+def all_applicants(request):
     company = Recruiter.objects.get(user=request.user).company
     applications = Application.objects.filter(company=company)
-    return render_to_response('company_applications.html', {'company':company})
+    return render_to_response('all_applicants.html', {'company':company, 'applications':applications})
+
+def view_student(request, student_id):
+    company = Recruiter.objects.get(user=request.user).company
+    student = Student.objects.get(pk=student_id)
+    return render_to_response('view_student.html',
+                              {'student': student, 'company':company},
+                              context_instance=RequestContext(request))
 
 # def confirm_email(request, email_token):
 #     success = False

@@ -47,8 +47,9 @@
     <ul class="side-nav fixed" id="slide-out">
       <li class="side-nav-header"><a href="{% url 'company_home' %}" id="logo"><img class="company-logo z-depth-1 circle responsive-img" src="{{ company.logo }}"></a></li>
       <li><a href="{% url 'company_profile' %}" id="sidenav">Company Profile</a></li>
+      <li><a href="{% url 'all_applicants' %}" id="sidenav">View Applicants</a></li>
       <li><a href="{% url 'company_home' %}" id="sidenav">View Postings</a></li>
-      <li><a href="{% url 'create_posting' %}" id="sidenav">New Posting</a></li>
+      <li><a href="{% url 'create_posting' %}" id="sidenav">Post New Job</a></li>
       <li><a href="{% url 'logout' %}" id="sidenav">Logout</a></li>
     </ul>
     <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu small menu"></i></a>

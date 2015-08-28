@@ -47,6 +47,7 @@ class Company(models.Model):
 	industry = models.ForeignKey(Industry)
 	universities = models.ManyToManyField(University)
 	phone = models.CharField(max_length=16)
+	paid = models.BooleanField(default=False)
 
 class Recruiter(models.Model):
 	user = models.ForeignKey(User)

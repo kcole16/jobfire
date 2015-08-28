@@ -15,25 +15,13 @@
   <h3>Post a Job</h3>
   <br>
   <div class="row">
-    {% if errors != None %}
-    {{ errors }}
-    {% endif %}
       <form class="col s12" role="form" method="POST" action="{% url 'create_posting' %}" enctype="multipart/form-data">
         {% csrf_token %}
-
-<!--         <input id="pac-input" class="controls" type="text"
-        placeholder="Enter a location">
- -->
         <div class="row">
-          <div class="input-field col s12">
-            {{ form.job_start_date }}
-            <label>Preferred Start Date</label>
-          </div>
-       </div>
-        <div class="row">
-          <div class="input-field col s12">
-            {{ form.university }}
-            <label>University</label>
+          <div class="col s12">
+            <input type="text" name="universities" hidden>
+            <a href="#" class="btn waves-light blue university-select">Select Universities</a>
+            {{ form.universities.errors }}
           </div>
        </div>
         <div class="row">
@@ -41,40 +29,87 @@
             <label for="position">Position</label>
             {{ form.position }}
           </div>
+          {{ form.position.errors }}
         </div>
+        <div class="row">
+          <div class="input-field col s12">
+            {{ form.job_start_date }}
+            <label>Preferred Start Date</label>
+          </div>
+          {{ form.job_start_date.errors }}
+       </div>
         <div class="row">
           <div class="input-field col s12">
             {{ form.job_type }}
             <label>Job Type</label>
           </div>
+          {{ form.job_type.errors }}
        </div>
         <div class="row">
           <div class="input-field col s12">
             {{ form.role }}
             <label>Role</label>
           </div>
+          {{ form.role.errors }}
        </div>
         <div class="row">
           <div class="input-field col s12">
             <label for="location">Location</label>
             {{ form.location }}
           </div>
+          {{ form.location.errors }}
         </div>
         <div class="row">
           <div class="input-field col s12">
             {{ form.description }}
             <label for="description" class="post-describe">Description</label><br>
           </div>
+          {{ form.description.errors }}
         </div>
-    <button class="btn waves-light red darken-4" type="submit" name="action">Submit
+    <button class="btn waves-light green" type="submit" name="action">Submit
         <i class="mdi-content-send right"></i>
     </button>
       </form>
   </div>
 </div>
+<div id="modal" class="modal posting-apply">
+    <div class="modal-content">
+      <div class="row center scroll-block">
+        <ul class="collection universities">
+        {% for university in universities %}
+          <li class="collection-item avatar">
+            <div class="col m6">
+              <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
+              <p class="flow-text">{{ university.name }}</p>
+              <p>{{ university.address }}</p>
+            </div>
+            <div class="input-field col m6 referral">
+              <p class="referral-select">
+                <input type="checkbox" id="id_check_{{university.id}}" value="{{university.id}}"/>
+                <label for="id_check_{{university.id}}"></label>
+              </p>            
+            </div>
+          </li>
+        {% endfor %}
+        </ul>
+        <a href="#" class="btn waves-light blue university-set">Select Universities</a>
+      </div>
+  </div>
+</div>
 <script>
 $(document).ready(function() {
     $('select').material_select();
+    $('.university-select').click(function(){
+      $('#modal').openModal();
+    });
+    $('.university-set').click(function(){
+      var universities = [];
+      $('input[type=checkbox]:checked').each(function() { 
+        universities.push($(this).val());
+      });
+      $('input[name=universities]').val(universities);
+      $('#modal').closeModal();
+    });
   });
 </script>
 <script type="text/javascript">

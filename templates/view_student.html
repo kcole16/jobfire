@@ -1,0 +1,34 @@
+{% extends "company_base.html" %}
+{% block title %}EntryWire | My Profile{% endblock %}
+{% block content %}
+{% load staticfiles %}
+
+<div class="container">
+  <div class="row">
+    {% if student.picture %}
+    <img src="{{ student.picture }}" class="company-logo z-depth-1 circle responsive-img">
+    {% else %}
+    <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
+    {% endif %}
+
+<!--     <img class="company-logo z-depth-1 circle responsive-img" src="{% static 'img/kendall.jpg' %}">
+ -->    
+  </div>
+  <div class="row">
+      <p class="flow-text"><strong>Expected Graduation:</strong> {{ student.graduation_date }}</p>
+      <p class="flow-text"><strong>Email:</strong> <a href="mailto:{{ student.email }}" target="_top">{{ student.email }}</a></p>
+      <p class="flow-text"><strong>Major:</strong> {{ student.major.name }}</p>
+      <p class="flow-text"><strong>LinkedIn:</strong> <a href="{{ student.linkedin }}" target="_blank">{{ student.linkedin }}</a></p>
+      <p class="flow-text"><strong>Github/Portfolio URL:</strong> <a href="{{ student.portfolio }}" target="_blank">{{ student.portfolio }}</a></p>
+      {% if student.resume_s3 != None %}
+      <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></p>
+      {% else %}
+      <p class="flow-text"><strong>Resume:</strong> <a href="{% url 'update_profile' %}">Add</a></p>
+      {% endif %}
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+  });
+</script>
+{% endblock %}

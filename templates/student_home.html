@@ -103,26 +103,29 @@
           <div class="row center">
               <img class="company-logo z-depth-1 circle responsive-img" src="{{ posting.company.logo }}">
             </div>
-            <div class="row center">
-              <h4>{{ posting.position }}</h4>
-              <h5>{{ posting.company.name }}</h5>
+            <div class="posting-info z-depth-1">
+              <div class="row center">
+                <h4>{{ posting.position }}</h4>
+                <h5>{{ posting.company.name }}</h5>
+              </div>
+              <div class="row center">
+                  {% if applied %}
+                  <i class="medium material-icons" style="color:green;">done</i>
+                  <p>You've applied!</p>
+                  {% endif %}
+              </div>
+              <div class="row">
+                <h6>About {{ posting.company.name }}:</h6>
+                <p class="flow-text about">{{ posting.company.about }}</p>
+                <h6>Location:</h6>
+                <p class="flow-text about">{{ posting.location }}</p>
+                <h6>Start Date:</h6>
+                <p class="flow-text about">{{ posting.job_start_date }}</p>
+                <h6>Description:</h6>
+                <p class="flow-text about">{{ posting.description|safe }}</p>
+              </div>
             </div>
-            <div class="row center">
-                {% if applied %}
-                <i class="medium material-icons" style="color:green;">done</i>
-                <p>You've applied!</p>
-                {% endif %}
-            </div>
-            <div class="row">
-              <h6>About {{ posting.company.name }}:</h6>
-              <p class="flow-text about">{{ posting.company.about }}</p>
-              <h6>Location:</h6>
-              <p class="flow-text about">{{ posting.location }}</p>
-              <h6>Start Date:</h6>
-              <p class="flow-text about">{{ posting.job_start_date }}</p>
-              <h6>Description:</h6>
-              <p class="flow-text about">{{ posting.description|safe }}</p>
-            </div>
+            <br>
             <div class="row center">
               {% if not applied %}
               <a href="{% url 'apply' posting.id%}" class="waves-effect waves-light btn-large blue">Apply</a>
