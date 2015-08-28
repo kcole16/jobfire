@@ -169,7 +169,7 @@ div.modal.posting-apply {
 div.posting-info {
 	background-color: #F5F5F5;
 	padding: 15px;
-	height: 320px;
+	height: 200px;
 	overflow-y: auto;
 	box-shadow: inset 1px 1px 3px #999;
 }

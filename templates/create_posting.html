@@ -78,11 +78,11 @@
         <ul class="collection universities">
         {% for university in universities %}
           <li class="collection-item avatar">
-            <div class="col m6">
+            <div class="col m10">
               <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
               <p class="flow-text">{{ university.name }}</p>
             </div>
-            <div class="input-field col m6 referral">
+            <div class="input-field col m2 referral">
               <p class="referral-select">
                 <input type="checkbox" id="id_check_{{university.id}}" value="{{university.id}}"/>
                 <label for="id_check_{{university.id}}"></label>
