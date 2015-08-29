@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.template.loader import render_to_string
 from apps.profile.models import Student
 from apps.profile.utils import send_mail
 from apps.referrals.models import Referral
@@ -61,14 +62,15 @@ def contact_referrals(request):
     student = Student.objects.get(user=request.user)
     referrals = json.loads(request.POST.dict()['data'])
     for referral in referrals:
-        html = """<p>Hey %s,</p>
-        <p>My name is Kendall, and I'm the founder of EntryWire. %s %s recently signed up with us, and thinks you'd be interested as well.</p>
-        <p>We work with dozens of startups, many of which are actively recruiting %s students. If you'd like to see which ones, sign up <a href="https://www.entrywire.com/student_signup/">here</a>.<br>
-        <p>Best of luck,</p>
-        <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (str(referral['name']).split(' ')[0], student.first_name, student.last_name,
-            student.university.name)
-        subject = "Startup Jobs for %s Students" % student.university.name
-        sender = "Kendall Cole at EntryWire <kendall@entrywire.com>"
+        html = render_to_string('email/referral.html', {'student': student})
+        # html = """<p>Hey %s,</p>
+        # <p>My name is Kendall, and I'm the founder of EntryWire. %s %s recently signed up with us, and thinks you'd be interested as well.</p>
+        # <p>We work with dozens of startups, many of which are actively recruiting %s students. If you'd like to see which ones, sign up <a href="https://www.entrywire.com/student_signup/">here</a>.<br>
+        # <p>Best of luck,</p>
+        # <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (str(referral['name']).split(' ')[0], student.first_name, student.last_name,
+        #     student.university.name)
+        subject = "Invitation to Join EntryWire"  
+        sender = "%s %s via EntryWire <kendall@entrywire.com>" % (student.first_name, student.last_name)
         send_mail(subject, str(referral['email']), html, sender)
         referral_object = Referral(name=str(referral['name']), email=str(referral['email']), referred_by=student)
         referral_object.save()

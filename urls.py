@@ -36,7 +36,7 @@ urlpatterns = patterns('',
     url(r'^change_password/', 'apps.company.views.change_password', name='change_password'),
 
     #Referrals
-    url(r'^google_login/', 'apps.referrals.views.google_login', name='google_login'),
+    url(r'^invite_friends/', 'apps.referrals.views.google_login', name='invite_friends'),
     url(r'^oauth2callback/', 'apps.referrals.views.oauth2callback', name='oauth2callback'),
     url(r'^referral_select/(.+)/', 'apps.referrals.views.referral_select', name='referral_select'),
     url(r'^contact_referrals/', 'apps.referrals.views.contact_referrals', name='contact_referrals'),

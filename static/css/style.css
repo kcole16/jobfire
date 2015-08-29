@@ -176,6 +176,15 @@ div.posting-info {
 	overflow-y: auto;
 	box-shadow: inset 1px 1px 3px #999;
 }
+.refer-form {
+	position: fixed;
+	overflow: hidden;
+}
+.referrals {
+	height: 400px;
+	overflow-y: auto;
+	border-bottom: 1px solid lightgray;
+}
 @media only screen and (max-width : 800px) {
 	.search-params {
 		margin-left: 2px;
