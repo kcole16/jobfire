@@ -53,8 +53,11 @@ def get_contacts(student, access_token):
     for entry in entries:
         name = entry.find('title').string
         email = entry.find('gd:email')['address']
-        if email.split('@')[1] == student.university.email_ext and name != None and email not in previous_referrals:
-            results.append({'name':name, 'email':email})
+        try:
+            if email.split('@')[1] == student.university.email_ext and name != None and email not in previous_referrals:
+                results.append({'name':name, 'email':email})
+        except IndexError:
+            pass
     return results
 
 @csrf_exempt
