@@ -53,8 +53,10 @@ def get_contacts(student, access_token):
     for entry in entries:
         name = entry.find('title').string
         email = entry.find('gd:email')['address']
+        root = email.split('@')[1].split(".")[-2:]
+        extension = "%s.%s" % (root[0], root[1])
         try:
-            if email.split('@')[1] == student.university.email_ext and name != None and email not in previous_referrals:
+            if extension == student.university.email_ext and name != None and email not in previous_referrals:
                 results.append({'name':name, 'email':email})
         except IndexError:
             pass
