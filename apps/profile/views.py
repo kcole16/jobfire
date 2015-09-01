@@ -103,7 +103,7 @@ def student_home(request):
             company_ids = [companies[0].id]
         else:
             company_ids = []
-        first_results = Posting.objects.filter(**args).order_by('-priority')
+        first_results = Posting.objects.filter(**args).order_by('company').order_by('-priority')
         postings_list = []
         for result in first_results:
             if q in result.description or result.company.id in company_ids:
