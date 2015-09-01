@@ -103,7 +103,7 @@ def student_home(request):
             company_ids = [companies[0].id]
         else:
             company_ids = []
-        first_results = Posting.objects.filter(**args).order_by('-priority').order_by('company')
+        first_results = Posting.objects.filter(**args).order_by('company').order_by('-priority')
         postings_list = []
         for result in first_results:
             if q in result.description or result.company.id in company_ids:
@@ -120,7 +120,7 @@ def student_home(request):
         # count = len(postings_list)
         # postings_list = []
     else:
-        postings_list = Posting.objects.filter(**args).order_by('-priority').order_by('company')
+        postings_list = Posting.objects.filter(**args).order_by('company').order_by('-priority').
         # results = Posting.objects.raw('select * from profile_posting where id not in (select posting_id from profile_application where student_id = %s) and university_id = %s;' % (student.id, student.university.id))
         # for result in results:
         #     for k in args:
