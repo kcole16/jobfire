@@ -297,6 +297,9 @@ def update_profile(request):
         form = StudentUpdateForm(request.POST, request.FILES, instance=student)
         if form.is_valid():
             mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
+            major = "None"
+            if form.cleaned_data['major']:
+                major = Major.objects.get(name=form.cleaned_data['major']).name
             form.save()
             student.graduation_date = "%s %s" % (form.cleaned_data['semester'],
                 form.cleaned_data['grad_year'])
@@ -313,7 +316,7 @@ def update_profile(request):
                 '$last_name'     : student.last_name,
                 '$email'         : student.email,
                 '$university'         : student.university.name,
-                '$major' : student.major.name,
+                '$major' : major
             })
             return redirect('student_profile')
         else:
