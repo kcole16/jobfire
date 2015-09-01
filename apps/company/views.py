@@ -116,7 +116,6 @@ def create_posting(request):
             for university in universities:
                 new_posting = UniversityPosting(posting=posting, university=University.objects.get(pk=university))
                 new_posting.save()
-            add_to_algolia(posting)
             return redirect('home')
     else:
         form = PostingForm()
@@ -132,7 +131,6 @@ def update_posting(request, posting_id):
         form = PostingForm(request.POST, instance=posting)
         if form.is_valid():
             form.save()
-            add_to_algolia(posting)
             return redirect('home')
     else:
         form = PostingForm(instance=posting)
