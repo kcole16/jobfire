@@ -188,8 +188,8 @@ def apply(request, posting_id):
     <p>Best of luck,</p>
     <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (student.first_name, posting.position, posting.company.name)
     send_mail(subject, student.email, html, sender)
-    text = "%s %s from %s applied to the %s position at %s" % (student.first_name, student.last_name,
-        student.university.name, posting.position, posting.company.name)
+    text = "%s %s from %s applied to the %s position at %s. Resume: %s" % (student.first_name, student.last_name,
+        student.university.name, posting.position, posting.company.name, student.resume_s3)
     channel = "applications"
     slack_notification(channel, text)
     return redirect('applications')
