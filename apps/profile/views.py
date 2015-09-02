@@ -180,6 +180,9 @@ def apply(request, posting_id):
         mp.track(student.id, 'Applied to Company', {
             'Company': posting.company.name,
         })
+        mp.people_increment(student.id, {
+            'Job Apps': 1
+        })
     subject = "Successfully Applied to %s" % posting.company.name
     sender = "Kendall Cole at EntryWire <kendall@entrywire.com>"
     html = """<p>Hey %s,</p>
