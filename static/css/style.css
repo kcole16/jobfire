@@ -185,6 +185,7 @@ div.posting-info {
 	overflow-y: auto;
 	border-bottom: 1px solid lightgray;
 }
+
 @media only screen and (max-width : 800px) {
 	.search-params {
 		margin-left: 2px;

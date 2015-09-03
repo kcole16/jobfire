@@ -20,15 +20,10 @@
       <form class="col s12" role="form" method="POST" action="{% url 'update_posting' posting.id%}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
-          <div class="input-field col s12">
-            {{ form.job_start_date }}
-            <label>Preferred Start Date</label>
-          </div>
-       </div>
-        <div class="row">
-          <div class="input-field col s12">
-            {{ form.university }}
-            <label>University</label>
+          <div class="col s12">
+            <input type="text" name="universities" hidden>
+            <a href="#" class="btn waves-light blue university-select">Select Universities</a>
+            {{ form.universities.errors }}
           </div>
        </div>
         <div class="row">
@@ -37,6 +32,12 @@
             {{ form.position }}
           </div>
         </div>
+        <div class="row">
+          <div class="input-field col s12">
+            {{ form.job_start_date }}
+            <label>Preferred Start Date</label>
+          </div>
+       </div>
         <div class="row">
           <div class="input-field col s12">
             {{ form.job_type }}
@@ -67,9 +68,74 @@
       </form>
   </div>
 </div>
+<div id="modal" class="modal university-modal">
+    <div class="modal-content">
+      <div class="row center scroll-block">
+        <ul class="collection universities">
+          <li class="collection-item avatar">
+            <div class="col m10">
+              <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
+              <p class="flow-text">Select All</p>
+            </div>
+            <div class="input-field col m2 referral">
+              <p class="referral-select">
+                <input type="checkbox" id="select_all"/>
+                <label for="select_all"></label>
+              </p>            
+            </div>
+          </li>
+        {% for university in universities %}
+          <li class="collection-item avatar">
+            <div class="col m10">
+              <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
+              <p class="flow-text">{{ university.name }}</p>
+            </div>
+            <div class="input-field col m2 referral">
+              <p class="referral-select">
+                <input class="university-option" type="checkbox" id="id_check_{{university.id}}" value="{{university.id}}"/>
+                <label for="id_check_{{university.id}}"></label>
+              </p>            
+            </div>
+          </li>
+        {% endfor %}
+        </ul>
+        <a href="#" class="btn waves-light blue university-set">Select Universities</a>
+      </div>
+  </div>
+</div>
 <script>
 $(document).ready(function() {
+    var preselected = {{ preselected }};
+    for (i = 0; i < preselected.length; i++) {
+      $('.university-option').each(function() {
+        $('input[value='+preselected[i]+']').prop('checked', true);
+      });
+    }
     $('select').material_select();
+    $('.university-select').click(function(){
+      $('#modal').openModal();
+    });
+    $('.university-set').click(function(){
+      var universities = [];
+      $('input[type=checkbox]:checked').each(function() { 
+        if ($(this).val() !== "on") {
+          universities.push($(this).val());
+        }
+      });
+      $('input[name=universities]').val(universities);
+      $('#modal').closeModal();
+    });
+    $('#select_all').click(function() {
+      if ($(this).prop('checked') == true) {
+        $('.university-option').each(function() { 
+          $(this).prop('checked', true);
+        });
+      } else {
+        $('.university-option').each(function() { 
+          $(this).prop('checked', false);
+        });
+      }
+    })
   });
 </script>
 <script type="text/javascript">

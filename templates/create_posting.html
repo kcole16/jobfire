@@ -76,6 +76,18 @@
     <div class="modal-content">
       <div class="row center scroll-block">
         <ul class="collection universities">
+          <li class="collection-item avatar">
+            <div class="col m10">
+              <i class="medium material-icons student-logo z-depth-1 circle responsive-img">perm_identity</i>
+              <p class="flow-text">Select All</p>
+            </div>
+            <div class="input-field col m2 referral">
+              <p class="referral-select">
+                <input type="checkbox" id="select_all"/>
+                <label for="select_all"></label>
+              </p>            
+            </div>
+          </li>
         {% for university in universities %}
           <li class="collection-item avatar">
             <div class="col m10">
@@ -84,7 +96,7 @@
             </div>
             <div class="input-field col m2 referral">
               <p class="referral-select">
-                <input type="checkbox" id="id_check_{{university.id}}" value="{{university.id}}"/>
+                <input class="university-option" type="checkbox" id="id_check_{{university.id}}" value="{{university.id}}"/>
                 <label for="id_check_{{university.id}}"></label>
               </p>            
             </div>
@@ -104,11 +116,24 @@ $(document).ready(function() {
     $('.university-set').click(function(){
       var universities = [];
       $('input[type=checkbox]:checked').each(function() { 
-        universities.push($(this).val());
+        if ($(this).val() !== "on") {
+          universities.push($(this).val());
+        }
       });
       $('input[name=universities]').val(universities);
       $('#modal').closeModal();
     });
+    $('#select_all').click(function() {
+      if ($(this).prop('checked') == true) {
+        $('.university-option').each(function() { 
+          $(this).prop('checked', true);
+        });
+      } else {
+        $('.university-option').each(function() { 
+          $(this).prop('checked', false);
+        });
+      }
+    })
   });
 </script>
 <script type="text/javascript">

@@ -115,6 +115,7 @@ def create_posting(request):
             posting.save()
             for university in universities:
                 new_posting = UniversityPosting(posting=posting, university=University.objects.get(pk=university))
+                print new_posting
                 new_posting.save()
             return redirect('home')
     else:
@@ -127,15 +128,23 @@ def create_posting(request):
 def update_posting(request, posting_id):
     posting = Posting.objects.get(pk=posting_id)
     company = posting.company
+    universities = University.objects.all()
+    preselected = UniversityPosting.objects.filter(posting=posting).values_list('university_id', flat=True)
+    print preselected
     if request.POST:
         form = PostingForm(request.POST, instance=posting)
         if form.is_valid():
+            universities = request.POST['universities'].split(',')
             form.save()
+            for university in universities:
+                new_posting = UniversityPosting(posting=posting, university=University.objects.get(pk=university))
+                new_posting.save()
             return redirect('home')
     else:
         form = PostingForm(instance=posting)
     return render_to_response('update_posting.html',
-                              {'form': form, 'posting':posting, 'company':company},
+                              {'form': form, 'posting':posting, 'company':company,
+                              'universities':universities, 'preselected':preselected},
                               context_instance=RequestContext(request))
 
 @login_required
