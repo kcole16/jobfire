@@ -129,11 +129,11 @@ def student_home(request):
     applications = Application.objects.filter(student=student).values_list('posting_id', flat=True).order_by('id')
 
     #Only exists while pitching Start @ Startup, needs to exist for all
-    if student.university.name == 'Start @ a Startup':
-        up = UniversityPosting.objects.filter(university=student.university).values_list('posting_id', flat=True).order_by('id')
-        postings_list = [posting for posting in postings_list if posting.id not in applications and posting.id in up]
-    else:
-        postings_list = [posting for posting in postings_list if posting.id not in applications]
+    # if student.university.name == 'Start @ a Startup':
+    up = UniversityPosting.objects.filter(university=student.university).values_list('posting_id', flat=True).order_by('id')
+    postings_list = [posting for posting in postings_list if posting.id not in applications and posting.id in up]
+    # else:
+    #     postings_list = [posting for posting in postings_list if posting.id not in applications]
         
     count = len(list(postings_list))
     paginator = Paginator(postings_list, 25) # Show 25 contacts per page
