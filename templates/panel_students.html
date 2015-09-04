@@ -22,7 +22,7 @@
                 <th>Major</th>
                 <th>Graduation Date</th>
                 <th>LinkedIn</th>
-                <th>Github/Portfolio</th>
+                <th>Resume</th>
               </tr>
               {% for student in students %}
               <tr>
@@ -31,7 +31,7 @@
                 <td>{{ student.major.name }}</td>
                 <td>{{ student.graduation_date }}</td>
                 <td><a href="{{ student.linkedin }}">LinkedIn</a></td>
-                <td><a href="{{ student.portfolio }}">Portfolio</a></td>
+                <td><a href="{{ student.resume_s3 }}">Resume</a></td>
               </tr>
               {% endfor %}
             </table>
