@@ -88,11 +88,14 @@ def home(request):
 @login_required
 def student_home(request):
     student = Student.objects.get(user=request.user)
+    template = 'student_home.html'
+    page_template = "_postings.html"
     # client = algoliasearch.Client("74PKG6FSJB", os.environ['ALGOLIA_KEY']);
     # index = client.init_index('Postings')
     args = request.GET.dict()
     page = request.GET.get('page')
     args.pop('page', None)
+    args.pop('querystring_key', None)
     if 'q' in args.keys():
         q = str(args['q'].decode('utf-8'))
         args.pop('q')
@@ -134,22 +137,16 @@ def student_home(request):
     postings_list = [posting for posting in postings_list if posting.id not in applications and posting.id in up]
     # else:
     #     postings_list = [posting for posting in postings_list if posting.id not in applications]
-        
-    count = len(list(postings_list))
-    paginator = Paginator(postings_list, 25) # Show 25 contacts per page
-    paginator._count = len(list(postings_list))
-    try:
-        postings = paginator.page(page)
-    except PageNotAnInteger:
-        postings = paginator.page(1)
-    except EmptyPage:
-        postings = paginator.page(paginator.num_pages)
+    entries = postings_list
+    count = len(entries)
+    if request.is_ajax():
+        template = "_postings.html"
 
     formatted_args = ""
     if args != {}:
         formatted_args = "&" + urllib.urlencode(args)
 
-    return render_to_response('student_home.html', {'postings':postings, 'count':count, 
+    return render_to_response(template, {'entries':entries, 'count':count, 'page_template':page_template, 
         'student':student, 'formatted_args':formatted_args}, context_instance=RequestContext(request))
 
 @login_required

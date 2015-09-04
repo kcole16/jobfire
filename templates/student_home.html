@@ -63,88 +63,14 @@
 </div>
 <div class="section">
   <div class="results z-depth-1">
-    {% for posting in postings %}
-    <div class="result" name="{{ posting.id }}">
-      <div class="row result-content">
-        <div class="col m2 s12 company-logo">
-          <a href="{{ posting.company.url }}" target="_blank"><img class="square-logo" src="{{ posting.company.logo }}"></a>
-        </div>
-        <div class="col m3 s12">
-          <ul class="posting-details">
-            <li><a href="{{ posting.company.url }}" target="_blank"><strong>{{ posting.company.name }}</strong></a></li>
-            <li>{{ posting.position }}</li>
-            <li>{{ posting.location }}</li>
-          </ul>
-        </div>
-        <div class="col m5 s12">
-          <ul class="posting-details">
-            <li>{{ posting.job_start_date|title }} Start</li>
-            <li>{{ posting.role }} Role</li>
-            <li>{{ posting.job_type|title }}</li>
-          </ul>
-        </div>
-        <div class="col m2 s12">
-          {% if student.confirmed and student.resume_s3 != None %}
-          <a href="#" name="{{ posting.id }}" class="waves-effect waves-light btn-large btn-posting blue">Apply</a>
-          {% endif %}
-        </div>
-      </div>
-      <div class="row detail" id="{{posting.id}}">
-        <h6>About {{ posting.company.name }}:</h6>
-        <p>{{ posting.company.about }}</p>
-        <h6>Description:</h6>
-        <p>{{ posting.description|safe }}</p>
-      </div>
+    <div id="entries" class="endless_page_template">
+        {% include page_template %}
     </div>
-    <div class="row block">
-    </div>
-    <div id="modal{{posting.id}}" class="modal posting-apply">
-        <div class="modal-content">
-          <div class="row center">
-              <img class="company-logo z-depth-1 responsive-img" src="{{ posting.company.logo }}">
-            </div>
-              <div class="row center">
-                <h4>{{ posting.position }}</h4>
-                <h5>{{ posting.company.name }}</h5>
-              </div>
-            <div class="posting-info">
-              <div class="row">
-                <h6>About {{ posting.company.name }}:</h6>
-                <p class="about">{{ posting.company.about }}</p>
-                <h6>Location:</h6>
-                <p class="about">{{ posting.location }}</p>
-                <h6>Start Date:</h6>
-                <p class="about">{{ posting.job_start_date }}</p>
-                <h6>Description:</h6>
-                <p class="about">{{ posting.description|safe }}</p>
-              </div>
-            </div>
-            <br>
-            <div class="row center">
-              {% if not applied %}
-              <a href="{% url 'apply' posting.id%}" class="waves-effect waves-light btn-large blue">Apply</a>
-              {% endif %}
-            </div>
-      </div>
-    </div>
-    {% endfor %}
   </div>
   <br>
-  <div class="pagination row center">
-      <span class="step-links">
-          {% if postings.has_previous %}
-              <a href="?page={{ postings.previous_page_number }}{{ formatted_args }}">previous</a>
-          {% endif %}
-          <span class="current">
-              Page {{ postings.number }} of {{ postings.paginator.num_pages }}
-          </span>
-          {% if postings.has_next %}
-              <a href="?page={{ postings.next_page_number }}{{ formatted_args }}">next</a>
-          {% endif %}
-      </span>
-  </div>
-</div>
 
+<script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+<script>$.endlessPaginate({paginateOnScroll: true});</script>
 
 <script>
   $(document).ready(function(){
@@ -154,7 +80,6 @@
       "$last_login": new Date(),        
     });
 
-    $('.result').css( 'cursor', 'pointer' );
     var selected = {};
     location.search.substr(1).split("&").forEach(function (pair) {
         if (pair === "") return;
@@ -197,7 +122,7 @@
         $(location).attr('href',url);
       }
     });
-
+    $('.result').css( 'cursor', 'pointer' );
     $('.btn-posting').click(function(){
       var posting = $(this).attr('name');
       $('#modal'+posting).openModal();
@@ -207,15 +132,50 @@
       window.location.href = "/apply/"+posting+"/";
     });
 
-    $('.detail').hide();
-    $('.result').click(function() {
-      var element = '#'+$(this).attr('name');
-      mixpanel.track('Looked At Posting', {'Posting ID': $(this).attr('name')});
-      $(element).toggle('slide');
+    $('.btn-posting').click(function() {
+        mixpanel.track("Went to Job Details");
+      });
+    $('.result').click(function(e) {
+        var element = '#'+$(this).attr('name');
+        mixpanel.track('Looked At Posting', {'Posting ID': $(this).attr('name')});
+        if ($(element).is(":hidden") === true) {
+          debugger;
+          $(element).show('slide');
+          window.stop();
+        } else if ($(element).is(":hidden") === false){
+          debugger;
+          $(element).hide('slide');
+        }
     });
 
-    $('.btn-posting').click(function() {
-      mixpanel.track("Went to Job Details");
+    $('#entries').endlessPaginate({
+        onCompleted: function(data) {
+          $('.result').css( 'cursor', 'pointer' );
+          $('.btn-posting').click(function(e){
+            e.stopPropagation();
+            var posting = $(this).attr('name');
+            $('#modal'+posting).openModal();
+          });
+          $('.apply').click(function(){
+            var posting = $(this).attr('name');
+            window.location.href = "/apply/"+posting+"/";
+          });
+
+          $('.btn-posting').click(function() {
+              mixpanel.track("Went to Job Details");
+            });
+          $('.result').unbind('click').click(function() {
+              var element = '#'+$(this).attr('name');
+              mixpanel.track('Looked At Posting', {'Posting ID': $(this).attr('name')});
+              if ($(element).is(":hidden") === true) {
+                debugger;
+                $(element).show('slide');
+              } else if ($(element).is(":hidden") === false){
+                debugger;
+                $(element).hide('slide');
+              }
+          });
+        }
     });
 
   });

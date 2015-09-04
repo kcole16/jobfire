@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'storages',
     'tinymce',
     'password_reset',
+    'endless_pagination'
 )
 
 MIDDLEWARE_CLASSES = (
