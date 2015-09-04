@@ -129,8 +129,7 @@ def update_posting(request, posting_id):
     posting = Posting.objects.get(pk=posting_id)
     company = posting.company
     universities = University.objects.all()
-    preselected = UniversityPosting.objects.filter(posting=posting).values_list('university_id', flat=True)
-    print preselected
+    preselected = [up.university_id for up in UniversityPosting.objects.filter(posting=posting)]
     if request.POST:
         form = PostingForm(request.POST, instance=posting)
         if form.is_valid():
