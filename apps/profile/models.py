@@ -89,6 +89,10 @@ class Interview(models.Model):
 	student = models.ForeignKey(Student)
 	company = models.ForeignKey(Company)
 
+class Recommendation(models.Model):
+	posting = models.ForeignKey(Posting)
+	student = models.ForeignKey(Student)
+
 class Document(models.Model):
 	type = models.CharField(max_length=100)
 	s3_location = models.CharField(max_length=100)

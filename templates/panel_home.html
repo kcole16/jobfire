@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  </head>
+
+  <body>
+    <center>
+      <div class="container-fluid center-block">
+      <div class="center-block">
+        <div class="center-block main">
+          <h1>Admin Home</h1><br>
+          <div class="list-group">
+            <ul>
+                <li><a href="{% url 'create_university' %}">Create University</a></li>
+                <li><a href="{% url 'view_universities' %}">View Universities</a></li>
+                <li><a href="{% url 'view_companies' %}">View Companies</a></li>
+                <li><a href="{% url 'view_applicants' %}">View Applicants</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </center>
+
+
+  </body>
+
+</html>

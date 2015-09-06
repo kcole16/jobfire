@@ -24,12 +24,17 @@ logger = logging.getLogger("error.logger")
 
 @staff_member_required
 @login_required
+def panel_home(request):
+    return render_to_response('panel_home.html')
+
+@staff_member_required
+@login_required
 def create_university(request):
     if request.POST:
         form = UniversityForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('panel_home')
     else:
         form = UniversityForm()
     return render_to_response('create_university.html',
@@ -56,5 +61,26 @@ def view_students(request, university_id):
     university = University.objects.get(pk=university_id)
     students = Student.objects.filter(university=university)
     return render_to_response('panel_students.html', {'students':students},
+        context_instance=RequestContext(request))
+
+# @staff_member_required
+# @login_required
+# def create_recommendation(request):
+#     if request.POST:
+#         form = RecommendationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('panel_home')
+#     else:
+#         form = RecommendationForm()
+#     return render_to_response('create_recommendation.html',
+#                               {'form': form},
+#                               context_instance=RequestContext(request))
+
+@staff_member_required
+@login_required
+def view_applicants(request):
+    applications = Application.objects.all()
+    return render_to_response('panel_applicants.html', {'applications':applications},
         context_instance=RequestContext(request))
 

@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^posting_detail/(.+)/', 'apps.profile.views.posting_detail', name='posting_detail'),
     url(r'^apply/(.+)/', 'apps.profile.views.apply', name='apply'),
     url(r'^applications/', 'apps.profile.views.applications', name='applications'),
+    url(r'^recommendations/', 'apps.profile.views.recommendations', name='recommendations'),
     url(r'^student_profile/', 'apps.profile.views.student_profile', name='student_profile'),
     url(r'^update_profile/', 'apps.profile.views.update_profile', name='update_profile'),
     url(r'^confirm_email/(.+)/', 'apps.profile.views.confirm_email', name='confirm_email'),
@@ -42,9 +43,12 @@ urlpatterns = patterns('',
     url(r'^contact_referrals/', 'apps.referrals.views.contact_referrals', name='contact_referrals'),
 
     #Admin
+    url(r'^panel/home/', 'apps.panel.views.panel_home', name='panel_home'),
     url(r'^panel/create_university/', 'apps.panel.views.create_university', name='create_university'),
+    # url(r'^panel/create_recommendation/', 'apps.panel.views.create_recommendation', name='create_recommendation'),
     url(r'^panel/view_companies/', 'apps.panel.views.view_companies', name='view_companies'),
     url(r'^panel/view_universities/', 'apps.panel.views.view_universities', name='view_universities'),
+    url(r'^panel/view_applicants/', 'apps.panel.views.view_applicants', name='view_applicants'),
     url(r'^panel/view_students/(.+)/', 'apps.panel.views.view_students', name='view_students'),
 
     #Privacy and Terms

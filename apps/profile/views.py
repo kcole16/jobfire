@@ -337,6 +337,13 @@ def update_profile(request):
                               context_instance=RequestContext(request))
 
 @login_required
+def recommendations(request):
+    student = Student.objects.get(user=request.user)
+    recs = Recommendation.objects.filter(student=student)
+    return render_to_response('recommendations.html', {'recs':recs},
+        context_instance=RequestContext(request))
+
+@login_required
 def update_password(request):
     student = Student.objects.get(user=request.user)
     if request.POST:
