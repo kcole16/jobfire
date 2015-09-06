@@ -340,7 +340,7 @@ def update_profile(request):
 def recommendations(request):
     student = Student.objects.get(user=request.user)
     recs = Recommendation.objects.filter(student=student)
-    return render_to_response('recommendations.html', {'recs':recs},
+    return render_to_response('recommendations.html', {'recs':recs, 'student':student},
         context_instance=RequestContext(request))
 
 @login_required
