@@ -88,6 +88,7 @@ def home(request):
 @login_required
 def student_home(request):
     student = Student.objects.get(user=request.user)
+    markets = student.university.market_set.all()
     template = 'student_home.html'
     page_template = "_postings.html"
     # client = algoliasearch.Client("74PKG6FSJB", os.environ['ALGOLIA_KEY']);
@@ -147,7 +148,8 @@ def student_home(request):
         formatted_args = "&" + urllib.urlencode(args)
 
     return render_to_response(template, {'entries':entries, 'count':count, 'page_template':page_template, 
-        'student':student, 'formatted_args':formatted_args}, context_instance=RequestContext(request))
+        'student':student, 'markets': markets, 
+        'formatted_args':formatted_args}, context_instance=RequestContext(request))
 
 @login_required
 def posting_detail(request, posting_id):

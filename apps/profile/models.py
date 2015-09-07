@@ -93,6 +93,14 @@ class Recommendation(models.Model):
 	posting = models.ForeignKey(Posting)
 	student = models.ForeignKey(Student)
 
+class Market(models.Model):
+	name = models.CharField(max_length=200)
+	display_name = models.CharField(max_length=200)
+	universities = models.ManyToManyField(University)
+
+	def __unicode__(self):
+	    return u'{0}'.format(self.display_name)
+
 class Document(models.Model):
 	type = models.CharField(max_length=100)
 	s3_location = models.CharField(max_length=100)
