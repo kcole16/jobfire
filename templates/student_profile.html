@@ -22,7 +22,7 @@
       <p class="flow-text"><strong>LinkedIn:</strong> {{ student.linkedin }}</p>
       <p class="flow-text"><strong>Github/Portfolio URL:</strong> {{ student.portfolio }}</p>
       {% if student.resume_s3 != None %}
-      <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}">View</a></p>
+      <p class="flow-text"><strong>Resume:</strong> <a href="{{ student.resume_s3 }}" target="_blank">View</a></p>
       {% else %}
       <p class="flow-text"><strong>Resume:</strong> <a href="{% url 'update_profile' %}">Add</a></p>
       {% endif %}

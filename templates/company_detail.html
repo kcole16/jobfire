@@ -1,0 +1,41 @@
+{% extends "student_base.html" %}
+{% block title %}EntryWire | {{ company_info.name }}{% endblock %}
+{% block content %}
+{% load staticfiles %}
+
+<div class="container">
+  <div class="row center">
+    <img class="company-logo z-depth-1 circle responsive-img" src="{{ company_info.logo_url }}">
+    <h4 class="light">{{ company_info.name }}</h4>
+    <h6>{{ company_info.high_concept }}</h6>
+  </div>
+  <div class="row">
+    <h6>About Us:</h6>
+    <p>{{ company_info.product_desc }}</p>
+  </div>
+  <div class="row">
+    <h6>Open Positions:</h6>
+    <ul>
+      {% for posting in postings %}
+      <li><a href="{% url 'posting_detail' posting.id%}">{{ posting.position }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% if twitter %}
+  <a class="twitter-timeline" href="{{ company_info.twitter_url }}" data-widget-id="640969776261660672" data-screen-name="{{ twitter }}">Tweets by @kcole16</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  {% endif %}
+
+<!--   <div class="row">
+      <p class="flow-text"><strong>Contact Email:</strong> {{ recruiter.email }}</li>
+      <p class="flow-text"><strong>URL:</strong><a href="{{ company.url }}"> {{ company.url }}</a></li>
+      <p class="flow-text"><strong>About:</strong> {{ company.about }}</li>
+      <p class="flow-text"><strong>Address:</strong> {{ company.address }}</li>
+      <p class="flow-text"><strong>Phone:</strong> {{ company.phone }}</li>
+  </div> -->
+</div>
+<script>
+  $(document).ready(function(){
+  });
+</script>
+{% endblock %}

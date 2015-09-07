@@ -392,6 +392,19 @@ def oauth(request):
     user_status = save_linkedin_profile(student, access_token)
     return redirect('student_profile')
 
+@login_required
+def company_detail(request, company_id):
+    student = Student.objects.get(user=request.user)
+    company = Company.objects.get(pk=company_id)
+    postings = Posting.objects.filter(company=company)
+    company_info = get_company_info(company.name)
+    try:
+        twitter = company_info['twitter_url'].split('.com/')[1]
+    except:
+        twitter = None
+    return render_to_response('company_detail.html', {'company_info':company_info,
+        'postings':postings, 'student':student, 'twitter':twitter},context_instance=RequestContext(request))
+
 # @login_required
 # def interviews(request):
 #     student = Student.objects.get(user=request.user)

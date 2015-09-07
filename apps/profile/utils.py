@@ -6,6 +6,7 @@ import json
 import requests
 from algoliasearch import algoliasearch
 from bs4 import BeautifulSoup
+import pymongo
 
 logger = logging.getLogger("error.logger")
 
@@ -93,6 +94,16 @@ def slack_notification(channel, text):
     payload = {"channel": "#%s" % channel, "username": "Marvin","text":text}
     url = "https://hooks.slack.com/services/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"
     r = requests.post(url, json=payload)
+
+def connect_db():
+    client = pymongo.MongoClient(os.environ['MONGO_URL'])
+    db = client['entrywire-data']
+    return db
+
+def get_company_info(name):
+    db = connect_db()
+    company_info = db.companies.find_one({'name':name})
+    return company_info
 
 
 
