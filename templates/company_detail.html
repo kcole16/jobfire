@@ -10,8 +10,13 @@
     <h6>{{ company_info.high_concept }}</h6>
   </div>
   <div class="row">
-    <h6>About Us:</h6>
+    <h6>About {{ company_info.name }}:</h6>
     <p>{{ company_info.product_desc }}</p>
+  </div>
+  <div class="row">
+    <p>Total Funding: {{ company_info.total_funding }}</p>
+    <p>Stage: {{ company_info.funding_stage }}</p>
+    <p>Employees: {{ company_info.employees }}</p>
   </div>
   <div class="row">
     <h6>Open Positions:</h6>

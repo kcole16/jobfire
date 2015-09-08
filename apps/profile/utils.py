@@ -2,6 +2,7 @@ import os
 import time
 import logging
 import json
+import locale
 
 import requests
 from algoliasearch import algoliasearch
@@ -102,7 +103,18 @@ def connect_db():
 
 def get_company_info(name):
     db = connect_db()
+    locale.setlocale( locale.LC_ALL, '' )
     company_info = db.companies.find_one({'name':name})
+    company_info['total_funding'] = locale.currency(company_info['total_funding'], grouping=True)
+    stage = company_info['funding_stage']
+    if stage == 'PreSeriesA':
+        company_info['funding_stage'] = 'Seed'
+    elif stage == 'Late':
+        company_info['funding_stage'] == 'Post Series C' 
+    elif stage == '':
+        company_info['funding_stage'] == 'N/A'
+    else:
+        company_info['funding_stage'] == 'Series %s' % stage
     return company_info
 
 
