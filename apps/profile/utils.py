@@ -105,16 +105,23 @@ def get_company_info(name):
     db = connect_db()
     locale.setlocale( locale.LC_ALL, 'en_US' )
     company_info = db.companies.find_one({'name':name})
-    company_info['total_funding'] = locale.currency(company_info['total_funding'], grouping=True)
-    stage = company_info['funding_stage']
-    if stage == 'PreSeriesA':
-        company_info['funding_stage'] = 'Seed'
-    elif stage == 'Late':
-        company_info['funding_stage'] == 'Post Series C' 
-    elif stage == '':
-        company_info['funding_stage'] == 'N/A'
+    try:
+        company_info['total_funding'] = locale.currency(int(company_info['total_funding']), grouping=True)
+    except KeyError:
+        company_info['total_funding'] == 'N/A'
+    try:
+        stage = company_info['funding_stage']
+    except KeyError:
+        company_info['funding_stage'] == 'Seed'
     else:
-        company_info['funding_stage'] == 'Series %s' % stage
+        if stage == 'PreSeriesA' or stage == 'Pre Series A':
+            company_info['funding_stage'] = 'Seed'
+        elif stage == 'Late':
+            company_info['funding_stage'] == 'Post Series C' 
+        elif stage == '':
+            company_info['funding_stage'] == 'Seed'
+        else:
+            company_info['funding_stage'] == 'Series %s' % stage
     return company_info
 
 
