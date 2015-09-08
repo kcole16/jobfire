@@ -107,11 +107,11 @@ def get_company_info(name):
     company_info = db.companies.find_one({'name':name})
     try:
         company_info['total_funding'] = locale.currency(int(company_info['total_funding']), grouping=True)
-    except KeyError:
+    except (KeyError, TypeError):
         company_info['total_funding'] = 'N/A'
     try:
         stage = company_info['funding_stage']
-    except KeyError:
+    except (KeyError, TypeError):
         company_info['funding_stage'] = 'Seed'
     else:
         if stage == 'PreSeriesA' or stage == 'Pre Series A':
