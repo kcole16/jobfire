@@ -108,20 +108,20 @@ def get_company_info(name):
     try:
         company_info['total_funding'] = locale.currency(int(company_info['total_funding']), grouping=True)
     except KeyError:
-        company_info['total_funding'] == 'N/A'
+        company_info['total_funding'] = 'N/A'
     try:
         stage = company_info['funding_stage']
     except KeyError:
-        company_info['funding_stage'] == 'Seed'
+        company_info['funding_stage'] = 'Seed'
     else:
         if stage == 'PreSeriesA' or stage == 'Pre Series A':
             company_info['funding_stage'] = 'Seed'
         elif stage == 'Late':
-            company_info['funding_stage'] == 'Post Series C' 
+            company_info['funding_stage'] = 'Post Series C' 
         elif stage == '':
-            company_info['funding_stage'] == 'Seed'
+            company_info['funding_stage'] = 'Seed'
         else:
-            company_info['funding_stage'] == 'Series %s' % stage
+            company_info['funding_stage'] = 'Series %s' % stage
     return company_info
 
 
