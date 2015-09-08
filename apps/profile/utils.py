@@ -103,7 +103,7 @@ def connect_db():
 
 def get_company_info(name):
     db = connect_db()
-    locale.setlocale( locale.LC_ALL, '' )
+    locale.setlocale( locale.LC_ALL, 'en_US' )
     company_info = db.companies.find_one({'name':name})
     company_info['total_funding'] = locale.currency(company_info['total_funding'], grouping=True)
     stage = company_info['funding_stage']
