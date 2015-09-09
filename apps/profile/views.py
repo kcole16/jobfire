@@ -168,6 +168,8 @@ def posting_detail(request, posting_id):
 @login_required
 def apply(request, posting_id):
     student = Student.objects.get(user=request.user)
+    if student.resume_s3 == None or student.confirmed == False:
+        return redirect('home')
     posting = Posting.objects.get(id=posting_id)
     try:
         application = Application.objects.get(student=student, posting=posting)
