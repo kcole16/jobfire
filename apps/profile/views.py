@@ -197,6 +197,37 @@ def apply(request, posting_id):
     return redirect('applications')
 
 @login_required
+def follow(request, posting_id):
+    student = Student.objects.get(user=request.user)
+    posting = Posting.objects.get(id=posting_id)
+    try:
+        follow = Follow.objects.get(student=student, posting=posting)
+    except ObjectDoesNotExist: 
+        follow = Follow(posting=posting, student=student, 
+            company=posting.company)
+        follow.save()
+        mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
+        mp.track(student.id, 'Following Company', {
+            'Company': posting.company.name,
+        })
+        mp.people_increment(student.id, {
+            'Following': 1
+        })
+    subject = "You're Now Following %s" % posting.company.name
+    sender = "Kendall Cole at EntryWire <kendall@entrywire.com>"
+    html = """<p>Hey %s,</p>
+    <p>You're now following the %s position at %s! We've let the hiring manager know you're interested, and they'll let you know when the application process starts!</p>
+    <p>If you have any questions, feel free to contact me at kendall@entrywire.com.</p>
+    <p>Best of luck,</p>
+    <p>Kendall<br>Co-Founder<br>EntryWire, Inc.</p>""" % (student.first_name, posting.position, posting.company.name)
+    send_mail(subject, student.email, html, sender)
+    text = "%s %s from %s is following the %s position at %s. Resume: %s" % (student.first_name, student.last_name,
+        student.university.name, posting.position, posting.company.name, student.resume_s3)
+    channel = "follows"
+    slack_notification(channel, text)
+    return redirect('following')
+
+@login_required
 def student_profile(request):
     student = Student.objects.get(user=request.user)
     return render_to_response('student_profile.html', 
@@ -209,6 +240,12 @@ def applications(request):
     return render_to_response('applications.html', 
         {'applications':applications, 'student':student}, context_instance=RequestContext(request))
 
+@login_required
+def following(request):
+    student = Student.objects.get(user=request.user)
+    follows = Follow.objects.filter(student=student)
+    return render_to_response('following.html', 
+        {'follows':follows, 'student':student}, context_instance=RequestContext(request))
 
 def student_signup(request):
     if request.POST:

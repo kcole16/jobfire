@@ -116,8 +116,6 @@ def get_company_info(name):
     else:
         if stage == 'PreSeriesA' or stage == 'Pre Series A':
             company_info['funding_stage'] = 'Seed'
-        elif stage == 'Late':
-            company_info['funding_stage'] = 'Post Series C' 
         elif stage == '':
             company_info['funding_stage'] = 'Seed'
         else:

@@ -71,6 +71,7 @@ class Posting(models.Model):
 	active = models.BooleanField(default=True)
 	description = models.TextField()
 	priority = models.IntegerField(default=0)
+	started = models.BooleanField(default=False)
 
 class UniversityPosting(models.Model):
 	posting = models.ForeignKey(Posting)
@@ -92,6 +93,11 @@ class Interview(models.Model):
 class Recommendation(models.Model):
 	posting = models.ForeignKey(Posting)
 	student = models.ForeignKey(Student)
+
+class Follow(models.Model):
+	posting = models.ForeignKey(Posting)
+	student = models.ForeignKey(Student)
+	company = models.ForeignKey(Company)
 
 class Market(models.Model):
 	name = models.CharField(max_length=200)

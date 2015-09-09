@@ -1,0 +1,45 @@
+{% extends "student_base.html" %}
+{% block title %}EntryWire | Following{% endblock %}
+{% block content %}
+{% load staticfiles %}
+      <!--   Icon Section   -->
+<div class="container">
+  <br><br>
+  <div class="row center">
+    <h4>Following</h4>
+  </div>
+  {% if follows %}
+  <table class="centered">
+    <thead>
+      <tr>
+          <th>Company</th>
+          <th>Position</th>
+          <th>Interview Status</th>
+          <th>View Position</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for follow in follows %}
+      <tr>
+        <td>{{ follow.company.name }}</td>
+        <td>{{ follow.posting.position }}</td>
+        <td>Pending</td>
+        <td><a href="{% url 'posting_detail' follow.posting.id%}">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="row center">
+    <p class="flow-text">You aren't following any jobs!</p>
+    <a href="{% url 'student_home' %}">Search Openings</a>
+  </div>
+  {% endif %}
+</div>
+
+
+<script>
+  $(document).ready(function(){
+  });
+</script>
+{% endblock %}

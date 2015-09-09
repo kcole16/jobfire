@@ -53,6 +53,7 @@
       <li class="side-nav-header" id="student" style="background-color:{{ student.university.color_main }};"><a href="{% url 'home' %}" id="school-logo"><img class="university-logo" src="https://s3.amazonaws.com/elasticbeanstalk-us-east-1-745309683664/{{ student.university.logo }}"></a></li>
       <li><a href="{% url 'student_home' %}" id="sidenav"><i class="tiny material-icons">search</i>  Available Jobs</a></li>
       <li><a href="{% url 'student_profile' %}" id="sidenav"><i class="tiny material-icons">perm_identity</i>  My Profile</a></li>
+      <li><a href="{% url 'following' %}" id="sidenav"><i class="tiny material-icons">grade</i>  Following</a></li>
       <li><a href="{% url 'applications' %}" id="sidenav"><i class="tiny material-icons">toc</i>  Applications</a></li>
       <li><a href="{% url 'recommendations' %}" id="sidenav"><i class="tiny material-icons">thumb_up</i>  Recommendations</a></li>
       <li><a href="{% url 'logout' %}" id="sidenav"><i class="tiny material-icons">settings_power</i>  Logout</a></li>
