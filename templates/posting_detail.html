@@ -17,6 +17,10 @@
       <i class="medium material-icons" style="color:green;">done</i>
       <p>You've applied!</p>
       {% endif %}
+      {% if following %}
+      <i class="medium material-icons" style="color:green;">done</i>
+      <p>You're following this position!</p>
+      {% endif %}
   </div>
   <div class="row">
     <h6>About {{ posting.company.name }}:</h6>
@@ -29,9 +33,13 @@
     <p class="flow-text about">{{ posting.description|safe }}</p>
   </div>
   <div class="row center">
-    {% if not applied %}
-    <a href="{% url 'apply' posting.id%}" class="waves-effect waves-light btn-large blue">Apply</a>
-    {% endif %}
+      {% if student.confirmed and student.resume_s3 != None and not applied and not following %}
+        {% if posting.started %}
+        <a href="{% url 'apply' posting.id%}" name="{{ posting.id }}" class="waves-effect waves-light btn-large btn-posting blue">Apply</a>
+        {% else %}
+        <a href="{% url 'follow' posting.id%}" name="{{ posting.id }}" class="waves-effect waves-light btn-large btn-posting blue">Follow</a>
+        {% endif %}
+      {% endif %}
   </div>
 </div>
 

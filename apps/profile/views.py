@@ -131,11 +131,13 @@ def student_home(request):
 
         #             postings_list.append(result)
     applications = Application.objects.filter(student=student).values_list('posting_id', flat=True).order_by('id')
+    follows = Follow.objects.filter(student=student).values_list('posting_id', flat=True).order_by('id')
 
     #Only exists while pitching Start @ Startup, needs to exist for all
     # if student.university.name == 'Start @ a Startup':
     up = UniversityPosting.objects.filter(university=student.university).values_list('posting_id', flat=True).order_by('id')
-    postings_list = [posting for posting in postings_list if posting.id not in applications and posting.id in up]
+    postings_list = [posting for posting in postings_list 
+    if posting.id not in applications and posting.id not in follows and posting.id in up]
     # else:
     #     postings_list = [posting for posting in postings_list if posting.id not in applications]
     entries = postings_list
@@ -154,6 +156,7 @@ def student_home(request):
 @login_required
 def posting_detail(request, posting_id):
     applied = False
+    following = False
     student = Student.objects.get(user=request.user)
     posting = Posting.objects.get(pk=posting_id)
     try:
@@ -162,8 +165,15 @@ def posting_detail(request, posting_id):
         pass
     else:
         applied = True
+    try:
+        follow = Follow.objects.get(student=student, posting=posting)
+    except ObjectDoesNotExist:
+        pass
+    else:
+        following = True
     return render_to_response('posting_detail.html', 
-        {'posting':posting, 'applied':applied, 'student':student}, context_instance=RequestContext(request))
+        {'posting':posting, 'applied':applied, 'following':following, 
+        'student':student}, context_instance=RequestContext(request))
 
 @login_required
 def apply(request, posting_id):
