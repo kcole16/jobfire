@@ -84,3 +84,9 @@ def view_applicants(request):
     return render_to_response('panel_applicants.html', {'applications':applications},
         context_instance=RequestContext(request))
 
+@staff_member_required
+@login_required
+def view_followers(request):
+    followers = Follow.objects.all()
+    return render_to_response('panel_followers.html', {'followers':followers},
+        context_instance=RequestContext(request))

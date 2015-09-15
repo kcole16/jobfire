@@ -52,6 +52,7 @@ urlpatterns = patterns('',
     url(r'^panel/view_companies/', 'apps.panel.views.view_companies', name='view_companies'),
     url(r'^panel/view_universities/', 'apps.panel.views.view_universities', name='view_universities'),
     url(r'^panel/view_applicants/', 'apps.panel.views.view_applicants', name='view_applicants'),
+    url(r'^panel/view_followers/', 'apps.panel.views.view_followers', name='view_followers'),
     url(r'^panel/view_students/(.+)/', 'apps.panel.views.view_students', name='view_students'),
 
     #Privacy and Terms
