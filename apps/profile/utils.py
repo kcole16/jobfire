@@ -98,7 +98,7 @@ def slack_notification(channel, text):
 
 def connect_db():
     client = pymongo.MongoClient(os.environ['MONGO_URL'])
-    db = client['EntryWire']
+    db = client['entrywire-data']
     return db
 
 def get_company_info(name):
