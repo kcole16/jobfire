@@ -5,7 +5,7 @@
 <div class="result" name="{{ posting.id }}">
   <div class="row result-content">
     <div class="col m2 s12 company-logo">
-      <a href="{{ posting.company.url }}" target="_blank"><img class="square-logo" src="{{ posting.company.logo }}"></a>
+      <a href="{% url 'company_detail' posting.company.id%}" target="_blank"><img class="square-logo" src="{{ posting.company.logo }}"></a>
     </div>
     <div class="col m3 s12">
       <ul class="posting-details">

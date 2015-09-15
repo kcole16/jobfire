@@ -6,11 +6,11 @@
 <div class="container">
   <br>
   <div class="row center">
-    <img class="company-logo z-depth-1 circle responsive-img" src="{{ posting.company.logo }}">
+    <a href="{% url 'company_detail' posting.company.id%}"><img class="company-logo z-depth-1 circle responsive-img" src="{{ posting.company.logo }}"></a>
   </div>
   <div class="row center">
     <h4>{{ posting.position }}</h4>
-    <h5>{{ posting.company.name }}</h5>
+    <a href="{% url 'company_detail' posting.company.id%}"><h5>{{ posting.company.name }}</h5></a>
   </div>
   <div class="row center">
       {% if applied %}

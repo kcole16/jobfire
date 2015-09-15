@@ -23,6 +23,8 @@
                 <th>Graduation Date</th>
                 <th>Resume</th>
                 <th>Position</th>
+                <th>Company</th>
+                <th>Location</th>
               </tr>
               {% for app in followers %}
               <tr>
@@ -30,7 +32,9 @@
                 <td>{{ app.student.email }}</td>
                 <td>{{ app.student.major.name }}</td>
                 <td>{{ app.student.graduation_date }}</td>
-                <td>{{ app.posting.position }} at {{ app.posting.company.name }}</td>
+                <td>{{ app.posting.position }}</td>
+                <td>{{ app.posting.company.name }}</td>
+                <td>{{ app.posting.location }}</td>
                 <td><a href="{{ app.student.resume_s3 }}">Resume</a></td>
               </tr>
               {% endfor %}
