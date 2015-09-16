@@ -9,6 +9,17 @@ from apps.profile.utils import connect_db
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 
+import pymongo
+
+def try_attribute(attribute, data):
+    attribute = None
+    try:
+        value = data[attribute]
+        print value
+    except KeyError:
+        if attribute != 'funding_stage':
+            value = 0
+    return value
 
 def get_data():
     db = connect_db()
@@ -16,13 +27,12 @@ def get_data():
     for company in companies:
         data = db.companies.find_one({"name":company.name})
         if data:
-            company.total_funding = int(data['total_funding'])
-            company.funding_stage = data['funding_stage']
-            company.growth = int(data['growth'])
-            company.hype = int(data['mindshare'])
-            company.employees = int(data['employees'])
-            company.save
-            print company.name
+            company.total_funding = int(try_attribute('total_funding', data))
+            company.funding_stage = try_attribute('funding_stage', data)
+            company.growth = int(try_attribute('growth', data))
+            company.hype = int(try_attribute('hype', data))
+            company.employees = int(try_attribute('employees', data))
+            company.save()
 
 class Command(BaseCommand):
 
