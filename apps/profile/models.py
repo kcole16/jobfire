@@ -41,7 +41,7 @@ class Student(models.Model):
 class Company(models.Model):
 	name = models.CharField(max_length=500)
 	logo = models.CharField(max_length=500)
-	about = models.CharField(max_length=1000)
+	about = models.CharField(max_length=1200)
 	url = models.CharField(max_length=500)
 	address = models.CharField(max_length=500)
 	industry = models.ForeignKey(Industry)

@@ -32,18 +32,24 @@ def create_companies():
         try:
             c = Company.objects.get(name=company['name'])
         except ObjectDoesNotExist:
-            url = company['company_url']
+            try:
+                url = company['company_url']
+            except KeyError:
+                url = None
             if url is None:
                 url = "None"
             if 'www' in url:
-                base_url = url.split('www.')[1]
+                try:
+                    base_url = url.split('www.')[1]
+                except IndexError:
+                    base_url = "temp.com"
             elif 'http' in url:
                 base_url = url.split('//')[1]
             else:
                 try:
                     base_url = url.split('.')[1]
                 except IndexError:
-                    base_url = None
+                    base_url = "temp.com"
             email = ("temp@%s" % base_url).strip('/')
             try:
                 user = User(username=email, email=email, password="temp123")
