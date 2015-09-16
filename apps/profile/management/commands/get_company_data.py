@@ -30,7 +30,7 @@ def get_data():
             company.total_funding = int(try_attribute('total_funding', data))
             company.funding_stage = try_attribute('funding_stage', data)
             company.growth = int(try_attribute('growth', data))
-            company.hype = int(try_attribute('hype', data))
+            company.hype = int(try_attribute('mindshare', data))
             company.employees = int(try_attribute('employees', data))
             company.save()
             print company.name
