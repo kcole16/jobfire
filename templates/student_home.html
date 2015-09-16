@@ -84,7 +84,11 @@
         decodeURIComponent(parts[1].replace(/\+/g, " "));
     });
     if (Object.keys(selected).length > 0){
-      mixpanel.track('Search', {'Query':[Object.keys(selected).map(function(x){return selected[x]}).join(',')]});
+      var params = {};
+      for (var key in selected) {
+        params[key] = selected[key];
+      }
+      mixpanel.track('Search', params);
     };
     for (var key in selected) {
       $('option[name='+key+']').removeAttr('selected');
