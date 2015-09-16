@@ -4,6 +4,8 @@ import logging
 import json
 import locale
 
+from apps.profile.models import Company
+
 import requests
 from algoliasearch import algoliasearch
 from bs4 import BeautifulSoup
@@ -98,28 +100,42 @@ def slack_notification(channel, text):
 
 def connect_db():
     client = pymongo.MongoClient(os.environ['MONGO_URL'])
-    db = client['entrywire-data']
+    if os.environ['PRODUCTION'] == False:
+        db = client['EntryWire']
+    else:
+        db = client['entrywire-data']
     return db
 
 def get_company_info(name):
     db = connect_db()
     locale.setlocale( locale.LC_ALL, 'en_US' )
     company_info = db.companies.find_one({'name':name})
-    try:
-        company_info['total_funding'] = locale.currency(int(company_info['total_funding']), grouping=True)
-    except (KeyError, TypeError):
-        company_info['total_funding'] = 'N/A'
-    try:
-        stage = company_info['funding_stage']
-    except (KeyError, TypeError):
-        company_info['funding_stage'] = 'Seed'
-    else:
-        if stage == 'PreSeriesA' or stage == 'Pre Series A':
-            company_info['funding_stage'] = 'Seed'
-        elif stage == '':
+    if company_info:
+        try:
+            company_info['total_funding'] = locale.currency(int(company_info['total_funding']), grouping=True)
+        except (KeyError, TypeError):
+            company_info['total_funding'] = 'N/A'
+        try:
+            stage = company_info['funding_stage']
+        except (KeyError, TypeError):
             company_info['funding_stage'] = 'Seed'
         else:
-            company_info['funding_stage'] = 'Series %s' % stage
+            if stage == 'PreSeriesA' or stage == 'Pre Series A':
+                company_info['funding_stage'] = 'Seed'
+            elif stage == '':
+                company_info['funding_stage'] = 'Seed'
+            else:
+                company_info['funding_stage'] = 'Series %s' % stage
+    else:
+        company = Company.objects.get(name=name)
+        company_info = {}
+        company_info['name'] = company.name
+        company_info['logo_url'] = company.logo
+        company_info['high_concept'] = ""
+        company_info['product_desc'] = company.about
+        company_info['total_funding'] = "Undisclosed"
+        company_info['funding_stage'] = "N/A"
+        company_info['employees'] = ""
     return company_info
 
 
