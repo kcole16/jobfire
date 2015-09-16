@@ -16,6 +16,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.core.files.storage import default_storage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
+from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from apps.profile.forms import StudentForm, CompanyForm, PostingForm, StudentUpdateForm, UpdatePasswordForm, QuickSignupForm
 from apps.profile.models import *
@@ -99,8 +100,9 @@ def student_home(request):
     args.pop('querystring_key', None)
     if 'q' in args.keys():
         q = str(args['q'].decode('utf-8'))
+        o_q = q.title()
         args.pop('q')
-        companies = Company.objects.filter(about__contains=q)
+        companies = Company.objects.filter(Q(about__contains=o_q) | Q(about__contains=q) | Q(name__contains=o_q) | Q(name__contains=q))
         if companies.count() > 1:
             company_ids = [company.id for company in companies]
         elif companies.count() == 1:
@@ -110,7 +112,7 @@ def student_home(request):
         first_results = Posting.objects.filter(**args).order_by('company').order_by('-priority')
         postings_list = []
         for result in first_results:
-            if q in result.description or result.company.id in company_ids:
+            if q in result.description or o_q in result.description or result.company.id in company_ids:
                 postings_list.append(result)
         # for k in args:
         #     query += " %s" % str(args[k].decode('utf-8'))
