@@ -48,6 +48,11 @@ class Company(models.Model):
 	universities = models.ManyToManyField(University)
 	phone = models.CharField(max_length=16)
 	paid = models.BooleanField(default=False)
+	total_funding = models.IntegerField(null=True)
+	funding_stage = models.CharField(max_length=10, null=True)
+	growth = models.IntegerField(null=True)
+	hype = models.IntegerField(null=True)
+	employees = models.IntegerField(null=True)
 
 class Recruiter(models.Model):
 	user = models.ForeignKey(User)
