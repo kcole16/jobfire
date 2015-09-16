@@ -33,6 +33,7 @@ def get_data():
             company.hype = int(try_attribute('hype', data))
             company.employees = int(try_attribute('employees', data))
             company.save()
+            print company
 
 class Command(BaseCommand):
 
