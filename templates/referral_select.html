@@ -8,6 +8,8 @@
     {% if errors != None %}
     {{ errors }}
     {% endif %}
+    <div class="counter">
+    </div>
     <form class="col s12 refer-form" role="form" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       <ul class="collection referrals">
@@ -49,16 +51,35 @@ $(document).ready(function() {
       }
     });
   };
-
+  var counter = 20;
+  var count = 0;
+  $('.counter').html("<p>Please select at least "+counter+" more people</p>");
+  $('input[type=checkbox]').click(function() {
+    count = 0;
+    $('input[type=checkbox]:checked').each(function() { 
+      count += 1;
+    });
+    counter = 20 - count;
+    if (counter > 0){
+      $('.counter').html("<p>Please select at least "+counter+" more people</p>");
+    } else {
+      $('.counter').html("<p></p>");
+    };
+  });
   $('button').on('click', function(e) {
       e.preventDefault();
       var referrals = [];
+      count = 0;
       $('input[type=checkbox]:checked').each(function() { 
         referrals.push({'name':$(this).attr('name'), 'email':$(this).val()});
+        count += 1;
       });
-      sendReferrals(referrals);
-      $('input[name=referrals]').val(referrals);
-      window.location.href = "/"
+      if (count >= 20) {
+        debugger;
+        // sendReferrals(referrals);
+        $('input[name=referrals]').val(referrals);
+        window.location.href = "/"
+      };
   });
 });
 </script>
