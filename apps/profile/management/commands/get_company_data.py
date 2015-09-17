@@ -12,12 +12,12 @@ from django.core.management.base import BaseCommand
 import pymongo
 
 def try_attribute(attribute, data):
-    attribute = None
     try:
         value = data[attribute]
-        print value
     except KeyError:
-        if attribute != 'funding_stage':
+        value = None
+    if attribute != 'funding_stage':
+        if value == '' or value == None or value == 'Undisclosed':
             value = 0
     return value
 
