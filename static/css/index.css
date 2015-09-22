@@ -25,7 +25,7 @@ nav ul a {
 }*/
 div#buttons.row.center.form {
 	background-color: white;
-	height: 310px;
+	height: 340px;
 	border-radius: 10px;
 	margin-right: auto;
 	margin-left: auto;
@@ -229,6 +229,12 @@ div.col.s12.m6.link {
 	}
 	.company {
 		width: 200px;
+	}
+	div.mentors {
+		height: 1300px;
+	}
+	.services {
+		height: 1200px;
 	}
 }
 .about-pic {

@@ -91,6 +91,9 @@
                       <label for="id_email">School Email</label>
                       <input name="email" id="id_email" type="text" required>
                       {{ form.email.errors }}
+                      {% if error %}
+                      <p style="color:red;">{{ error }}</p>
+                      {% endif %}
                     </div>
                  </div>
                   <div class="row">
@@ -104,6 +107,7 @@
                       <i class="mdi-content-send right"></i>
                   </button>
                </form>
+               <a href="{% url 'login' %}">Already signed up? Login</a>
               </div>
               <div class="row center">
                 <br>

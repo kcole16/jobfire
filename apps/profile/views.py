@@ -31,6 +31,7 @@ from bugsnag.handlers import BugsnagHandler
 logger = logging.getLogger("error.logger")
 
 def home(request):
+    error = None
     if request.user.is_authenticated():
         try:
             recruiter = Recruiter.objects.get(user=request.user)
@@ -44,8 +45,14 @@ def home(request):
             if form.is_valid():
                 mp = Mixpanel(os.environ['MIXPANEL_TOKEN'])
                 email = str(form.cleaned_data['email'])
-                root = email.split('@')[1].split(".")[-2:]
-                extension = "%s.%s" % (root[0], root[1])
+                try:
+                    root = email.split('@')[1].split(".")[-2:]
+                    extension = "%s.%s" % (root[0], root[1])
+                except IndexError:
+                    error = "Please enter a valid email address"
+                    form = QuickSignupForm()
+                    return render_to_response('index.html', {'error':error, 'form':form}, 
+                        context_instance=RequestContext(request))
                 try: 
                     university = University.objects.get(email_ext=extension)
                 except ObjectDoesNotExist:
@@ -84,7 +91,7 @@ def home(request):
                     return redirect('student_home')
         else:
             form = QuickSignupForm()
-        return render_to_response('index.html', {'form':form}, context_instance=RequestContext(request))
+        return render_to_response('index.html', {'form':form, 'error':error}, context_instance=RequestContext(request))
 
 @login_required
 def student_home(request):
