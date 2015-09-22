@@ -69,7 +69,7 @@ form.col.s12 {
     background: -o-linear-gradient(#27AAE1,#2BB673);
     background: -moz-linear-gradient(#27AAE1,#2BB673);
     background: linear-gradient(#27AAE1,#2BB673);
-	height: 590px;
+	height: 670px;
 }
 .tagline {
 	color: white;
@@ -86,8 +86,8 @@ form.col.s12 {
 }
 div.mentors {
 	height: 670px;
-	display: table-cell;
-	vertical-align: middle;
+/*	display: table-cell;
+	vertical-align: middle;*/
 }
 .lighter {
 	color: gray;
@@ -95,8 +95,8 @@ div.mentors {
 }
 .services {
 	height: 650px;
-	display: table-cell;
-	vertical-align: middle;
+/*	display: table-cell;
+	vertical-align: middle;*/
 	text-align: center;
 }
 .faq {
