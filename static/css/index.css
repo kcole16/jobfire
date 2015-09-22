@@ -11,6 +11,9 @@ body {
 label.form-field {
 	color: #C0504D;
 }
+nav ul a {
+	color: gray;
+}
 /*input {
 	color:white;
 }
@@ -40,38 +43,46 @@ form.col.s12 {
 	height: 50px;
 }
 .input-field input[type=text]:focus {
-     border-bottom: 1px solid #ff5722;
-     box-shadow: 0 1px 0 0 #ff5722;
+     border-bottom: 1px solid #34B575;
+     box-shadow: 0 1px 0 0 #34B575;
 }
 .input-field input[type=password]:focus {
-     border-bottom: 1px solid #ff5722;
-     box-shadow: 0 1px 0 0 #ff5722;
+     border-bottom: 1px solid #34B575;
+     box-shadow: 0 1px 0 0 #34B575;
 }
 .navbar {
-	background-color: #003459;
+	background-color: white;
 	box-shadow: none;
+	border-bottom: 2px solid gray;
 }
 .company {
 	color: white;
 	text-align: center;
+	width: 300px;
 }
 .logo {
 	padding-top: 5px;
-	width: 60px;
+	width: 80px;
 }
 .top {
-	background-color: #003459;
-	height: 580px;
+	background: -webkit-linear-gradient(#27AAE1,#2BB673);
+    background: -o-linear-gradient(#27AAE1,#2BB673);
+    background: -moz-linear-gradient(#27AAE1,#2BB673);
+    background: linear-gradient(#27AAE1,#2BB673);
+	height: 590px;
 }
 .tagline {
 	color: white;
 }
 .top-icons {
-	color: #ff5722;
+	color: #27AAE1;
+}
+.second-icons {
+	color: #00e5ff;
 }
 .darker {
 	color: white;
-	background-color: #003459;
+	background-color: #2BB673;
 }
 div.mentors {
 	height: 670px;
@@ -79,11 +90,17 @@ div.mentors {
 	vertical-align: middle;
 }
 .lighter {
-	color: #003459;
+	color: gray;
 	background-color: white;
 }
 .services {
 	height: 650px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+.faq {
+	height: 700px;
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;

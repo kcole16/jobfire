@@ -185,6 +185,9 @@ div.posting-info {
 	overflow-y: auto;
 	border-bottom: 1px solid lightgray;
 }
+#login {
+	background-color: #2BB673;
+}
 
 @media only screen and (max-width : 800px) {
 	.search-params {

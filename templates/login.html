@@ -3,6 +3,7 @@
 {% block content %}
 {% load staticfiles %}
     <div class="container">
+      <br><br>
       <form class="form-signin" role="form" action="{% url 'login' %}" method="POST">
           <input type="hidden" name="next" value="{{ next }}" />
           {% csrf_token %}
@@ -15,10 +16,10 @@
         {% endif %}
         <input class="form-control input-field" id="id_username" type="text" name="username" maxlength="30" placeholder="Email" required autofocus><br>
         <input class="form-control input-field" type="password" name="password" id="id_password" placeholder="Password" required><br>
-        <button class="btn btn-lg btn-primary btn-block deep-orange" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" id="login" type="submit">Sign in</button>
       </form><br>
       <a href="{% url 'student_signup' %}">Don't have an account? Register here!</a><br><br>
       <a href="{% url 'password_reset_recover' %}">Forgot password?</a>
     </div>
-    <br><br><br><br><br>
+    <br><br><br>
 {% endblock %}

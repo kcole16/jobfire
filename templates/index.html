@@ -12,7 +12,7 @@
     <meta name="twitter:title" content="Apply to Startups Recruiting at Your University"/>
     <meta name="twitter:url" content="https://www.entrywire.com/"/>
     <meta name="twitter:description" content="EntryWire connects elite students to top startups and tech companies. Sign up today to see which companies are recruiting on your campus."/>
-    <meta name="twitter:image:src" content="https://www.entrywire.com/static/img/fire-orange-logo.png"/>
+    <meta name="twitter:image:src" content="https://www.entrywire.com/static/img/main-logo.png"/>
     <meta name="google-site-verification" content="F0nNGzG2ia1XE0DV01ihmMIDngGSY8ybR9ly9kifud4" />
     {% load static from staticfiles %}
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" type="image/x-icon">
@@ -46,24 +46,24 @@
     <div class="navbar-fixed">  
       <nav class="navbar" role="navigation">
           <div class="nav-wrapper container">
-            <a id="logo-container" href="/" class="brand-logo logo-name"><img class="logo" src="{% static "img/fire-orange-logo.png" %}"></a>
-            <ul class="right hide-on-med-and-down light">
+            <a id="logo-container" href="/" class="brand-logo logo-name"><img class="logo" src="{% static "img/main-logo.png" %}"></a>
+            <ul class="right hide-on-med-and-down">
               <li><a href="{% url 'login' %}">Login</a></li>
             </ul>
-            <ul class="right hide-on-med-and-down">
+            <ul class="right hide-on-med-and-down light">
               <li><a href="#companies">Companies</a></li>
             </ul>
 <!--             <ul class="right hide-on-med-and-down">
               <li><a href="#mentors">Pricing</a></li>
             </ul> -->
-            <ul class="right hide-on-med-and-down">
+<!--             <ul class="right hide-on-med-and-down">
               <li><a href="#students">Students</a></li>
-            </ul>
+            </ul> -->
 
             <ul id="nav-mobile" class="side-nav">
               <li><a href="#companies">Companies</a></li>
-              <li><a href="#students">Students</a></li>
-              <li><a href="{% url 'login' %}">Login</a></li>
+<!--               <li><a href="#students">Students</a></li>
+ -->              <li><a href="{% url 'login' %}">Login</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
           </div>
@@ -72,7 +72,7 @@
       <div id="content">
         <div class="section no-pad-bot top" id="index-banner">
             <div class="container">
-              <h1 class="company">EntryWire</h1>
+              <p class="center"><img class="company" src="{% static 'img/alt-logo.png' %}"></p>
               <div class="row center">
                 <h5 class="header col s12 light white-text">Work for a Startup</h5>
               </div>  
@@ -88,19 +88,19 @@
                 {% csrf_token %}
                   <div class="row">
                     <div class="input-field col s12">
-                      <label for="email">School Email</label>
+                      <label for="id_email">School Email</label>
                       <input name="email" id="id_email" type="text" required>
                       {{ form.email.errors }}
                     </div>
                  </div>
                   <div class="row">
                     <div class="input-field col s12">
-                      <label>Password</label>
+                      <label for="id_password">Password</label>
                       {{ form.email.password }}
                       <input name="password" id="id_password" type="password" required>
                     </div>
                  </div>
-                  <button class="btn waves-light deep-orange quick-signup" type="submit" name="action">Get Started
+                  <button class="btn waves-light cyan quick-signup" type="submit" name="action">Get Started
                       <i class="mdi-content-send right"></i>
                   </button>
                </form>
@@ -115,36 +115,36 @@
           <div class="lighter services" id="students">
           <div class="container">
             <div class="section center">
-              <h4>For Students</h4>
+              <h4>Find the Job You Desire</h4>
               <div class="row">
                 <div class="col s12 m12">
-                    <p class="light answers">We make it easy for students to find jobs at tech companies and startups. <a href="{% url 'student_signup' %}">Get started now.</a></p>
+                    <p class="light answers">We're building the simplest platform for students and recent graduates interested in high-impact jobs right after graduation. <a href="{% url 'student_signup' %}">Get started now.</a></p>
                 </div>
               </div>
               <div class="row">
                 <div class="col s12 m4">
                   <div class="icon-block">
-                    <h2 class="center top-icons"><i class="medium material-icons top-icons">done</i></h2>
-                    <h5 class="center">One-click Apply</h5>
+                    <h2 class="center top-icons"><i class="medium material-icons top-icons">input</i></h2>
+                    <h5 class="center">Direct Connections</h5>
 
-                    <p class="light">No wasting time with confusing multi-page applications. Find a job you like, click a button, get an interview.</p>
+                    <p class="light">Your application is sent directly to the hiring manager or CEO. No recruiters or third parties.</p>
                   </div>
                 </div>
 
                 <div class="col s12 m4">
                   <div class="icon-block">
                     <h2 class="center top-icons"><i class="medium material-icons top-icons">search</i></h2>
-                    <h5 class="center">Powerful Search</h5>
+                    <h5 class="center">Curated Jobs</h5>
 
-                    <p class="light">Search by keyword, role, industry, and job-type to find the job of your dreams.</p>
+                    <p class="light">We only work with top companies, all of which are looking for students and alumni from your university.</p>
                   </div>
                 </div>
                 <div class="col s12 m4">
                   <div class="icon-block">
-                    <h2 class="center top-icons"><i class="medium material-icons top-icons">web</i></h2>
-                    <h5 class="center">Minimal Interface</h5>
+                    <h2 class="center top-icons"><i class="medium material-icons top-icons">done</i></h2>
+                    <h5 class="center">Easy Apply</h5>
 
-                    <p class="light">Our platform is designed to get you a job, plain and simple. We've included the tools you need, nothing else.</p>
+                    <p class="light">Our powerful search, one-click application and research tools make your job search simpler than ever.</p>
                   </div>
                 </div>
               </div>
@@ -155,36 +155,36 @@
           <div class="darker" id="companies">
           <div class="container mentors">
             <div class="section process">
-              <h4>For Companies</h4>
+              <h4>Let Us Help</h4>
               <div class="row">
                 <div class="col s12 m12">
-                    <p class="light answers">Find the best graduates from the top programs in the country. <a href="{% url 'company_signup' %}">Join our beta</a> and post for free.</p>
+                    <p class="light answers">We're building an advanced recommendation algorithm to help you find the right opportunity. <a href="{% url 'company_signup' %}" style="color:#00e5ff;">Sign up</a> to gain access to our beta.</p>
                 </div>
               </div>
               <div class="row">
                 <div class="col s12 m4">
                   <div class="icon-block">
-                    <h2 class="center top-icons"><i class="medium material-icons top-icons">thumb_up</i></h2>
-                    <h5 class="center">Easy Posting</h5>
+                    <h2 class="center"><i class="medium material-icons second-icons">perm_identity</i></h2>
+                    <h5 class="center">Personalized</h5>
 
-                    <p class="light">Post new jobs in under 30 seconds. Get the candidates you need effortlessly.</p>
+                    <p class="light">Our recommendations are calculated based on your background (interests, experience, etc.)</p>
                   </div>
                 </div>
 
                 <div class="col s12 m4">
                   <div class="icon-block">
-                    <h2 class="center top-icons"><i class="medium material-icons top-icons">email</i></h2>
-                    <h5 class="center">Applicants by Email</h5>
+                    <h2 class="center"><i class="medium material-icons second-icons">trending_up</i></h2>
+                    <h5 class="center">Powerful</h5>
 
-                    <p class="light">Sit back and watch as the applicants roll into your inbox, or view them on your dashboard.</p>
+                    <p class="light">Our algorithm draws on dozens of data sources to help surface opportunities you may not find on your own.</p>
                   </div>
                 </div>
                 <div class="col s12 m4">
                   <div class="icon-block">
-                    <h2 class="center top-icons"><i class="medium material-icons top-icons">contacts</i></h2>
-                    <h5 class="center">Filtering Tools</h5>
+                    <h2 class="center"><i class="medium material-icons second-icons">thumb_up</i></h2>
+                    <h5 class="center">Effortless</h5>
 
-                    <p class="light">Find your ideal candidates and message them directly. Connect with top students before they are gone.</p>
+                    <p class="light">Confirm that you are interested in our recommended companies, and we'll do the rest.</p>
                   </div>
                 </div>
               </div>
@@ -193,13 +193,49 @@
             </div>
           </div>
          
-          <div class="lighter" id="pricing">
-          <div class="pricing">
-            <div class="section">
-              <div class="row">
-                
-                </div>
+          <div class="lighter">
+          <div class="container">
+          <div class="section">
+            <br><br><br><br>
+            <h4 id="faq-header">Frequently Asked Questions</h4><br>
+            <div class="row">
+              <div class="col s12 m12">
+                <h5>How does this work?</h5>
+                  <p class="light answers">We help you find a job in two ways. You can use our search and research tools to find jobs you like, then apply to or follow them. Additionally, we'll discover and send you jobs we think will interest you, and contact the companies on you behalf, if you'd like.</p>
               </div>
+            </div>
+            <div class="row">
+              <div class="col s12 m12">
+                <h5>Why are some jobs “follow” and others “apply”?</h5>
+                  <p class="light answers">Positions that are "followable" aren't open just yet, but will be soon. These companies want to know which students are interested when they are ready to hire. Positions marked with "Apply" are actively looking for candidates.</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12 m12">
+                <h5>What happens when I click "follow"?</h5>
+                  <p class="light answers">By following a position, your are indicating your interest. We will send your resume and profile to the hiring manager, and they will notify you when the position is open. Additionally, they may contact you in advance with different opportunities.</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12 m12">
+                <h5>What happens when I click "apply"?</h5>
+                  <p class="light answers">Clicking apply indicates your immediate availability and interest in the position. Your information will be sent to the hiring manager, and if there’s a fit, they will reach out to you directly.</p>
+              </div>
+            </div>
+          </div>
+            <div class="row">
+              <div class="col s12 m12">
+                <h5>What type of companies do you work with?</h5>
+                  <p class="light answers">We work exclusively with high-growth, venture-backed companies. These include post-Series A to later stage startups, and exceptional pre-Series A companies. We do not work with recruiting agencies.</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12 m12">
+                <h5>How long will it take to hear back?</h5>
+                  <p class="light answers">For applications, you should hear something within two - three weeks. Follows operate differently, and some companies send updates more frequently than others. You will be notified when the job opens, and might receive other news regarding networking events.</p>
+              </div>
+            </div>
+          </div>
               <br><br>
               <div class="section sup">
                 <h6>Currently Participating In:</h6><br>
@@ -212,7 +248,7 @@
         </div>
       </div>
       <div id="footer">
-            <footer class="page-footer deep-orange">
+            <footer class="page-footer cyan">
               <div class="container">
                 <div class="row">
                   <div class="col m2 s12">

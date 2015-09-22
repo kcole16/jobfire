@@ -12,7 +12,7 @@
     <meta name="twitter:title" content="Apply to Startups Recruiting at Your University"/>
     <meta name="twitter:url" content="https://www.entrywire.com/"/>
     <meta name="twitter:description" content="EntryWire connects elite students to top startups and tech companies. Sign up today to see which companies are recruiting on your campus."/>
-    <meta name="twitter:image:src" content="https://www.entrywire.com/static/img/fire-orange-logo.png"/>
+    <meta name="twitter:image:src" content="https://www.entrywire.com/static/img/main-logo.png"/>
     <meta name="google-site-verification" content="F0nNGzG2ia1XE0DV01ihmMIDngGSY8ybR9ly9kifud4" />
     {% load static from staticfiles %}
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" type="image/x-icon">
@@ -61,24 +61,24 @@
     <div class="navbar-fixed">  
       <nav class="navbar" role="navigation">
           <div class="nav-wrapper container">
-            <a id="logo-container" href="/" class="brand-logo logo-name"><img class="logo" src="{% static "img/fire-orange-logo.png" %}"></a>
-            <ul class="right hide-on-med-and-down light">
+            <a id="logo-container" href="/" class="brand-logo logo-name"><img class="logo" src="{% static "img/main-logo.png" %}"></a>
+            <ul class="right hide-on-med-and-down">
               <li><a href="{% url 'login' %}">Login</a></li>
             </ul>
-            <ul class="right hide-on-med-and-down">
+            <ul class="right hide-on-med-and-down light">
               <li><a href="/#companies">Companies</a></li>
             </ul>
 <!--             <ul class="right hide-on-med-and-down">
               <li><a href="#mentors">Pricing</a></li>
             </ul> -->
-            <ul class="right hide-on-med-and-down">
+<!--             <ul class="right hide-on-med-and-down">
               <li><a href="/#students">Students</a></li>
-            </ul>
+            </ul> -->
 
             <ul id="nav-mobile" class="side-nav">
               <li><a href="{% url 'home' %}/#companies">Companies</a></li>
-              <li><a href="{% url 'home' %}/#students">Students</a></li>
-              <li><a href="{% url 'login' %}">Login</a></li>
+<!--               <li><a href="{% url 'home' %}/#students">Students</a></li>
+ -->              <li><a href="{% url 'login' %}">Login</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
           </div>
@@ -86,7 +86,7 @@
     </div>
     <div id="content">{% block content %}{% endblock %}</div>
       <div id="footer">
-            <footer class="page-footer deep-orange">
+            <footer class="page-footer cyan">
               <div class="container">
                 <div class="row">
                   <div class="col m2 s12">
