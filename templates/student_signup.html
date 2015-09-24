@@ -96,7 +96,6 @@
           }
       });
       $('input[name=email]').change(function(){
-        console.log('This');
         mixpanel.track('Email Entered', {'Email': $(this).val()});
       });
       mixpanel.track_forms("#register", "Student Signed Up");

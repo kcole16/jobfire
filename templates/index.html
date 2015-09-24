@@ -103,11 +103,53 @@
                       <input name="password" id="id_password" type="password" required>
                     </div>
                  </div>
+                 <input name="major" id="id_major" type="text" hidden>
+                 <input name="graduation_date" id="id_graduation_date" type="text" hidden>
                   <button class="btn waves-light cyan quick-signup" type="submit" name="action">Get Started
                       <i class="mdi-content-send right"></i>
                   </button>
                </form>
                <a href="{% url 'login' %}">Already signed up? Login</a>
+              </div>
+              <div id="modal{{posting.id}}" class="modal posting-apply">
+                  <div class="modal-content">
+                    <div class="row form">
+                      <form role="form">
+                        <label>Expected Graduation:</label>
+                        <div class="row">
+                          <div class="col s4 m4">
+                            <select name="semester" id="id_semester" required>
+                              <option value="" disabled selected>Semester</option>
+                              <option value="Spring">Spring</option>
+                              <option value="Winter">Winter</option>
+                            </select>
+                          </div>
+                          <div class="grad-year col s4 m4">
+                            <input type="text" name="grad_year" id="id_grad_year" placeholder="Year" required>
+                          </div>
+                       </div>
+
+                        <div class="row">
+                          <div class="input-field col s12">
+                            <select name="major_select" id="id_major_select" required>
+                              <option value="" disabled selected>Major</option>
+                              {% for major in majors %}
+                              <option value="{{ major.name }}">{{ major.name }}</option>
+                              {% endfor %}
+                            </select>
+                            <label>Major:</label>
+                            {{ form.major.errors }}
+                          </div>
+                       </div>
+                      </form>
+                  <div class="center">
+                    <button class="btn waves-light cyan major-dec" type="submit" name="action">Sign Up
+                        <i class="mdi-content-send right"></i>
+                    </button>
+                  </div>
+
+                    </div>
+                </div>
               </div>
               <div class="row center">
                 <br>
@@ -286,6 +328,7 @@
       </div>
     <script>
     $(document).ready(function(){
+    $('select').material_select();
       mixpanel.track('Viewed Home');
       $('a[href^="#"]').on('click',function (e) {
           e.preventDefault();
@@ -299,6 +342,23 @@
           });
       });
       mixpanel.track_forms("#register", "Student Signed Up");
+
+      $('.quick-signup').click(function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var email = $('#id_email').val();
+        mixpanel.track('Email Entered', {'Email':email});
+        debugger;
+        $('#modal').openModal();
+      });
+      $('.major-dec').click(function(e) {
+        e.preventDefault();
+        var major = $('#id_major_select').val();
+        var grad_date = $('#id_semester').val()+" "+$('#id_grad_year').val();
+        $('#id_major').val(major);
+        $('#id_graduation_date').val(grad_date);
+        $('#register').submit();
+      })
     });
     </script>
   </body>

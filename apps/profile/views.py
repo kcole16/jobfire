@@ -31,6 +31,7 @@ from bugsnag.handlers import BugsnagHandler
 logger = logging.getLogger("error.logger")
 
 def home(request):
+    majors = Major.objects.all()
     error = None
     if request.user.is_authenticated():
         try:
@@ -70,9 +71,13 @@ def home(request):
                         return render_to_response('student_signup.html', {'form':form, 'message':message}, context_instance=RequestContext(request))
                     user.set_password(form.cleaned_data['password'])
                     user.save()
+                    major = Major.objects.get(name=form.cleaned_data['major'])
+                    graduation_date = form.cleaned_data['graduation_date']
                     student = Student(user=user,
                                         email=form.cleaned_data['email'],
                                         university=university,
+                                        major=major,
+                                        graduation_date=graduation_date,
                                         )
                     student.save()
                     email_token = str(uuid4()).replace('-', '')
@@ -92,7 +97,7 @@ def home(request):
                     return redirect('student_home')
         else:
             form = QuickSignupForm()
-        return render_to_response('index.html', {'form':form, 'error':error}, context_instance=RequestContext(request))
+        return render_to_response('index.html', {'form':form, 'error':error, 'majors':majors}, context_instance=RequestContext(request))
 
 @login_required
 def student_home(request):

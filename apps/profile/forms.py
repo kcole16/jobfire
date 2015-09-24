@@ -52,6 +52,8 @@ class CompanyForm(forms.Form):
 class QuickSignupForm(forms.Form):
     email = forms.CharField(label="Email")
     password = forms.CharField(label="Password")
+    major = forms.CharField(label="Major")
+    graduation_date = forms.CharField(label="Graduation Date")
 
 
 class PostingForm(forms.ModelForm):
