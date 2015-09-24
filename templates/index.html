@@ -342,14 +342,11 @@
               window.location.hash = target;
           });
       });
-      mixpanel.track_forms("#register", "Student Signed Up");
-
       $('.quick-signup').click(function(e){
         e.preventDefault();
         e.stopPropagation();
         var email = $('#id_email').val();
         mixpanel.track('Email Entered', {'Email':email});
-        debugger;
         $('#modal').openModal();
       });
       $('.major-dec').click(function(e) {
