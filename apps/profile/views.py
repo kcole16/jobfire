@@ -84,7 +84,7 @@ def home(request):
                     email_conf = EmailConfirmation(user=user, code=email_token)
                     email_conf.save()
                     mp.track("Student Signed Up", {"Email":student.email, 
-                        "University":student.university})
+                        "University":student.university.name})
                     mp.people_set(student.id, {
                         '$email'         : student.email,
                         '$university'         : student.university.name,
