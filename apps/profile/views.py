@@ -56,6 +56,7 @@ def home(request):
                 try: 
                     university = University.objects.get(email_ext=extension)
                 except ObjectDoesNotExist:
+                    logger.error("Failed with this extension: %s" % extension)
                     mp.track(email, 'Attempted Signup: Unsupported School', {
                         'Email': email,
                         'Extension': extension
