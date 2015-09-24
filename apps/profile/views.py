@@ -52,7 +52,7 @@ def home(request):
                 except IndexError:
                     error = "Please enter a valid email address"
                     form = QuickSignupForm()
-                    return render_to_response('index.html', {'error':error, 'form':form}, 
+                    return render_to_response('index.html', {'error':error, 'form':form, 'major':major}, 
                         context_instance=RequestContext(request))
                 try: 
                     university = University.objects.get(email_ext=extension)
