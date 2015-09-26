@@ -38,6 +38,9 @@ class Student(models.Model):
 	picture = models.CharField(max_length=500, null=True)
 	confirmed = models.BooleanField(default=False)
 
+	def __unicode__(self):
+	    return u'{0}'.format(self.email)
+
 class Company(models.Model):
 	name = models.CharField(max_length=500)
 	logo = models.CharField(max_length=500)
@@ -53,6 +56,9 @@ class Company(models.Model):
 	growth = models.IntegerField(null=True)
 	hype = models.IntegerField(null=True)
 	employees = models.IntegerField(null=True)
+
+	def __unicode__(self):
+	    return u'{0}'.format(self.name)
 
 class Recruiter(models.Model):
 	user = models.ForeignKey(User)
@@ -77,6 +83,9 @@ class Posting(models.Model):
 	description = models.TextField()
 	priority = models.IntegerField(default=0)
 	started = models.BooleanField(default=False)
+
+	def __unicode__(self):
+	    return u'{0}'.format(self.position)
 
 class UniversityPosting(models.Model):
 	posting = models.ForeignKey(Posting)
