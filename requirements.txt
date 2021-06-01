@@ -37,7 +37,7 @@ slackclient==0.16
 stripe==1.22.3
 texttable==0.8.3
 uritemplate==0.6
-urllib3==1.10.4
+urllib3==1.26.5
 websocket-client==0.32.0
 whitenoise==2.0.1
 wsgiref==0.1.2
