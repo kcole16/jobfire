@@ -1,4 +1,4 @@
-Django==1.8.2
+Django==2.2.24
 PyYAML==3.11
 WebOb==1.4.1
 algoliasearch==1.5.8
